@@ -1,0 +1,18 @@
+import type { SupabaseClient, User } from '@supabase/supabase-js'
+
+declare global {
+	namespace App {
+		// interface Error {}
+		interface Locals {
+			supabase: SupabaseClient
+			getUser: () => Promise<User | null>
+		}
+		interface PageData {
+			session: string | null
+		}
+		// interface PageState {}
+		// interface Platform {}
+	}
+}
+
+export { }
