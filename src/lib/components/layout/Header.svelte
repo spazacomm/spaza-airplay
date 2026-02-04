@@ -7,9 +7,16 @@
 	class="h-16 border-b border-border-dark flex items-center justify-between px-6 bg-surface-darker/95 backdrop-blur z-10"
 >
 	<!-- Mobile Menu Trigger -->
-	<button class="md:hidden text-text-secondary mr-4">
-		<span class="material-symbols-outlined">menu</span>
-	</button>
+	<div class="md:hidden flex items-center gap-4 mr-4">
+		<button class="text-text-secondary">
+			<span class="material-symbols-outlined">menu</span>
+		</button>
+		<img
+			src="/logo-icon.png"
+			alt="Spaza Airplay"
+			class="size-8 object-contain"
+		/>
+	</div>
 
 	<!-- Search -->
 	<div class="flex-1 max-w-md hidden md:block">
@@ -33,21 +40,4 @@
 	{/if}
 
 	<!-- Actions -->
-	<div class="flex items-center gap-4 ml-auto">
-		<!-- Notifications -->
-		<button
-			class="relative p-2 rounded-full hover:bg-white/5 text-text-secondary transition-colors"
-		>
-			<span class="material-symbols-outlined">notifications</span>
-			<span
-				class="absolute top-2 right-2 size-2 bg-primary rounded-full border-2 border-surface-darker"
-			></span>
-		</button>
-
-		<!-- Upload Button -->
-		<button class="btn-primary hidden sm:flex">
-			<span class="material-symbols-outlined text-[20px]">upload</span>
-			<span>Upload Track</span>
-		</button>
-	</div>
 </header>

@@ -12,10 +12,10 @@
     <!-- Main Content Area -->
     <main class="flex-1 flex flex-col h-full overflow-hidden">
         <!-- Header -->
-        <Header />
+        <!-- <Header /> -->
 
         <!-- Page Content -->
-        <div class="flex-1 overflow-y-auto p-4 md:p-8">
+        <div class="flex-1 overflow-y-auto overflow-x-hidden">
             {@render children()}
         </div>
     </main>

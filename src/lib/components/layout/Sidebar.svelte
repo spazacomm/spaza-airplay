@@ -138,16 +138,14 @@
 	<div class="flex flex-col gap-6">
 		<!-- Logo -->
 		<div class="flex items-center gap-3 px-2">
-			<div
-				class="size-10 rounded-full bg-gradient-to-tr from-primary to-emerald-600 flex items-center justify-center text-background-dark"
-			>
-				<span class="material-symbols-outlined icon-fill"
-					>equalizer</span
-				>
-			</div>
+			<img
+				src="/logo-icon.png"
+				alt="Spaza Airplay"
+				class="h-14 w-auto object-contain"
+			/>
 			<div>
 				<h1 class="font-bold text-lg tracking-tight">Spaza Airplay</h1>
-				<p class="text-xs text-text-secondary">Artist Portal</p>
+				<p class="text-xs text-text-secondary">CMO Portal</p>
 			</div>
 		</div>
 

@@ -1,183 +1,498 @@
--- Spaza Airplay Supabase Schema (v2)574-- Robust implementation for African Music Market
+-- Music Royalty Management Platform Schema
+-- Generated 2026
 
--- 1. Profiles (Enhanced User management)
-CREATE TABLE IF NOT EXISTS public.profiles (
-    id UUID REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY,
-    full_name TEXT,
-    stage_name TEXT,
-    legal_name TEXT,
-    avatar_url TEXT,
-    role TEXT DEFAULT 'artist' CHECK (role IN ('artist', 'manager', 'label', 'admin', 'pro_cmo')),
-    plan TEXT DEFAULT 'free' CHECK (plan IN ('free', 'pro', 'label')),
-    ipi_number TEXT, -- International identifier for songwriters
-    ipn_number TEXT, -- International identifier for performers
-    primary_territory TEXT, -- e.g., 'NG', 'ZA', 'KE'
-    onboarding_step INTEGER DEFAULT 1,
-    is_onboarded BOOLEAN DEFAULT FALSE,
+-- Enable UUID extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Enable PostGIS for location-based features (if needed for sources)
+-- CREATE EXTENSION IF NOT EXISTS "postgis"; 
+
+-----------------------------------------------------------------------------
+-- 1. ENUMS & CONFIGURABLE TYPES
+-- Comprehensive lists for African context and general royalty management.
+-----------------------------------------------------------------------------
+
+-- User Roles within the platform
+CREATE TYPE user_role AS ENUM (
+    'admin',            -- System Administrator
+    'cmo_admin',        -- CMO Representative (e.g., MCSK Admin)
+    'label_manager',    -- Record Label Manager
+    'artist',           -- Registered Artist (Member of a PRO)
+    'uploader',         -- Basic user authorized to upload content
+    'analyst'           -- Read-only access for reports
+);
+
+-- Types of Organizations
+CREATE TYPE organization_type AS ENUM (
+    'CMO',              -- Collective Management Organization (e.g., MCSK)
+    'PRO',              -- Performing Rights Organization
+    'Label',            -- Record Label (e.g., Sony Music Africa)
+    'Publisher',        -- Music Publisher
+    'Broadcaster',      -- TV or Radio Station Owner
+    'Venue',            -- Club, Hotel, Restaurant
+    'Transport_Sacco',  -- Matatu SACCOs (transport associations)
+    'Aggregator'        -- Digital Distributor
+);
+
+-- Rights Holder Types
+-- Expanded based on UPRS definitions to include neighboring rights
+CREATE TYPE rights_holder_type AS ENUM (
+    'writer',           -- Songwriter / Composer / Lyricist (Economic Moral Rights)
+    'publisher',        -- Music Publisher (Administers Economic Rights)
+    'label',            -- Record Label (Master Rights Owner)
+    'performer',        -- Featured Artist / Session Musician (Neighboring Rights)
+    'producer',         -- Music Producer (Neighboring Rights)
+    'arranger'          -- Musical Arranger
+);
+
+-- Ingestion Types
+-- How the audio enters the system
+CREATE TYPE ingestion_type AS ENUM (
+    'iot_device',       -- Dedicated hardware (OLAF Box)
+    'web_stream',       -- Internet Radio (Icecast/Shoutcast), YouTube Live
+    'digital_dsp',      -- Official APIs (Spotify, Apple Music)
+    'broadcast',        -- Satellite / Terrestrial FM / DVB-T (via Tuner hardware)
+    'file_upload'       -- Manual batch upload
+);
+
+-- Work Roles (Composition)
+CREATE TYPE work_role AS ENUM (
+    'composer',
+    'lyricist',
+    'arranger',
+    'publisher',
+    'sub_publisher',
+    'translator'
+);
+
+-- Recording Roles (Master)
+CREATE TYPE recording_role AS ENUM (
+    'performer',
+    'producer',
+    'featured_artist',
+    'background_vocalist',
+    'label',
+    'distributor',
+    'licensee'
+);
+
+-- Audio Source Types (Logic Types)
+CREATE TYPE source_type AS ENUM (
+    'commercial_radio',
+    'community_radio',
+    'public_broadcaster',
+    'tv_station',
+    'club',
+    'hotel',
+    'restaurant',
+    'shop_retail',
+    'matatu',
+    'aircraft',
+    'digital_service'
+);
+
+-- Source Status
+CREATE TYPE source_status AS ENUM ('active', 'inactive', 'maintenance', 'offline');
+
+-- African CMOs (Can be expanded)
+-- Covers East, West, South, and Central Africa major players
+CREATE TYPE cmo_name AS ENUM (
+    -- Kenya
+    'MCSK',     -- Music Copyright Society of Kenya (Composers/Authors)
+    'KAMP',     -- Kenya Association of Music Producers (Master Rights)
+    'PRISK',    -- Performers Rights Society of Kenya
+    
+    -- Uganda
+    'UPRS',     -- Uganda Performing Right Society
+    
+    -- Tanzania
+    'COSOTA',   -- Copyright Society of Tanzania
+    
+    -- Ghana
+    'GHAMRO',   -- Ghana Music Rights Organisation
+    
+    -- Nigeria
+    'COSON',    -- Copyright Society of Nigeria
+    'MCSN',     -- Musical Copyright Society Nigeria
+    
+    -- South Africa
+    'SAMRO',    -- Southern African Music Rights Organisation
+    'CAPASSO',  -- Composers, Authors and Publishers Association (Mechanicals)
+    'SAMPRA',   -- South African Music Performance Rights Association
+    
+    -- Rwanda
+    'RSA',      -- Rwanda Society of Authors
+    
+    -- DRC
+    'SOCODA',   -- Société Congolaise des Droits d'Auteurs et des Voisins
+    
+    -- Generic/Other
+    'OTHER'
+);
+
+-- Royalty Calculation Methods
+CREATE TYPE calculation_method AS ENUM (
+    'per_play',                 -- Fixed amount per detected play (e.g., 5 KES per play)
+    'scientific_distribution',  -- Pro-rata share of pool based on total detected plays
+    'general_distribution',     -- Flat distribution for undetected/long-tail works
+    'percentage_revenue',       -- % of ad revenue or venue license fee
+    'flat_fee',                 -- Fixed monthly/annual fee (e.g., Gyms)
+    'duration_based'            -- Rate based on seconds played
+);
+
+-- Fingerprint Processing Status
+CREATE TYPE processing_status AS ENUM ('pending', 'processed', 'failed', 'archived');
+
+-- Alert Trigger Events
+CREATE TYPE alert_trigger AS ENUM (
+    'song_detected',            -- When a specific song is played
+    'threshold_reached',        -- When play count > X
+    'new_royalty_statement',    -- Notification of payment
+    'system_offline',           -- Source went down
+    'unidentified_high_play'    -- High frequency play of unknown fingerprint
+);
+
+-----------------------------------------------------------------------------
+-- 2. CORE TABLES
+-----------------------------------------------------------------------------
+
+-- ORGANIZATIONS
+-- Represents the legal entities participating in the ecosystem.
+CREATE TABLE organizations (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL,
+    type organization_type NOT NULL,
+    country TEXT,                       -- e.g., 'Kenya'
+    contact_email TEXT,
+    contact_phone TEXT,
+    metadata JSONB DEFAULT '{}',        -- Store membership rules, tax IDs, etc.
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 2. Notification Settings
-CREATE TABLE IF NOT EXISTS public.notification_settings (
-    user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE PRIMARY KEY,
-    new_play_detected BOOLEAN DEFAULT TRUE,
-    royalty_milestone BOOLEAN DEFAULT TRUE,
-    pro_variance_alert BOOLEAN DEFAULT FALSE,
-    weekly_digest BOOLEAN DEFAULT TRUE,
-    push_enabled BOOLEAN DEFAULT TRUE,
-    email_enabled BOOLEAN DEFAULT TRUE,
+-- PROFILES
+-- Users of the platform. Extends the auth system (e.g. Supabase Auth).
+CREATE TABLE profiles (
+    id UUID PRIMARY KEY,                -- References auth.users.id if using Supabase
+    email TEXT UNIQUE NOT NULL,
+    full_name TEXT,
+    role user_role NOT NULL DEFAULT 'artist',
+    
+    -- Nullable because indie artists might not belong to a label organization
+    organization_id UUID REFERENCES organizations(id) ON DELETE SET NULL,
+    
+    -- User Preferences (Platform Config)
+    -- Stores UI settings, Localization, and Notification defaults
+    -- Default structure ensures ready-to-use values
+    preferences JSONB DEFAULT '{
+        "theme": "system",
+        "language": "en",
+        "timezone": "Africa/Nairobi",
+        "currency_display": "KES",
+        "dashboard_layout": "comfortable",
+        "notifications": {
+            "email_digest": true,
+            "push_alerts": true,
+            "sms_critical": false
+        }
+    }',
+    
+    created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 3. Security Logs (Tracking logins and sensitive changes)
-CREATE TABLE IF NOT EXISTS public.security_logs (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
-    action TEXT NOT NULL, -- 'login', 'password_change', '2fa_enable', etc.
-    status TEXT DEFAULT 'success',
-    ip_address TEXT,
-    user_agent TEXT,
-    metadata JSONB,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
+-----------------------------------------------------------------------------
+-- 3. CATALOG MANAGEMENT
+-- Distinction between Works (Composition) and Recordings (Master).
+-----------------------------------------------------------------------------
 
--- 4. Payout Methods
-CREATE TABLE IF NOT EXISTS public.payout_methods (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
-    type TEXT NOT NULL, -- 'bank', 'mobile_money', 'paypal'
-    provider TEXT, -- e.g., 'MTN', 'Kuda', 'Standard Bank'
-    account_number TEXT,
-    account_name TEXT,
-    is_primary BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 5. Artists
-CREATE TABLE IF NOT EXISTS public.artists (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
-    name TEXT NOT NULL,
-    bio TEXT,
-    country TEXT NOT NULL,
-    avatar_url TEXT,
-    spotify_url TEXT,
-    apple_music_url TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 6. Tracks
-CREATE TABLE IF NOT EXISTS public.tracks (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    artist_id UUID REFERENCES public.artists(id) ON DELETE CASCADE,
+-- WORKS (The Composition)
+-- Represents the intellectual property: Lyrics & Melody.
+CREATE TABLE works (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     title TEXT NOT NULL,
-    album TEXT,
-    genre TEXT,
+    
+    -- ISWC: International Standard Musical Work Code (Unique ID for composition)
+    -- Format: T-123.456.789-C
+    iswc TEXT UNIQUE, 
+    
+    -- Contributors snapshot (simple JSON view, detailed rights in work_rights)
+    -- e.g., [{"name": "Sauti Sol", "role": "Composer"}]
+    contributors JSONB DEFAULT '[]',
+    
+    metadata JSONB DEFAULT '{}',        -- Genre, Mood, Tempo (BPM)
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- RECORDINGS (The Master)
+-- A specific audio recording of a Work.
+CREATE TABLE recordings (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    work_id UUID REFERENCES works(id) ON DELETE CASCADE, -- Link to composition
+    
+    title TEXT NOT NULL,                -- e.g., "Sitya Loss (Radio Edit)"
+    version TEXT,                       -- e.g., "Radio Edit", "Live", "Remix"
+    
+    -- ISRC: International Standard Recording Code (Unique ID for master)
+    -- Format: CC-XXX-YY-NNNNN
     isrc TEXT UNIQUE,
-    cover_url TEXT,
-    bpm INTEGER,
-    musical_key TEXT,
-    mood TEXT,
-    status TEXT DEFAULT 'Pending' CHECK (status IN ('Live', 'Pending', 'Takedown', 'Processing')),
+    
+    duration_seconds INTEGER,           -- Length of track
     release_date DATE,
+    
+    -- OLAF LINKAGE
+    -- This ID corresponds to the hash stored in LMDB.
+    -- OLAF doesn't use UUIDs natively, it uses Jenkins Hashes or Integers.
+    -- Storing as TEXT to be flexible.
+    fingerprint_id TEXT UNIQUE, 
+    
+    metadata JSONB DEFAULT '{}',        -- Label info, P-Line, C-Line
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 7. Broadcasters
-CREATE TABLE IF NOT EXISTS public.broadcasters (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    name TEXT NOT NULL,
-    type TEXT CHECK (type IN ('Radio', 'TV', 'Digital')),
+-- RIGHTS HOLDERS (The Entities)
+-- People or companies who get paid.
+CREATE TABLE rights_holders (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL,                 -- Real name or Stage name
+    
+    -- IPI: Interested Party Information (Unique ID for rights holders)
+    ipi_number TEXT UNIQUE,
+    
+    type rights_holder_type NOT NULL,
+    
+    -- Bank/Payment Details encrypted or tokenized ref
+    payment_info JSONB DEFAULT '{}',
+    
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- WORK RIGHTS (Publishing Splits)
+-- Who owns the composition?
+CREATE TABLE work_rights (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    work_id UUID REFERENCES works(id) ON DELETE CASCADE,
+    rights_holder_id UUID REFERENCES rights_holders(id) ON DELETE CASCADE,
+    
+    role work_role NOT NULL, 
+    share_percentage DECIMAL(5,2) NOT NULL CHECK (share_percentage <= 100),
+    
+    territory TEXT DEFAULT 'WORLDWIDE', -- e.g. "KE" for Kenya specific rights
+    
+    UNIQUE(work_id, rights_holder_id, role, territory)
+);
+
+-- RECORDING RIGHTS (Master Splits)
+-- Who owns the master recording?
+CREATE TABLE recording_rights (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    recording_id UUID REFERENCES recordings(id) ON DELETE CASCADE,
+    rights_holder_id UUID REFERENCES rights_holders(id) ON DELETE CASCADE,
+    
+    role recording_role NOT NULL DEFAULT 'label',
+    share_percentage DECIMAL(5,2) NOT NULL CHECK (share_percentage <= 100),
+    
+    territory TEXT DEFAULT 'WORLDWIDE',
+    
+    UNIQUE(recording_id, rights_holder_id, role, territory)
+);
+
+-----------------------------------------------------------------------------
+-- 4. MONITORING SOURCES
+-- Where usage data comes from.
+-----------------------------------------------------------------------------
+
+CREATE TABLE sources (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL,                 -- e.g., "Classic 105", "Club 1824"
+    type source_type NOT NULL,          -- The 'Business' type (e.g. Club, Matatu)
+    ingestion_type ingestion_type NOT NULL DEFAULT 'iot_device', -- The 'Technical' type
+    
+    -- Location / Geography
+    country TEXT NOT NULL,              -- ISO Code ideally, e.g. 'KE'
+    region TEXT,                        -- e.g., 'Nairobi'
+    city TEXT,
+    
+    -- Config for the ingestion engine
+    -- e.g. { "stream_url": "http://...", "sample_rate": 44100 }
+    stream_url TEXT,
+    config JSONB DEFAULT '{}',
+    
+    -- IoT Specifics
+    device_id TEXT UNIQUE,              -- Hardware ID for OLAF boxes
+    gps_coordinates POINT,              -- Lat/Long for mapping
+    
+    status source_status DEFAULT 'active',
+    last_heartbeat TIMESTAMPTZ,         -- Monitoring uptime
+    
+    organization_id UUID REFERENCES organizations(id) -- If source is owned by a specific org
+);
+
+-----------------------------------------------------------------------------
+-- 5. LOGS & FINGERPRINTS
+-- The massive data tables.
+-----------------------------------------------------------------------------
+
+-- PLAY LOGS (The "Hits")
+-- Records discrete identification events.
+CREATE TABLE play_logs (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    
+    source_id UUID REFERENCES sources(id) ON DELETE CASCADE,
+    recording_id UUID REFERENCES recordings(id), -- Nullable if unidentified but logged
+    
+    timestamp_start TIMESTAMPTZ NOT NULL, -- When the song started playing
+    duration_played_seconds DECIMAL(10,2), -- How long it played
+    
+    confidence_score DECIMAL(5,4),        -- 0.0 to 1.0 OLAF match confidence
+    
+    -- Audio Verification feature
+    -- S3/GCS path to the specific recorded snippet for manual audit
+    audio_snippet_path TEXT,
+    
+    -- Raw metadata from the match event (debug info)
+    raw_match_metadata JSONB DEFAULT '{}',
+    
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX idx_play_logs_source_time ON play_logs(source_id, timestamp_start);
+CREATE INDEX idx_play_logs_recording ON play_logs(recording_id);
+
+-- RAW FINGERPRINTS (The Archive)
+-- Stores references to raw OLAF hash blobs for archival/re-processing.
+-- Granularity: Flexible.
+-- NOTE: For GCS/S3 storage, storing a single 'Day' blob is cost-effective (fewer API calls)
+-- but 'Hour' blobs allow for faster partial retrieval/debugging.
+-- Supported: 1 Hour (Standard), 24 Hours (Low Cost).
+CREATE TABLE raw_fingerprints (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    
+    source_id UUID REFERENCES sources(id) ON DELETE CASCADE,
+    
+    timestamp_start TIMESTAMPTZ NOT NULL,
+    timestamp_end TIMESTAMPTZ NOT NULL,
+    
+    -- Storage Strategy:
+    -- 'fingerprint_data' can hold JSONB for small blocks, 
+    -- 'storage_path' holds S3/GCS URI for large binary blobs (e.g. "gs://bucket/source_id/2023-10-27_full_day.mdb").
+    fingerprint_data JSONB, 
+    storage_path TEXT, 
+    
+    status processing_status DEFAULT 'processed',
+    
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    
+    CONSTRAINT check_storage CHECK (fingerprint_data IS NOT NULL OR storage_path IS NOT NULL)
+);
+CREATE INDEX idx_raw_fps_source_time ON raw_fingerprints(source_id, timestamp_start);
+
+-----------------------------------------------------------------------------
+-- 6. ROYALTY MANAGEMENT
+-----------------------------------------------------------------------------
+
+-- ROYALTY SOCIETIES (The CMOs)
+CREATE TABLE royalty_societies (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name cmo_name NOT NULL,             -- e.g. MCSK
+    full_name TEXT,                     -- e.g. Music Copyright Society of Kenya
     country TEXT NOT NULL,
-    location TEXT,
-    tier INTEGER DEFAULT 2 CHECK (tier IN (1, 2, 3)),
-    base_rate DECIMAL(10, 2) DEFAULT 5.00,
+    currency TEXT DEFAULT 'KES',        -- Currency for distributions
+    contact_info JSONB
+);
+
+-- RATE TABLES
+-- Defines how much a play is worth based on context.
+CREATE TABLE rate_tables (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    society_id UUID REFERENCES royalty_societies(id),
+    
+    -- Applicability criteria
+    source_type source_type,            -- Null means all types
+    
+    -- The Logic
+    calculation_method calculation_method NOT NULL,
+    
+    -- Values
+    rate_amount DECIMAL(12, 4),         -- e.g. 5.00 (Fixed amount)
+    revenue_percentage DECIMAL(5, 2),   -- e.g. 2.5% (Of revenue)
+    
+    effective_date DATE NOT NULL,
+    expiry_date DATE,
+    
+    -- Complex Rules Engine
+    -- e.g. { "min_play_duration": 30, "premium_time_multiplier": 1.5 }
+    rules JSONB DEFAULT '{}',
+    
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 8. Airplay Logs
-CREATE TABLE IF NOT EXISTS public.airplay_logs (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    track_id UUID REFERENCES public.tracks(id) ON DELETE CASCADE,
-    broadcaster_id UUID REFERENCES public.broadcasters(id) ON DELETE CASCADE,
-    played_at TIMESTAMPTZ NOT NULL,
-    duration INTERVAL,
-    royalty_estimated DECIMAL(10, 2),
-    status TEXT DEFAULT 'Processed' CHECK (status IN ('Detected', 'Processed', 'Reconciled')),
-    metadata JSONB,
+-- STATEMENTS / DISTRIBUTIONS
+-- Generated reports of money owed.
+CREATE TABLE royalty_statements (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    rights_holder_id UUID REFERENCES rights_holders(id),
+    society_id UUID REFERENCES royalty_societies(id),
+    
+    period_start DATE NOT NULL,
+    period_end DATE NOT NULL,
+    
+    total_amount DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    status TEXT DEFAULT 'draft',        -- draft, approved, paid
+    
+    details_json JSONB,                 -- Breakdown of calculations
+    
+    generated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-----------------------------------------------------------------------------
+-- 7. REPORTS & ALERTS
+-----------------------------------------------------------------------------
+
+-- SCHEDULED REPORTS
+CREATE TABLE scheduled_reports (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL,                 -- e.g., "Monthly KBC Logs"
+    
+    report_type TEXT NOT NULL,          -- e.g., 'play_log_export', 'royalty_summary'
+    
+    -- Cron syntax for scheduling
+    schedule_cron TEXT NOT NULL,        -- e.g. "0 0 1 * *" (Monthly)
+    
+    recipients TEXT[],                  -- Array of email addresses
+    email_subject_template TEXT,
+    
+    -- Config for the report generator
+    -- e.g. { "source_ids": ["..."], "format": "pdf" }
+    config JSONB DEFAULT '{}',
+    
+    is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 9. Earnings Summaries
-CREATE TABLE IF NOT EXISTS public.earnings_summaries (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    artist_id UUID REFERENCES public.artists(id) ON DELETE CASCADE,
-    total_plays BIGINT DEFAULT 0,
-    total_earnings DECIMAL(15, 2) DEFAULT 0.00,
-    last_payout DATE,
-    updated_at TIMESTAMPTZ DEFAULT NOW()
+-- ALERTS
+-- Real-time notifications for events.
+CREATE TABLE alerts (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+    
+    name TEXT NOT NULL,                 -- e.g. "My Song Radio Alert"
+    trigger_event alert_trigger NOT NULL,
+    
+    -- Conditions
+    -- e.g. { "recording_id": "...", "source_id": "..." }
+    conditions JSONB DEFAULT '{}',
+    
+    channels TEXT[] DEFAULT ARRAY['email'], -- ['email', 'sms', 'push']
+    
+    is_active BOOLEAN DEFAULT true,
+    last_triggered_at TIMESTAMPTZ,
+    
+    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Enable RLS
-ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.notification_settings ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.security_logs ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.payout_methods ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.artists ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.tracks ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.broadcasters ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.airplay_logs ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.earnings_summaries ENABLE ROW LEVEL SECURITY;
-
--- Policies
-CREATE POLICY "Users can view their own profile" ON public.profiles FOR SELECT USING (auth.uid() = id);
-CREATE POLICY "Users can update their own profile" ON public.profiles FOR UPDATE USING (auth.uid() = id);
-
-CREATE POLICY "Users can view their own notification settings" ON public.notification_settings FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "Users can update their own notification settings" ON public.notification_settings FOR UPDATE USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can view their own security logs" ON public.security_logs FOR SELECT USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can manage their own payout methods" ON public.payout_methods FOR ALL USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can view their own artists" ON public.artists FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "Users can update their own artists" ON public.artists FOR UPDATE USING (auth.uid() = user_id);
-
-CREATE POLICY "Tracks are visible to authorized users" ON public.tracks FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.artists WHERE artists.id = tracks.artist_id AND artists.user_id = auth.uid())
-);
-
-CREATE POLICY "Broadcasters are public" ON public.broadcasters FOR SELECT USING (true);
-
-CREATE POLICY "Logs are visible to track owners" ON public.airplay_logs FOR SELECT USING (
-    EXISTS (
-        SELECT 1 FROM public.tracks 
-        JOIN public.artists ON tracks.artist_id = artists.id 
-        WHERE tracks.id = airplay_logs.track_id AND artists.user_id = auth.uid()
-    )
-);
-
-CREATE POLICY "Earnings visible to owners" ON public.earnings_summaries FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.artists WHERE artists.id = earnings_summaries.artist_id AND artists.user_id = auth.uid())
-);
-
--- Function to handle new user creation
-CREATE OR REPLACE FUNCTION public.handle_new_user()
-RETURNS trigger AS $$
-BEGIN
-  INSERT INTO public.profiles (id, full_name, avatar_url)
-  VALUES (new.id, new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'avatar_url');
-  
-  INSERT INTO public.notification_settings (user_id)
-  VALUES (new.id);
-  
-  RETURN new;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
--- Trigger on auth.users
-DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
-CREATE TRIGGER on_auth_user_created
-  AFTER INSERT ON auth.users
-  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+-- COMMENTARY
+COMMENT ON TABLE works IS 'Musical compositions (lyrics/melody). Unique by ISWC.';
+COMMENT ON TABLE recordings IS 'Master recordings of a Work. Unique by ISRC. Linked to OLAF fingerprints.';
+COMMENT ON TABLE play_logs IS 'Individual detection events of a song playing on a source.';
+COMMENT ON TABLE raw_fingerprints IS 'Archival blocks of raw acoustic fingerprints (1-hour chunks) for debugging or re-scanning.';
+COMMENT ON COLUMN sources.device_id IS 'Unique hardware identifier for deployed OLAF monitoring units.';
