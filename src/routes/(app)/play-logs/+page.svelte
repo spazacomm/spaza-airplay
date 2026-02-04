@@ -3,19 +3,57 @@
 
     let { data }: { data: PageData } = $props();
 
-    const logs = $derived(data?.logs ?? []);
+    // Mock Logs Data with Confidence and Audio
+    const logs = [
+        {
+            id: "log-001",
+            timestamp: "Today, 10:42 AM",
+            song: "Sitya Loss",
+            artist: "Eddy Kenzo",
+            broadcaster: "Classic 105",
+            country: "KE",
+            duration: "3:45",
+            confidence: 0.98,
+            status: "verified",
+            audio_url: "https://example.com/audio1.mp3",
+        },
+        {
+            id: "log-002",
+            timestamp: "Today, 10:38 AM",
+            song: "Melanin",
+            artist: "Sauti Sol",
+            broadcaster: "Radio Citizen",
+            country: "KE",
+            duration: "4:12",
+            confidence: 0.85,
+            status: "pending",
+            audio_url: "https://example.com/audio2.mp3",
+        },
+        {
+            id: "log-003",
+            timestamp: "Today, 10:15 AM",
+            song: "Extravaganza",
+            artist: "Sauti Sol",
+            broadcaster: "NRG Radio",
+            country: "KE",
+            duration: "3:30",
+            confidence: 0.65, // Low confidence
+            status: "flagged",
+            audio_url: "https://example.com/audio3.mp3",
+        },
+    ];
 
-    let selectedLogId = $state("");
-
-    $effect(() => {
-        if (!selectedLogId && logs.length > 0) {
-            selectedLogId = logs[0].id;
-        }
-    });
+    let selectedLogId = $state(logs[0].id);
+    let isPlaying = $state(false);
 
     const selectedLog = $derived(
-        logs.find((l: any) => l.id === selectedLogId) || logs[0] || {},
+        logs.find((l) => l.id === selectedLogId) || logs[0],
     );
+
+    function togglePlayback() {
+        // Toggle mock playback state
+        isPlaying = !isPlaying;
+    }
 
     // Calculation breakdown data
     const calculation = {
@@ -37,386 +75,432 @@
 
 <div class="flex h-full overflow-hidden -m-4 md:-m-8">
     <!-- Left: Logs Table -->
-    <main
+    <div
         class="flex-1 flex flex-col min-w-0 bg-background-dark relative border-r border-border-dark"
     >
-        <!-- Page Header -->
-        <div class="px-8 pt-6 pb-2 shrink-0">
-            <div class="flex flex-wrap gap-2 items-center mb-4">
-                <a
-                    class="text-text-secondary text-sm font-medium hover:text-white"
-                    href="/dashboard">Dashboard</a
-                >
-                <span
-                    class="material-symbols-outlined text-text-secondary text-sm"
-                    >chevron_right</span
-                >
-                <span class="text-white text-sm font-medium"
-                    >Airplay & Royalties</span
-                >
-            </div>
-            <div class="flex flex-wrap justify-between items-end gap-4">
-                <div class="flex flex-col gap-1">
-                    <h1 class="text-white text-3xl font-black tracking-tight">
-                        Airplay Logs
+        <!-- Header -->
+        <div class="px-8 py-6 border-b border-border-dark shrink-0">
+            <div class="flex justify-between items-end">
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight text-white">
+                        Detection History
                     </h1>
                     <p class="text-text-secondary text-sm">
-                        Detailed records of detected broadcasts and earnings
-                        estimation.
+                        Verify and audit your airplay logs.
                     </p>
                 </div>
-                <button class="btn-secondary">
-                    <span class="material-symbols-outlined text-[18px]"
-                        >download</span
-                    >
-                    <span class="truncate">Export Report</span>
-                </button>
+                <div class="flex gap-2">
+                    <button class="btn-secondary text-sm">
+                        <span class="material-symbols-outlined text-[18px]"
+                            >filter_list</span
+                        >
+                        Advanced Filters
+                    </button>
+                    <button class="btn-primary text-sm">
+                        <span class="material-symbols-outlined text-[18px]"
+                            >download</span
+                        >
+                        Export CSV
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Filters Toolbar -->
         <div
-            class="px-8 py-4 shrink-0 grid grid-cols-1 md:grid-cols-4 gap-4 border-b border-border-dark/50"
+            class="px-8 py-4 shrink-0 grid grid-cols-4 gap-4 border-b border-border-dark bg-surface-darker/50"
         >
             <label class="flex flex-col gap-1.5">
-                <span
-                    class="text-xs font-semibold text-text-secondary uppercase tracking-wider"
+                <span class="text-xs font-bold text-text-muted uppercase"
                     >Date Range</span
                 >
-                <div class="relative">
-                    <select class="select py-2 text-sm pr-10">
-                        <option>Last 30 Days</option>
-                        <option>This Quarter</option>
-                        <option>Last Year</option>
-                    </select>
-                    <span
-                        class="material-symbols-outlined absolute right-2.5 top-2 text-text-secondary pointer-events-none"
-                        >calendar_today</span
-                    >
-                </div>
-            </label>
-            <label class="flex flex-col gap-1.5">
-                <span
-                    class="text-xs font-semibold text-text-secondary uppercase tracking-wider"
-                    >Territory</span
+                <select
+                    class="select py-2 text-sm bg-background-dark border-border-dark"
                 >
-                <div class="relative">
-                    <select class="select py-2 text-sm pr-10">
-                        <option>Global (All)</option>
-                        <option>North America</option>
-                        <option>Europe</option>
-                    </select>
-                    <span
-                        class="material-symbols-outlined absolute right-2.5 top-2 text-text-secondary pointer-events-none"
-                        >public</span
-                    >
-                </div>
+                    <option>Last 24 Hours</option>
+                    <option>Last 7 Days</option>
+                    <option>Custom Range</option>
+                </select>
             </label>
             <label class="flex flex-col gap-1.5">
-                <span
-                    class="text-xs font-semibold text-text-secondary uppercase tracking-wider"
-                    >Tier</span
+                <span class="text-xs font-bold text-text-muted uppercase"
+                    >Source</span
                 >
-                <div class="relative">
-                    <select class="select py-2 text-sm pr-10">
-                        <option>All Tiers</option>
-                        <option>Tier 1 (National)</option>
-                        <option>Tier 2 (Regional)</option>
-                    </select>
-                    <span
-                        class="material-symbols-outlined absolute right-2.5 top-2 text-text-secondary pointer-events-none"
-                        >filter_list</span
-                    >
-                </div>
+                <select
+                    class="select py-2 text-sm bg-background-dark border-border-dark"
+                >
+                    <option>All Sources</option>
+                    <option>Classic 105</option>
+                    <option>Radio Citizen</option>
+                </select>
             </label>
             <label class="flex flex-col gap-1.5">
-                <span
-                    class="text-xs font-semibold text-text-secondary uppercase tracking-wider"
-                    >Filter Song</span
+                <span class="text-xs font-bold text-text-muted uppercase"
+                    >Min. Confidence</span
+                >
+                <select
+                    class="select py-2 text-sm bg-background-dark border-border-dark"
+                >
+                    <option value="0.9">90% + (High)</option>
+                    <option value="0.7">70% + (Medium)</option>
+                    <option value="0">All Matches</option>
+                </select>
+            </label>
+            <label class="flex flex-col gap-1.5">
+                <span class="text-xs font-bold text-text-muted uppercase"
+                    >Search</span
                 >
                 <input
-                    class="input py-2 text-sm"
-                    placeholder="Filter by title..."
+                    type="text"
+                    class="input py-2 text-sm bg-background-dark border-border-dark"
+                    placeholder="Song or Artist..."
                 />
             </label>
         </div>
 
         <!-- Table -->
-        <div class="flex-1 overflow-auto px-8 pb-8">
+        <div class="flex-1 overflow-auto">
             <table class="w-full text-left border-collapse">
-                <thead
-                    class="sticky top-0 bg-background-dark z-10 shadow-[0_1px_0_0_rgba(40,57,51,1)]"
-                >
+                <thead class="bg-surface-dark sticky top-0 z-10 shadow-sm">
                     <tr>
                         <th
-                            class="py-4 pr-4 text-xs font-semibold text-text-secondary uppercase tracking-wider w-[180px]"
-                            >Timestamp</th
+                            class="py-3 px-6 text-xs font-semibold uppercase tracking-wider text-text-secondary"
+                            >Time</th
                         >
                         <th
-                            class="py-4 px-4 text-xs font-semibold text-text-secondary uppercase tracking-wider"
-                            >Song Title</th
+                            class="py-3 px-6 text-xs font-semibold uppercase tracking-wider text-text-secondary"
+                            >Song & Artist</th
                         >
                         <th
-                            class="py-4 px-4 text-xs font-semibold text-text-secondary uppercase tracking-wider"
-                            >Broadcaster</th
+                            class="py-3 px-6 text-xs font-semibold uppercase tracking-wider text-text-secondary"
+                            >Source</th
                         >
                         <th
-                            class="py-4 px-4 text-xs font-semibold text-text-secondary uppercase tracking-wider"
+                            class="py-3 px-6 text-xs font-semibold uppercase tracking-wider text-text-secondary"
+                            >Confidence</th
+                        >
+                        <th
+                            class="py-3 px-6 text-xs font-semibold uppercase tracking-wider text-text-secondary text-right"
                             >Duration</th
                         >
-                        <th
-                            class="py-4 px-4 text-xs font-semibold text-text-secondary uppercase tracking-wider text-right"
-                            >Est. Royalty</th
-                        >
-                        <th
-                            class="py-4 pl-4 text-xs font-semibold text-text-secondary uppercase tracking-wider w-[50px]"
-                        ></th>
                     </tr>
                 </thead>
-                <tbody class="text-sm divide-y divide-border-dark">
+                <tbody class="divide-y divide-border-dark bg-background-dark">
                     {#each logs as log}
                         <tr
-                            class="table-row group"
-                            class:table-row-active={selectedLogId === log.id}
+                            class="group hover:bg-surface-dark cursor-pointer transition-colors border-l-4"
+                            class:border-l-transparent={selectedLogId !==
+                                log.id}
+                            class:border-l-primary={selectedLogId === log.id}
+                            class:bg-surface-dark={selectedLogId === log.id}
                             onclick={() => (selectedLogId = log.id)}
                         >
-                            <td class="py-4 pr-4 text-text-secondary pl-3"
+                            <td
+                                class="py-4 px-6 text-sm text-text-secondary whitespace-nowrap"
                                 >{log.timestamp}</td
                             >
-                            <td class="py-4 px-4 font-bold text-white">
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="size-8 rounded bg-surface-dark flex items-center justify-center"
+                            <td class="py-4 px-6">
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-white text-sm"
+                                        >{log.song}</span
                                     >
-                                        <span
-                                            class="material-symbols-outlined text-lg"
-                                            >music_note</span
-                                        >
-                                    </div>
-                                    {log.song}
+                                    <span class="text-xs text-text-muted"
+                                        >{log.artist}</span
+                                    >
                                 </div>
                             </td>
-                            <td class="py-4 px-4">
+                            <td class="py-4 px-6">
                                 <div class="flex items-center gap-2">
-                                    <span class="text-lg leading-none"
-                                        >{log.country}</span
-                                    >
-                                    <span>{log.broadcaster}</span>
                                     <span
-                                        class="px-1.5 py-0.5 rounded bg-border-dark text-[10px] text-text-secondary font-bold uppercase tracking-wider ml-1"
-                                        >{log.tier}</span
+                                        class="material-symbols-outlined text-text-muted text-sm"
+                                        >radio</span
+                                    >
+                                    <span class="text-sm text-text-main"
+                                        >{log.broadcaster}</span
                                     >
                                 </div>
                             </td>
-                            <td class="py-4 px-4 text-text-secondary"
+                            <td class="py-4 px-6">
+                                <div class="flex items-center gap-2">
+                                    <div
+                                        class="w-16 h-1.5 bg-background-surface-alt rounded-full overflow-hidden"
+                                    >
+                                        <div
+                                            class="h-full rounded-full {log.confidence >
+                                            0.9
+                                                ? 'bg-emerald-500'
+                                                : log.confidence > 0.7
+                                                  ? 'bg-yellow-500'
+                                                  : 'bg-red-500'}"
+                                            style="width: {log.confidence *
+                                                100}%"
+                                        ></div>
+                                    </div>
+                                    <span
+                                        class="text-xs font-mono text-text-secondary"
+                                        >{(log.confidence * 100).toFixed(
+                                            0,
+                                        )}%</span
+                                    >
+                                </div>
+                            </td>
+                            <td
+                                class="py-4 px-6 text-sm text-text-secondary text-right font-mono"
                                 >{log.duration}</td
                             >
-                            <td
-                                class="py-4 px-4 text-right font-bold"
-                                class:text-primary={selectedLogId === log.id}
-                            >
-                                ${log.royalty.toFixed(2)}
-                            </td>
-                            <td class="py-4 pl-4 text-center">
-                                <span
-                                    class="material-symbols-outlined text-primary text-[20px]"
-                                    >chevron_right</span
-                                >
-                            </td>
                         </tr>
                     {/each}
                 </tbody>
             </table>
         </div>
+    </div>
 
-        <!-- Pagination -->
-        <div
-            class="px-8 py-4 border-t border-border-dark flex justify-between items-center bg-background-dark"
-        >
-            <p class="text-sm text-text-secondary">Showing 1-5 of 1,248 logs</p>
-            <div class="flex gap-2">
-                <button
-                    class="size-8 flex items-center justify-center rounded-lg bg-surface-dark border border-border-dark text-text-secondary hover:text-white hover:bg-border-dark transition-colors disabled:opacity-50"
-                >
-                    <span class="material-symbols-outlined">chevron_left</span>
-                </button>
-                <button
-                    class="size-8 flex items-center justify-center rounded-lg bg-primary text-background-dark font-bold"
-                    >1</button
-                >
-                <button
-                    class="size-8 flex items-center justify-center rounded-lg bg-surface-dark border border-border-dark text-text-secondary hover:text-white hover:bg-border-dark transition-colors"
-                    >2</button
-                >
-                <button
-                    class="size-8 flex items-center justify-center rounded-lg bg-surface-dark border border-border-dark text-text-secondary hover:text-white hover:bg-border-dark transition-colors"
-                >
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </button>
-            </div>
-        </div>
-    </main>
-
-    <!-- Right: Inspector -->
+    <!-- Inspector: Audio Verification -->
     <aside
-        class="w-[400px] bg-surface-darker border-l border-border-dark flex flex-col h-full overflow-auto shrink-0 shadow-xl z-20"
+        class="w-[380px] bg-surface-darker border-l border-border-dark flex flex-col shrink-0 shadow-2xl z-20"
     >
-        <div
-            class="p-6 border-b border-border-dark flex justify-between items-start"
-        >
-            <h3 class="text-white font-bold text-lg">Royalty Breakdown</h3>
-            <button
-                class="text-text-secondary hover:text-white transition-colors"
-            >
-                <span class="material-symbols-outlined">close</span>
-            </button>
-        </div>
-
-        <div class="p-6 flex flex-col gap-6">
-            <!-- Context Card -->
-            <div
-                class="flex gap-4 items-center p-4 rounded-xl bg-surface-dark border border-border-dark"
-            >
+        {#if selectedLog}
+            <div class="p-6 border-b border-border-dark">
+                <div class="flex justify-between items-start mb-4">
+                    <span
+                        class="badge {selectedLog.confidence > 0.8
+                            ? 'badge-success'
+                            : 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'} uppercase text-xs"
+                    >
+                        {selectedLog.confidence > 0.8
+                            ? "High Confidence"
+                            : "Review Needed"}
+                    </span>
+                    <button
+                        class="text-text-muted hover:text-white"
+                        title="Flag as False Positive"
+                    >
+                        <span class="material-symbols-outlined">flag</span>
+                    </button>
+                </div>
+                <h2 class="text-xl font-bold text-white mb-1">
+                    {selectedLog.song}
+                </h2>
+                <p class="text-primary font-medium">{selectedLog.artist}</p>
                 <div
-                    class="size-16 rounded-lg bg-background-dark flex items-center justify-center text-text-secondary"
+                    class="mt-4 flex items-center gap-4 text-sm text-text-secondary"
                 >
-                    <span class="material-symbols-outlined text-4xl"
-                        >music_note</span
-                    >
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm"
+                            >schedule</span
+                        >
+                        {selectedLog.timestamp}
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm"
+                            >radio</span
+                        >
+                        {selectedLog.broadcaster}
+                    </div>
                 </div>
-                <div class="flex flex-col">
-                    <h4 class="text-white font-bold text-lg leading-tight">
-                        {selectedLog.song}
-                    </h4>
-                    <p class="text-text-secondary text-sm">
-                        Played on {selectedLog.broadcaster}
-                    </p>
-                    <div class="flex items-center gap-1.5 mt-1">
+            </div>
+
+            <div class="p-6 flex-1 overflow-y-auto space-y-6">
+                <!-- Audio Player -->
+                <div
+                    class="bg-background-dark rounded-xl border border-border-dark p-4"
+                >
+                    <div class="flex justify-between items-center mb-4">
                         <span
-                            class="size-2 rounded-full bg-primary animate-live"
+                            class="text-xs font-bold text-text-muted uppercase tracking-wider"
+                            >Audio Verification</span
+                        >
+                        {#if isPlaying}
+                            <div class="flex gap-1 h-3 items-end">
+                                <div
+                                    class="w-1 bg-primary animate-music-bar-1"
+                                ></div>
+                                <div
+                                    class="w-1 bg-primary animate-music-bar-2"
+                                ></div>
+                                <div
+                                    class="w-1 bg-primary animate-music-bar-3"
+                                ></div>
+                            </div>
+                        {/if}
+                    </div>
+
+                    <div class="flex gap-4 items-center">
+                        <button
+                            class="size-12 rounded-full bg-primary text-background-dark flex items-center justify-center hover:scale-105 transition-transform"
+                            onclick={togglePlayback}
+                        >
+                            <span
+                                class="material-symbols-outlined text-2xl ml-1"
+                                >{isPlaying ? "pause" : "play_arrow"}</span
+                            >
+                        </button>
+                        <div class="flex-1 space-y-1">
+                            <div
+                                class="h-1 bg-surface-dark rounded-full overflow-hidden"
+                            >
+                                <div class="h-full bg-primary w-1/3 relative">
+                                    <div
+                                        class="absolute right-0 top-1/2 -translate-y-1/2 size-2 rounded-full bg-white shadow"
+                                    ></div>
+                                </div>
+                            </div>
+                            <div
+                                class="flex justify-between text-[10px] text-text-muted font-mono"
+                            >
+                                <span>0:15</span>
+                                <span>0:45</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+                        <div
+                            class="p-2 rounded bg-surface-dark text-center border border-border-dark"
+                        >
+                            <span class="block text-text-muted mb-1"
+                                >Snippet Source</span
+                            >
+                            <span class="font-bold text-white"
+                                >Broadcast Rec.</span
+                            >
+                        </div>
+                        <div
+                            class="p-2 rounded bg-surface-dark text-center border border-border-dark"
+                        >
+                            <span class="block text-text-muted mb-1"
+                                >Fingerprint ID</span
+                            >
+                            <span class="font-mono text-white">#9A2F3D</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Match Details -->
+                <section>
+                    <h3 class="text-sm font-bold text-white mb-3">
+                        Match Analysis
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-text-secondary"
+                                >Acoustic Fingerprint</span
+                            >
+                            <span
+                                class="text-emerald-500 font-bold flex items-center gap-1"
+                            >
+                                <span class="material-symbols-outlined text-sm"
+                                    >check_circle</span
+                                >
+                                Match
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-text-secondary"
+                                >Metadata Parse</span
+                            >
+                            <span
+                                class="text-emerald-500 font-bold flex items-center gap-1"
+                            >
+                                <span class="material-symbols-outlined text-sm"
+                                    >check_circle</span
+                                >
+                                Verified
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-text-secondary"
+                                >Duration Confidence</span
+                            >
+                            <span
+                                class="text-yellow-500 font-bold flex items-center gap-1"
+                            >
+                                <span class="material-symbols-outlined text-sm"
+                                    >warning</span
+                                >
+                                Deviation (+3s)
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Calculation Visualization -->
+                <div
+                    class="flex flex-col gap-4 pt-4 border-t border-border-dark/50"
+                >
+                    <div class="flex justify-between items-center mb-1">
+                        <span
+                            class="text-xs font-bold text-text-secondary uppercase tracking-widest"
+                            >Calculation Flow</span
+                        >
+                    </div>
+
+                    <!-- Base Rate -->
+                    <div
+                        class="relative pl-6 pb-2 border-l-2 border-border-dark"
+                    >
+                        <span
+                            class="absolute -left-[9px] top-0 size-4 rounded-full bg-border-dark border-2 border-surface-darker"
                         ></span>
-                        <span class="text-xs text-primary font-medium"
-                            >Processed</span
-                        >
-                    </div>
-                </div>
-            </div>
-
-            <!-- Calculation Visualization -->
-            <div class="flex flex-col gap-4">
-                <div class="flex justify-between items-center mb-1">
-                    <span
-                        class="text-xs font-bold text-text-secondary uppercase tracking-widest"
-                        >Calculation Flow</span
-                    >
-                    <span
-                        class="material-symbols-outlined text-text-secondary text-[16px] cursor-help"
-                        >help</span
-                    >
-                </div>
-
-                <!-- Base Rate -->
-                <div class="relative pl-6 pb-6 border-l-2 border-border-dark">
-                    <span
-                        class="absolute -left-[9px] top-0 size-4 rounded-full bg-border-dark border-2 border-surface-darker"
-                    ></span>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-bold text-white">
-                                Base Rate Duration
-                            </p>
-                            <p class="text-xs text-text-secondary mt-1">
-                                {calculation.seconds} seconds × ${calculation.ratePerSec}/sec
-                            </p>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs text-text-secondary">
+                                    Base Rate ({calculation.seconds}s)
+                                </p>
+                            </div>
+                            <span
+                                class="font-mono text-white font-medium text-xs"
+                                >${calculation.baseRate.toFixed(2)}</span
+                            >
                         </div>
-                        <span class="font-mono text-white font-medium text-sm"
-                            >${calculation.baseRate.toFixed(2)}</span
-                        >
                     </div>
-                </div>
 
-                <!-- Multiplier -->
-                <div class="relative pl-6 pb-6 border-l-2 border-border-dark">
-                    <span
-                        class="absolute -left-[9px] top-0 size-4 rounded-full bg-border-dark border-2 border-surface-darker"
-                    ></span>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-bold text-white">
-                                Market Multiplier
-                            </p>
-                            <p class="text-xs text-text-secondary mt-1">
-                                {calculation.multiplierReason} (x {calculation.multiplier})
-                            </p>
-                        </div>
-                        <span class="font-mono text-primary font-medium text-sm"
-                            >x {calculation.multiplier}</span
-                        >
-                    </div>
-                    <div
-                        class="mt-2 p-2 bg-background-dark rounded text-xs text-text-secondary font-mono flex justify-between"
-                    >
-                        <span>Subtotal:</span>
-                        <span>${calculation.subtotal.toFixed(2)}</span>
-                    </div>
-                </div>
-
-                <!-- Fees -->
-                <div class="relative pl-6 pb-6 border-l-2 border-border-dark">
-                    <span
-                        class="absolute -left-[9px] top-0 size-4 rounded-full bg-border-dark border-2 border-surface-darker"
-                    ></span>
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-bold text-white">
-                                PRO Admin Fees
-                            </p>
-                            <p class="text-xs text-text-secondary mt-1">
-                                Standard deduction ({calculation.feePercent}%)
-                            </p>
-                        </div>
-                        <span class="font-mono text-red-400 font-medium text-sm"
-                            >- ${calculation.fees.toFixed(2)}</span
-                        >
-                    </div>
-                </div>
-
-                <!-- Result -->
-                <div class="relative pl-6">
-                    <span
-                        class="absolute -left-[9px] top-0 size-4 rounded-full bg-primary border-2 border-surface-darker shadow-primary-glow"
-                    ></span>
-                    <div
-                        class="flex flex-col gap-2 p-4 rounded-xl bg-primary/10 border border-primary/20"
-                    >
-                        <span class="text-sm font-bold text-white"
-                            >Final Estimated Royalty</span
-                        >
+                    <!-- Result -->
+                    <div class="relative pl-6">
                         <span
-                            class="text-3xl font-black text-primary tracking-tight"
-                            >${calculation.final.toFixed(2)}</span
-                        >
-                        <p class="text-[10px] text-primary/70 mt-1">
-                            Amount credited to your balance upon confirmation.
-                        </p>
+                            class="absolute -left-[9px] top-0 size-4 rounded-full bg-emerald-500 border-2 border-surface-darker"
+                        ></span>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-white"
+                                >Estimated Royalty</span
+                            >
+                            <span class="text-lg font-bold text-emerald-500"
+                                >${calculation.final.toFixed(2)}</span
+                            >
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Educational Tip -->
-            <div
-                class="mt-auto p-4 bg-surface-dark rounded-lg border border-border-dark flex gap-3"
-            >
-                <span
-                    class="material-symbols-outlined text-primary text-[20px] shrink-0"
-                    >lightbulb</span
+            <div class="p-4 border-t border-border-dark text-center">
+                <button
+                    class="btn-ghost w-full text-red-400 hover:text-red-300"
                 >
-                <p class="text-xs text-text-secondary leading-relaxed">
-                    <strong class="text-white block mb-1">Did you know?</strong>
-                    Nighttime broadcasts (12AM-6AM) often have a reduced base rate
-                    multiplier of 0.75x in some territories like Germany.
-                </p>
+                    Flag as Incorrect Match
+                </button>
             </div>
-        </div>
+        {/if}
     </aside>
 </div>
+
+<style>
+    @keyframes music-bar {
+        0%,
+        100% {
+            height: 20%;
+        }
+        50% {
+            height: 100%;
+        }
+    }
+    .animate-music-bar-1 {
+        animation: music-bar 0.8s infinite ease-in-out;
+    }
+    .animate-music-bar-2 {
+        animation: music-bar 1.1s infinite ease-in-out;
+        animation-delay: 0.1s;
+    }
+    .animate-music-bar-3 {
+        animation: music-bar 0.9s infinite ease-in-out;
+        animation-delay: 0.2s;
+    }
+</style>

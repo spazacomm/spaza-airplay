@@ -14,32 +14,36 @@
 	const navigation: NavItem[] = [
 		{ label: "Dashboard", href: "/dashboard", icon: "dashboard" },
 		{
-			label: "My Music",
-			href: "/music",
+			label: "Catalogue",
+			href: "/catalogue",
 			icon: "library_music",
 			children: [
-				{ label: "Songs", href: "/music/songs", icon: "music_note" },
-				{ label: "Upload", href: "/music/upload", icon: "upload" },
-				{ label: "Splits", href: "/music/splits", icon: "pie_chart" },
+				{
+					label: "Works",
+					href: "/catalogue/works",
+					icon: "music_note",
+				},
+				{
+					label: "Recordings",
+					href: "/catalogue/recordings",
+					icon: "album",
+				},
+				{
+					label: "Rights Holders",
+					href: "/catalogue/rights-holders",
+					icon: "groups",
+				},
 			],
 		},
 		{
-			label: "Tracking",
-			href: "/tracking",
-			icon: "radio",
-			children: [
-				{
-					label: "Play Log",
-					href: "/tracking/plays",
-					icon: "list_alt",
-				},
-				{
-					label: "Disputes",
-					href: "/tracking/disputes",
-					icon: "gavel",
-				},
-				{ label: "Verify", href: "/tracking/verify", icon: "verified" },
-			],
+			label: "Sources",
+			href: "/sources",
+			icon: "router",
+		},
+		{
+			label: "Play Logs",
+			href: "/play-logs",
+			icon: "history",
 		},
 		{
 			label: "Royalties",
@@ -47,42 +51,36 @@
 			icon: "payments",
 			children: [
 				{
-					label: "Estimates",
-					href: "/royalties/estimates",
-					icon: "calculate",
-				},
-				{
 					label: "Rates",
 					href: "/royalties/rates",
 					icon: "request_quote",
 				},
 				{
-					label: "Reconcile",
-					href: "/royalties/reconcile",
-					icon: "compare_arrows",
+					label: "Societies",
+					href: "/royalties/societies",
+					icon: "account_balance",
+				},
+				{
+					label: "Statements",
+					href: "/royalties/statements",
+					icon: "description",
 				},
 			],
 		},
 		{
-			label: "Analytics",
-			href: "/analytics",
-			icon: "analytics",
+			label: "Reports & Alerts",
+			href: "/reports",
+			icon: "assessment",
 			children: [
-				{ label: "Overview", href: "/analytics", icon: "bar_chart" },
 				{
-					label: "Geographic",
-					href: "/analytics/geographic",
-					icon: "public",
+					label: "Reports Gallery",
+					href: "/reports/gallery",
+					icon: "summarize",
 				},
 				{
-					label: "Trends",
-					href: "/analytics/trends",
-					icon: "trending_up",
-				},
-				{
-					label: "Intelligence",
-					href: "/analytics/intelligence",
-					icon: "psychology",
+					label: "Alert Rules",
+					href: "/reports/alerts",
+					icon: "notifications_active",
 				},
 			],
 		},
@@ -91,11 +89,21 @@
 			href: "/settings",
 			icon: "settings",
 			children: [
-				{ label: "Profile", href: "/settings/profile", icon: "person" },
+				{ label: "Users", href: "/settings/users", icon: "group" },
 				{
-					label: "Security",
-					href: "/settings/security",
-					icon: "shield",
+					label: "Organization",
+					href: "/settings/organization",
+					icon: "business",
+				},
+				{
+					label: "Preferences",
+					href: "/settings/preferences",
+					icon: "tune",
+				},
+				{
+					label: "Audit Logs",
+					href: "/settings/audit-logs",
+					icon: "receipt_long",
 				},
 			],
 		},
