@@ -262,7 +262,7 @@
 >
     <!-- Top Bar / Header -->
     <header
-        class="h-20 shrink-0 border-b border-border-dark bg-surface-dark/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
+        class="h-20 shrink-0 border-b border-border-dark bg-white/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
     >
         <!-- Breadcrumbs -->
         <nav class="flex items-center gap-2 mb-1">
@@ -283,7 +283,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div
-                    class="size-10 rounded-xl bg-surface-darker border border-border-dark flex items-center justify-center text-primary shadow-sm"
+                    class="size-10 rounded-xl bg-background-dark border border-border-dark flex items-center justify-center text-primary shadow-saas-sm"
                 >
                     <span class="material-symbols-outlined text-2xl"
                         >sensors</span
@@ -291,7 +291,7 @@
                 </div>
                 <div>
                     <h1
-                        class="text-xl font-bold text-white tracking-tight leading-none"
+                        class="text-xl font-bold text-text-primary tracking-tight leading-none"
                     >
                         Monitoring Sources
                     </h1>
@@ -303,7 +303,7 @@
 
             <div class="flex items-center gap-3">
                 <button
-                    class="h-9 px-4 btn-primary rounded-lg flex items-center gap-2 shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all font-bold uppercase tracking-widest text-[10px]"
+                    class="h-9 px-4 btn-primary rounded-md flex items-center gap-2 shadow-saas-sm transition-all font-bold uppercase tracking-widest text-[10px]"
                     onclick={() => (isCreateOpen = true)}
                 >
                     <span class="material-symbols-outlined text-lg">add</span>
@@ -315,7 +315,7 @@
 
     <!-- Filters Bar -->
     <div
-        class="h-14 shrink-0 border-b border-border-dark bg-surface-dark/50 px-8 flex items-center gap-4 z-20 overflow-x-auto scrollbar-none"
+        class="h-14 shrink-0 border-b border-border-dark bg-white/50 px-8 flex items-center gap-4 z-20 overflow-x-auto scrollbar-none"
     >
         <!-- Search Integrated into Filters -->
         <div class="relative group min-w-[240px]">
@@ -326,7 +326,7 @@
             <input
                 type="text"
                 placeholder="Search name, ID or location..."
-                class="h-8 w-full bg-surface-darker border border-border-dark rounded-md pl-9 pr-4 text-xs text-white placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary/50 transition-all font-medium"
+                class="h-8 w-full bg-background-dark border border-border-dark rounded-md pl-9 pr-4 text-xs text-text-primary placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary focus:border-primary transition-all font-medium"
                 bind:value={searchQuery}
             />
         </div>
@@ -336,7 +336,7 @@
         <div class="flex items-center gap-3">
             <div class="relative group">
                 <select
-                    class="h-8 w-36 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-36 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterType}
                 >
                     <option value="All">All Types</option>
@@ -352,7 +352,7 @@
 
             <div class="relative group">
                 <select
-                    class="h-8 w-28 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-28 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterCountry}
                 >
                     {#each countries as c}
@@ -369,7 +369,7 @@
 
             <div class="relative group">
                 <select
-                    class="h-8 w-32 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-32 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterStatus}
                 >
                     {#each statuses as s}
@@ -400,7 +400,7 @@
     <!-- Data Table -->
     <main class="flex-1 overflow-auto relative">
         <table class="w-full text-left border-collapse">
-            <thead class="sticky top-0 z-10 bg-surface-dark shadow-sm">
+            <thead class="sticky top-0 z-10 bg-background-dark shadow-sm">
                 <tr>
                     <th
                         class="py-3 px-8 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[25%]"
@@ -432,10 +432,10 @@
                     >
                 </tr>
             </thead>
-            <tbody class="divide-y divide-border-dark/30">
+            <tbody class="divide-y divide-border-dark/50 bg-white">
                 {#each filteredSources as source}
                     <tr
-                        class="group hover:bg-surface-darker/50 transition-colors cursor-pointer"
+                        class="group hover:bg-background-dark transition-colors cursor-pointer"
                         onclick={() => openDetail(source.id)}
                     >
                         <td class="py-3 px-8">
@@ -455,7 +455,7 @@
                                 </div>
                                 <div>
                                     <div
-                                        class="text-sm font-semibold text-white group-hover:text-primary transition-colors"
+                                        class="text-sm font-semibold text-text-primary group-hover:text-primary transition-colors"
                                     >
                                         {source.name}
                                     </div>
@@ -464,7 +464,7 @@
                         </td>
                         <td class="py-3 px-4">
                             <span
-                                class="px-2 py-0.5 rounded-full border border-border-dark bg-surface-darker text-[9px] font-bold uppercase tracking-wider text-text-secondary"
+                                class="px-2 py-0.5 rounded-full border border-border-dark bg-background-dark text-[9px] font-bold uppercase tracking-wider text-text-secondary"
                             >
                                 {formatEnum(source.type)}
                             </span>
@@ -535,7 +535,7 @@
 
     <!-- Status Footer -->
     <footer
-        class="h-10 shrink-0 border-t border-border-dark bg-surface-dark px-8 flex items-center justify-between text-[10px] font-mono text-text-muted uppercase tracking-widest"
+        class="h-10 shrink-0 border-t border-border-dark bg-white px-8 flex items-center justify-between text-[10px] font-mono text-text-muted uppercase tracking-widest"
     >
         <div>Showing {filteredSources.length} sources</div>
         <div class="flex gap-4">
@@ -559,7 +559,7 @@
             transition:fade={{ duration: 200 }}
         ></div>
         <aside
-            class="fixed top-2 bottom-2 right-2 w-[450px] bg-surface-dark border border-border-dark/50 shadow-2xl rounded-2xl z-50 flex flex-col overflow-hidden"
+            class="fixed top-2 bottom-2 right-2 w-[450px] bg-white border border-border-dark shadow-2xl rounded-xl z-50 flex flex-col overflow-hidden"
             transition:fly={{
                 x: 50,
                 duration: 300,
@@ -571,7 +571,9 @@
                 class="p-5 border-b border-border-dark flex items-center justify-between bg-surface-dark relative"
             >
                 <div>
-                    <h2 class="text-lg font-bold text-white tracking-tight">
+                    <h2
+                        class="text-lg font-bold text-text-primary tracking-tight"
+                    >
                         New Source
                     </h2>
                     <p
@@ -722,7 +724,7 @@
             transition:fade={{ duration: 200 }}
         ></div>
         <aside
-            class="fixed top-2 bottom-2 right-2 w-[600px] bg-surface-dark border border-border-dark/50 shadow-2xl rounded-2xl z-50 flex flex-col overflow-hidden"
+            class="fixed top-2 bottom-2 right-2 w-[600px] bg-white border border-border-dark shadow-2xl rounded-xl z-50 flex flex-col overflow-hidden"
             transition:fly={{
                 x: 50,
                 duration: 300,
@@ -732,14 +734,14 @@
         >
             <!-- Header -->
             <div
-                class="h-40 shrink-0 relative bg-surface-darker border-b border-border-dark overflow-hidden group"
+                class="h-40 shrink-0 relative bg-background-dark border-b border-border-dark overflow-hidden group"
             >
                 <!-- Background Pattern -->
                 <div
                     class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"
                 ></div>
                 <div
-                    class="absolute inset-0 bg-gradient-to-t from-surface-darker via-transparent to-transparent"
+                    class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"
                 ></div>
 
                 <div class="absolute top-4 right-4 z-10">
@@ -768,7 +770,7 @@
                     <div class="flex-1 mb-1">
                         <div class="flex items-center gap-3">
                             <h2
-                                class="text-2xl font-bold text-white tracking-tight"
+                                class="text-2xl font-bold text-text-primary tracking-tight"
                             >
                                 {selectedSource.name}
                             </h2>
@@ -1001,33 +1003,33 @@
 <style>
     .input {
         height: 2.5rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.5rem;
         padding-left: 0.75rem;
         padding-right: 0.75rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.75rem;
         font-weight: 500;
         transition: all 0.2s;
     }
     .input:focus {
         outline: none;
-        border-color: rgba(16, 185, 129, 0.5);
+        border-color: #10b981;
         box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
     }
     .select {
         height: 2.5rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.5rem;
         padding-left: 0.75rem;
         padding-right: 2rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.75rem;
         font-weight: 500;
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(148, 163, 184, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(71, 85, 105, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 0.5rem center;
         background-size: 1rem;

@@ -488,8 +488,9 @@
                         This process will scan over <strong
                             >1.2M detections</strong
                         >
-                        for the selected period and calculate earnings based on
-                        configured <strong>Rate Tables</strong> for {wizardForm.society}.
+                        for the selected period and calculate earnings based on configured
+                        <strong>Rate Tables</strong>
+                        for {wizardForm.society}.
                     </p>
                 </div>
             </div>
@@ -704,16 +705,16 @@
 <style>
     .select {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding-left: 1rem;
         padding-right: 2.5rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(148, 163, 184, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(71, 85, 105, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 0.75rem center;
         background-size: 1.25rem;
@@ -722,19 +723,19 @@
 
     .input {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         transition: all 0.2s;
     }
     .input:focus {
         outline: none;
-        border-color: rgba(16, 185, 129, 0.5);
+        border-color: #10b981;
         box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
     }
 

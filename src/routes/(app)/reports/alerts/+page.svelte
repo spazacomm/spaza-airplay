@@ -102,7 +102,7 @@
 >
     <!-- Header -->
     <header
-        class="h-20 shrink-0 border-b border-border-dark bg-surface-dark/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
+        class="h-20 shrink-0 border-b border-border-dark bg-white/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
     >
         <!-- Breadcrumbs -->
         <nav class="flex items-center gap-2 mb-1">
@@ -130,7 +130,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div
-                    class="size-10 rounded-xl bg-surface-darker border border-border-dark flex items-center justify-center text-primary shadow-sm"
+                    class="size-10 rounded-xl bg-background-dark border border-border-dark flex items-center justify-center text-primary shadow-saas-sm"
                 >
                     <span class="material-symbols-outlined text-2xl"
                         >notifications_active</span
@@ -138,7 +138,7 @@
                 </div>
                 <div>
                     <h1
-                        class="text-xl font-bold text-white tracking-tight leading-none"
+                        class="text-xl font-bold text-text-primary tracking-tight leading-none"
                     >
                         System Alert Rules
                     </h1>
@@ -149,7 +149,7 @@
             </div>
 
             <button
-                class="h-9 px-4 btn-primary rounded-lg flex items-center gap-2 shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all font-bold uppercase tracking-widest text-[10px]"
+                class="h-9 px-4 btn-primary rounded-md flex items-center gap-2 shadow-saas-sm transition-all font-bold uppercase tracking-widest text-[10px]"
                 onclick={() => (isCreateOpen = true)}
             >
                 <span class="material-symbols-outlined text-lg">add_circle</span
@@ -162,7 +162,7 @@
     <!-- Main Table -->
     <main class="flex-1 overflow-auto relative">
         <table class="w-full text-left border-collapse">
-            <thead class="sticky top-0 z-10 bg-surface-dark shadow-sm">
+            <thead class="sticky top-0 z-10 bg-background-dark shadow-sm">
                 <tr>
                     <th
                         class="py-3 px-8 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[20%]"
@@ -190,10 +190,10 @@
                     >
                 </tr>
             </thead>
-            <tbody class="divide-y divide-border-dark/30">
+            <tbody class="divide-y divide-border-dark/50 bg-white">
                 {#each alertRules as rule}
                     <tr
-                        class="group hover:bg-surface-darker/50 transition-colors"
+                        class="group hover:bg-background-dark transition-colors"
                     >
                         <td class="py-5 px-8">
                             <div class="flex items-center gap-3">
@@ -213,7 +213,7 @@
                                 </button>
                                 <div>
                                     <h4
-                                        class="text-sm font-bold text-white tracking-tight"
+                                        class="text-sm font-bold text-text-primary tracking-tight"
                                     >
                                         {rule.name}
                                     </h4>
@@ -266,7 +266,7 @@
             transition:fade={{ duration: 200 }}
         ></div>
         <aside
-            class="fixed top-2 bottom-2 right-2 w-[450px] bg-surface-dark border border-border-dark/50 shadow-2xl rounded-2xl z-50 flex flex-col overflow-hidden"
+            class="fixed top-2 bottom-2 right-2 w-[450px] bg-white border border-border-dark shadow-2xl rounded-2xl z-50 flex flex-col overflow-hidden"
             transition:fly={{
                 x: 50,
                 duration: 300,
@@ -274,8 +274,8 @@
                 easing: cubicOut,
             }}
         >
-            <div class="p-6 border-b border-border-dark bg-surface-darker/50">
-                <h2 class="text-xl font-bold text-white tracking-tight">
+            <div class="p-6 border-b border-border-dark bg-background-dark/50">
+                <h2 class="text-xl font-bold text-text-primary tracking-tight">
                     New System Trigger
                 </h2>
                 <p
@@ -343,9 +343,9 @@
                 </div>
             </div>
 
-            <div class="p-6 border-t border-border-dark bg-surface-darker/50">
+            <div class="p-6 border-t border-border-dark bg-background-dark/50">
                 <button
-                    class="w-full btn-primary py-4 rounded-xl font-bold uppercase tracking-widest shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2"
+                    class="w-full btn-primary py-4 rounded-xl font-bold uppercase tracking-widest shadow-saas-md transition-all flex items-center justify-center gap-2"
                     onclick={handleAdd}
                     disabled={!newRule.name}
                 >
@@ -360,16 +360,16 @@
 <style>
     .select {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding-left: 1rem;
         padding-right: 2.5rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(148, 163, 184, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(71, 85, 105, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 0.75rem center;
         background-size: 1.25rem;
@@ -378,28 +378,28 @@
 
     .input {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         transition: all 0.2s;
     }
     .input:focus {
         outline: none;
-        border-color: rgba(16, 185, 129, 0.5);
-        box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
+        border-color: #2563eb;
+        box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
     }
 
     .textarea {
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding: 0.75rem 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         transition: all 0.2s;

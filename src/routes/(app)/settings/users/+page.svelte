@@ -195,20 +195,20 @@
 <style>
     .input {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding: 0 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
     }
     .select {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding: 0 1rem;
-        color: white;
+        color: #0f172a;
         appearance: none;
     }
 </style>

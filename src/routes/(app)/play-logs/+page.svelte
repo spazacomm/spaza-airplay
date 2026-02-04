@@ -204,7 +204,7 @@
 >
     <!-- Header -->
     <header
-        class="h-20 shrink-0 border-b border-border-dark bg-surface-dark/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
+        class="h-20 shrink-0 border-b border-border-dark bg-white/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
     >
         <!-- Breadcrumb -->
         <nav class="flex items-center gap-2 mb-1">
@@ -225,7 +225,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div
-                    class="size-10 rounded-xl bg-surface-darker border border-border-dark flex items-center justify-center text-primary shadow-sm"
+                    class="size-10 rounded-xl bg-background-dark border border-border-dark flex items-center justify-center text-primary shadow-saas-sm"
                 >
                     <span class="material-symbols-outlined text-2xl"
                         >history</span
@@ -233,7 +233,7 @@
                 </div>
                 <div>
                     <h1
-                        class="text-xl font-bold text-white tracking-tight leading-none"
+                        class="text-xl font-bold text-text-primary tracking-tight leading-none"
                     >
                         Detection History
                     </h1>
@@ -260,7 +260,7 @@
 
     <!-- Filters Toolbar -->
     <div
-        class="h-14 shrink-0 border-b border-border-dark bg-surface-dark/50 px-8 flex items-center gap-4 z-20 overflow-x-auto scrollbar-none"
+        class="h-14 shrink-0 border-b border-border-dark bg-white/50 px-8 flex items-center gap-4 z-20 overflow-x-auto scrollbar-none"
     >
         <div class="relative group min-w-[200px]">
             <span
@@ -270,7 +270,7 @@
             <input
                 type="text"
                 placeholder="Search tracks or artists..."
-                class="h-8 w-full bg-surface-darker border border-border-dark rounded-md pl-9 pr-4 text-xs text-white placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary/50 transition-all font-medium"
+                class="h-8 w-full bg-background-dark border border-border-dark rounded-md pl-9 pr-4 text-xs text-text-primary placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary focus:border-primary transition-all font-medium"
                 bind:value={searchQuery}
             />
         </div>
@@ -280,7 +280,7 @@
         <div class="flex items-center gap-3">
             <div class="relative">
                 <select
-                    class="h-8 w-36 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-36 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterDate}
                 >
                     {#each dateRanges as d}
@@ -295,7 +295,7 @@
 
             <div class="relative">
                 <select
-                    class="h-8 w-36 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-36 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterSource}
                 >
                     {#each sources as s}
@@ -312,7 +312,7 @@
 
             <div class="relative">
                 <select
-                    class="h-8 w-32 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-32 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterStatus}
                 >
                     {#each statuses as s}
@@ -343,7 +343,7 @@
     <!-- Table Content -->
     <main class="flex-1 overflow-auto relative">
         <table class="w-full text-left border-collapse">
-            <thead class="sticky top-0 z-10 bg-surface-dark">
+            <thead class="sticky top-0 z-10 bg-background-dark shadow-sm">
                 <tr>
                     <th
                         class="py-3 px-8 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[20%]"
@@ -371,10 +371,10 @@
                     >
                 </tr>
             </thead>
-            <tbody class="divide-y divide-border-dark/30">
+            <tbody class="divide-y divide-border-dark/50 bg-white">
                 {#each paginatedLogs as log}
                     <tr
-                        class="group hover:bg-surface-darker transition-colors cursor-pointer"
+                        class="group hover:bg-background-dark transition-colors cursor-pointer"
                         onclick={() => openInspector(log.id)}
                     >
                         <td
@@ -385,7 +385,7 @@
                         <td class="py-4 px-6">
                             <div class="flex flex-col">
                                 <span
-                                    class="text-sm font-semibold text-white group-hover:text-primary transition-colors"
+                                    class="text-sm font-semibold text-text-primary group-hover:text-primary transition-colors"
                                     >{log.song}</span
                                 >
                                 <span
@@ -446,7 +446,8 @@
                             </span>
                         </td>
                         <td class="py-4 px-8 text-right">
-                            <span class="text-sm font-mono font-bold text-white"
+                            <span
+                                class="text-sm font-mono font-bold text-text-primary"
                                 >${log.royalty.toFixed(2)}</span
                             >
                         </td>
@@ -478,7 +479,7 @@
 
     <!-- Footer with Pagination -->
     <footer
-        class="shrink-0 border-t border-border-dark bg-surface-dark px-8 py-3 flex items-center justify-between z-20"
+        class="shrink-0 border-t border-border-dark bg-white px-8 py-3 flex items-center justify-between z-20"
     >
         <div
             class="text-[10px] font-mono text-text-muted uppercase tracking-widest"
@@ -491,7 +492,7 @@
 
         <div class="flex items-center gap-2">
             <button
-                class="size-8 flex items-center justify-center rounded border border-border-dark bg-surface-darker text-text-muted hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                class="size-8 flex items-center justify-center rounded border border-border-dark bg-background-dark text-text-muted hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-saas-sm"
                 onclick={() => changePage(currentPage - 1)}
                 disabled={currentPage === 1}
             >
@@ -520,7 +521,7 @@
             </div>
 
             <button
-                class="size-8 flex items-center justify-center rounded border border-border-dark bg-surface-darker text-text-muted hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                class="size-8 flex items-center justify-center rounded border border-border-dark bg-background-dark text-text-muted hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-saas-sm"
                 onclick={() => changePage(currentPage + 1)}
                 disabled={currentPage === totalPages}
             >

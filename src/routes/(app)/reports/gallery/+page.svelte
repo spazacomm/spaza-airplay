@@ -92,7 +92,7 @@
 >
     <!-- Header -->
     <header
-        class="h-20 shrink-0 border-b border-border-dark bg-surface-dark/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
+        class="h-20 shrink-0 border-b border-border-dark bg-white/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
     >
         <!-- Breadcrumbs -->
         <nav class="flex items-center gap-2 mb-1">
@@ -120,7 +120,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div
-                    class="size-10 rounded-xl bg-surface-darker border border-border-dark flex items-center justify-center text-primary shadow-sm"
+                    class="size-10 rounded-xl bg-background-dark border border-border-dark flex items-center justify-center text-primary shadow-saas-sm"
                 >
                     <span class="material-symbols-outlined text-2xl"
                         >summarize</span
@@ -128,7 +128,7 @@
                 </div>
                 <div>
                     <h1
-                        class="text-xl font-bold text-white tracking-tight leading-none"
+                        class="text-xl font-bold text-text-primary tracking-tight leading-none"
                     >
                         Reports Gallery
                     </h1>
@@ -147,14 +147,14 @@
                 <section class="space-y-6">
                     <div class="flex items-center gap-3">
                         <div
-                            class="size-8 rounded-lg bg-surface-darker border border-border-dark flex items-center justify-center text-text-muted"
+                            class="size-8 rounded-lg bg-background-dark border border-border-dark flex items-center justify-center text-text-muted"
                         >
                             <span class="material-symbols-outlined text-xl"
                                 >{category.icon}</span
                             >
                         </div>
                         <h2
-                            class="text-xs font-black text-white uppercase tracking-[0.2em]"
+                            class="text-xs font-black text-text-primary uppercase tracking-[0.2em]"
                         >
                             {category.name} Reports
                         </h2>
@@ -166,7 +166,7 @@
                     >
                         {#each category.reports as report}
                             <div
-                                class="group bg-surface-darker/30 border border-border-dark/50 rounded-2xl p-6 hover:bg-surface-darker transition-all duration-300 hover:border-primary/30 cursor-pointer shadow-sm relative overflow-hidden flex flex-col justify-between h-48"
+                                class="group bg-white border border-border-dark rounded-xl p-6 hover:shadow-saas-md transition-all duration-300 hover:border-primary/30 cursor-pointer shadow-saas-sm relative overflow-hidden flex flex-col justify-between h-48"
                                 onclick={() => openParams(report)}
                             >
                                 <div
@@ -178,7 +178,7 @@
                                         class="flex justify-between items-start mb-4"
                                     >
                                         <div
-                                            class="size-10 rounded-xl bg-surface-dark border border-border-dark flex items-center justify-center text-text-muted group-hover:text-primary transition-colors"
+                                            class="size-10 rounded-xl bg-background-dark border border-border-dark flex items-center justify-center text-text-muted group-hover:text-primary transition-colors"
                                         >
                                             <span
                                                 class="material-symbols-outlined"
@@ -191,7 +191,7 @@
                                         >
                                     </div>
                                     <h3
-                                        class="text-sm font-bold text-white tracking-tight group-hover:text-primary transition-colors"
+                                        class="text-sm font-bold text-text-primary tracking-tight group-hover:text-primary transition-colors"
                                     >
                                         {report.title}
                                     </h3>
@@ -230,7 +230,7 @@
             transition:fade={{ duration: 200 }}
         ></div>
         <aside
-            class="fixed top-2 bottom-2 right-2 w-[480px] bg-surface-dark border border-border-dark/50 shadow-2xl rounded-2xl z-50 flex flex-col overflow-hidden"
+            class="fixed top-2 bottom-2 right-2 w-[480px] bg-white border border-border-dark shadow-2xl rounded-2xl z-50 flex flex-col overflow-hidden"
             transition:fly={{
                 x: 50,
                 duration: 300,
@@ -238,24 +238,24 @@
                 easing: cubicOut,
             }}
         >
-            <div class="p-8 border-b border-border-dark bg-surface-darker/50">
+            <div class="p-8 border-b border-border-dark bg-background-dark/50">
                 <div class="flex justify-between items-start mb-6">
                     <div
-                        class="size-12 rounded-2xl bg-surface-dark border border-border-dark flex items-center justify-center text-primary shadow-xl"
+                        class="size-12 rounded-2xl bg-white border border-border-dark flex items-center justify-center text-primary shadow-saas-md"
                     >
                         <span class="material-symbols-outlined text-2xl"
                             >monitoring</span
                         >
                     </div>
                     <button
-                        class="size-9 rounded-xl bg-surface-darker border border-border-dark text-text-muted hover:text-white flex items-center justify-center transition-all"
+                        class="size-9 rounded-xl bg-background-dark border border-border-dark text-text-muted hover:text-text-primary flex items-center justify-center transition-all"
                         onclick={() => (isParamsOpen = false)}
                     >
                         <span class="material-symbols-outlined">close</span>
                     </button>
                 </div>
                 <h2
-                    class="text-2xl font-black text-white tracking-tighter uppercase"
+                    class="text-2xl font-black text-text-primary tracking-tighter uppercase"
                 >
                     {selectedReport.title}
                 </h2>
@@ -299,7 +299,7 @@
                         >
                         <div class="grid grid-cols-3 gap-2 mt-2">
                             <button
-                                class="p-4 rounded-xl border border-border-dark bg-surface-darker flex flex-col items-center gap-2 hover:border-primary/40 transition-all font-bold text-[10px] text-text-secondary hover:text-white"
+                                class="p-4 rounded-xl border border-border-dark bg-background-dark flex flex-col items-center gap-2 hover:border-primary/40 transition-all font-bold text-[10px] text-text-secondary hover:text-text-primary"
                             >
                                 <span class="material-symbols-outlined text-lg"
                                     >picture_as_pdf</span
@@ -315,7 +315,7 @@
                                 CSV
                             </button>
                             <button
-                                class="p-4 rounded-xl border border-border-dark bg-surface-darker flex flex-col items-center gap-2 hover:border-primary/40 transition-all font-bold text-[10px] text-text-secondary hover:text-white"
+                                class="p-4 rounded-xl border border-border-dark bg-background-dark flex flex-col items-center gap-2 hover:border-primary/40 transition-all font-bold text-[10px] text-text-secondary hover:text-text-primary"
                             >
                                 <span class="material-symbols-outlined text-lg"
                                     >sim_card_download</span
@@ -327,14 +327,14 @@
                 </div>
 
                 <div
-                    class="p-6 rounded-2xl bg-surface-darker border border-border-dark space-y-3"
+                    class="p-6 rounded-2xl bg-background-dark border border-border-dark space-y-3"
                 >
                     <div class="flex items-center gap-3">
                         <span class="material-symbols-outlined text-amber-500"
                             >warning</span
                         >
                         <h4
-                            class="text-xs font-bold text-white uppercase tracking-widest"
+                            class="text-xs font-bold text-text-primary uppercase tracking-widest"
                         >
                             Storage Notice
                         </h4>
@@ -349,9 +349,9 @@
                 </div>
             </div>
 
-            <div class="p-6 border-t border-border-dark bg-surface-darker/50">
+            <div class="p-6 border-t border-border-dark bg-background-dark/50">
                 <button
-                    class="w-full btn-primary py-4 rounded-xl font-bold uppercase tracking-widest shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2"
+                    class="w-full btn-primary py-4 rounded-xl font-bold uppercase tracking-widest shadow-saas-md transition-all flex items-center justify-center gap-2"
                     onclick={handleRun}
                 >
                     <span class="material-symbols-outlined">auto_awesome</span>
@@ -365,16 +365,16 @@
 <style>
     .select {
         height: 3rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding-left: 1rem;
         padding-right: 2.5rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(148, 163, 184, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(71, 85, 105, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 0.75rem center;
         background-size: 1.25rem;

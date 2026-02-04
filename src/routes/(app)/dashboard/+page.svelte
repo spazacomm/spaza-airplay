@@ -67,22 +67,17 @@
 
     <!-- Real-Time Ticker -->
     <div
-        class="bg-surface-dark border border-border-dark rounded-lg flex items-center overflow-hidden h-12 relative"
+        class="bg-white border border-border-dark rounded-md flex items-center overflow-hidden h-10 relative shadow-saas-sm"
     >
         <div
-            class="bg-primary/10 px-4 h-full flex items-center gap-2 border-r border-border-dark shrink-0 z-10"
+            class="bg-primary/5 px-4 h-full flex items-center gap-2 border-r border-border-dark shrink-0 z-10"
         >
-            <span class="relative flex h-2 w-2">
-                <span
-                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"
-                ></span>
-                <span
-                    class="relative inline-flex rounded-full h-2 w-2 bg-primary"
-                ></span>
-            </span>
+            <span class="material-symbols-outlined text-primary text-lg"
+                >sensors</span
+            >
             <span
-                class="text-xs font-bold text-primary uppercase tracking-wider"
-                >Live Feed</span
+                class="text-[10px] font-bold uppercase tracking-widest text-primary"
+                >Live Broadcast</span
             >
         </div>
         <div class="flex-1 flex items-center overflow-hidden">
@@ -180,63 +175,40 @@
                 </h3>
                 <span class="flex h-2 w-2 rounded-full bg-emerald-500"></span>
             </div>
-            <div
-                class="flex-1 flex flex-col justify-center items-center text-center"
-            >
-                <div
-                    class="relative size-32 mb-4 flex items-center justify-center"
-                >
-                    <svg class="size-full -rotate-90" viewBox="0 0 36 36">
-                        <!-- Background Circle -->
-                        <path
-                            class="text-text-muted/10"
-                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="3"
-                        />
-                        <!-- Progress Circle -->
-                        <path
-                            class="text-primary"
-                            stroke-dasharray="98, 100"
-                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="3"
-                        />
-                    </svg>
+            <div class="flex flex-col items-center justify-center gap-6 p-6">
+                <div class="relative flex items-center justify-center">
                     <div
-                        class="absolute inset-0 flex flex-col items-center justify-center"
+                        class="absolute inset-0 bg-primary/20 rounded-full blur-2xl opacity-20"
+                    ></div>
+                    <div
+                        class="size-24 rounded-full border border-border-dark flex items-center justify-center bg-white shadow-saas-sm"
                     >
-                        <span class="text-3xl font-bold text-text-main"
-                            >{networkHealth.active}</span
-                        >
                         <span
-                            class="text-[10px] uppercase font-bold text-text-secondary"
-                            >Monitors</span
+                            class="material-symbols-outlined text-4xl text-primary"
+                            >language</span
                         >
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4 w-full">
                     <div
-                        class="bg-background-dark p-2 rounded border border-border-dark"
+                        class="bg-background-darker p-3 rounded-md border border-border-dark hover:border-primary/30 transition-colors"
                     >
-                        <span class="block text-xl font-bold text-white"
+                        <span class="block text-xl font-bold text-text-primary"
                             >{networkHealth.active}</span
                         >
                         <span
-                            class="text-[10px] text-emerald-500 uppercase font-bold"
+                            class="text-[10px] text-primary uppercase font-bold tracking-wider"
                             >Online</span
                         >
                     </div>
                     <div
-                        class="bg-background-dark p-2 rounded border border-border-dark"
+                        class="bg-background-darker p-3 rounded-md border border-border-dark hover:border-red-500/30 transition-colors"
                     >
-                        <span class="block text-xl font-bold text-white"
+                        <span class="block text-xl font-bold text-text-primary"
                             >{networkHealth.offline}</span
                         >
                         <span
-                            class="text-[10px] text-red-500 uppercase font-bold"
+                            class="text-[10px] text-red-600 uppercase font-bold tracking-wider"
                             >Offline</span
                         >
                     </div>
@@ -252,13 +224,13 @@
                 Regional Performance
             </h3>
             <div
-                class="flex-1 bg-background-dark rounded border border-border-dark relative overflow-hidden flex items-center justify-center group cursor-crosshair"
+                class="flex-1 bg-background-darker rounded-lg border border-border-dark relative overflow-hidden flex items-center justify-center group cursor-crosshair shadow-inner"
             >
                 <div
-                    class="absolute inset-0 opacity-20 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"
+                    class="absolute inset-0 opacity-10 bg-[radial-gradient(var(--color-text-muted)_1px,transparent_1px)] [background-size:16px_16px]"
                 ></div>
                 <span
-                    class="material-symbols-outlined text-6xl text-text-secondary/20 group-hover:scale-110 transition-transform duration-500"
+                    class="material-symbols-outlined text-6xl text-text-muted/10 group-hover:scale-110 group-hover:text-primary/10 transition-all duration-700"
                     >public</span
                 >
                 <div
@@ -321,21 +293,21 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
                     <thead
-                        class="bg-background-dark text-xs uppercase text-text-secondary font-bold"
+                        class="bg-background-darker text-[10px] uppercase text-text-secondary font-bold tracking-widest border-b border-border-dark"
                     >
                         <tr>
-                            <th class="px-4 py-3 rounded-l-lg">Song Title</th>
+                            <th class="px-4 py-3 rounded-l-md">Song Title</th>
                             <th class="px-4 py-3 text-right">Plays</th>
                             <th class="px-4 py-3 text-right">Est. Revenue</th>
-                            <th class="px-4 py-3 text-right rounded-r-lg"
+                            <th class="px-4 py-3 text-right rounded-r-md"
                                 >Trend</th
                             >
                         </tr>
                     </thead>
-                    <tbody class="text-sm divide-y divide-border-dark">
+                    <tbody class="text-sm divide-y divide-border-dark/50">
                         {#each topAssets as asset}
                             <tr
-                                class="hover:bg-background-dark/50 transition-colors"
+                                class="hover:bg-background-dark/80 transition-colors group"
                             >
                                 <td class="px-4 py-3 font-medium text-text-main"
                                     >{asset.title}</td

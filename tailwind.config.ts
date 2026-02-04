@@ -6,65 +6,65 @@ export default {
     theme: {
         extend: {
             colors: {
-                // Primary accent
+                // SaaS Data Table (Slate/Blue) Palette
                 primary: {
-                    DEFAULT: '#13eca4',
-                    hover: '#0fd693',
-                    50: '#e8fef5',
-                    100: '#c5fce6',
-                    200: '#8ef9d0',
-                    300: '#4ef0b6',
-                    400: '#13eca4',
-                    500: '#0bd68f',
-                    600: '#06b076',
-                    700: '#088c60',
-                    800: '#0b6e4e',
-                    900: '#0a5a42'
+                    DEFAULT: '#10b981', // Brand Green
+                    hover: '#059669'
+                },
+                secondary: {
+                    DEFAULT: '#64748b', // Slate Gray
+                    hover: '#475569'
+                },
+                accent: {
+                    DEFAULT: '#0ea5e9', // Sky Blue
+                    hover: '#0284c7'
                 },
 
-                // Backgrounds
+                // Backgrounds (Clean Slate)
                 background: {
-                    light: '#f6f8f7',
-                    dark: '#10221c',
-                    darker: '#0d1a15'
+                    light: '#ffffff',
+                    dark: '#f8fafc',
+                    darker: '#f1f5f9'
                 },
 
-                // Surfaces
+                // Elevated Surfaces
                 surface: {
                     light: '#ffffff',
-                    dark: '#1A2C26',
-                    darker: '#111816'
+                    dark: '#fbfcfd',
+                    darker: '#f8fafc'
                 },
 
-                // Borders
+                // Structural Borders
                 border: {
-                    light: '#e0e0e0',
-                    dark: '#283933',
-                    hover: '#3b544b'
+                    light: '#f1f5f9',
+                    dark: '#e2e8f0',
+                    hover: '#cbd5e1'
                 },
 
-                // Text
+                // Semantic Text
                 text: {
-                    primary: '#ffffff',
-                    secondary: '#9db9b0',
-                    muted: '#5f7a70',
-                    dark: '#111816'
+                    primary: '#0f172a',
+                    main: '#0f172a',
+                    secondary: '#475569',
+                    muted: '#94a3b8',
+                    dark: '#020617'
                 }
             },
             fontFamily: {
-                display: ['Manrope', 'sans-serif'],
-                body: ['Noto Sans', 'sans-serif']
+                display: ['Inter', 'system-ui', 'sans-serif'],
+                body: ['Inter', 'system-ui', 'sans-serif']
             },
             borderRadius: {
-                DEFAULT: '0.25rem',
+                DEFAULT: '0.375rem',
                 lg: '0.5rem',
                 xl: '0.75rem',
                 '2xl': '1rem',
                 full: '9999px'
             },
             boxShadow: {
-                'primary-glow': '0 0 20px rgba(19, 236, 164, 0.15)',
-                'primary-lg': '0 10px 40px -10px rgba(19, 236, 164, 0.3)'
+                'primary-glow': '0 0 15px rgba(16, 185, 129, 0.1)',
+                'saas-sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                'saas-md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
             }
         }
     },

@@ -137,18 +137,18 @@
 <style>
     .input {
         height: 3rem;
-        background: rgba(15, 23, 42, 0.4);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 1rem;
         padding: 0 1.25rem;
-        color: white;
+        color: #0f172a;
     }
     .textarea {
-        background: rgba(15, 23, 42, 0.4);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 1rem;
         padding: 1rem;
-        color: white;
+        color: #0f172a;
         resize: none;
     }
 </style>

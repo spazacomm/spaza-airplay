@@ -242,7 +242,7 @@
 >
     <!-- Header -->
     <header
-        class="h-20 shrink-0 border-b border-border-dark bg-surface-dark/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
+        class="h-20 shrink-0 border-b border-border-dark bg-white/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
     >
         <!-- Breadcrumbs -->
         <nav class="flex items-center gap-2 mb-1">
@@ -270,7 +270,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div
-                    class="size-10 rounded-xl bg-surface-darker border border-border-dark flex items-center justify-center text-primary shadow-sm"
+                    class="size-10 rounded-xl bg-background-dark border border-border-dark flex items-center justify-center text-primary shadow-saas-sm"
                 >
                     <span class="material-symbols-outlined text-2xl"
                         >account_balance</span
@@ -278,7 +278,7 @@
                 </div>
                 <div>
                     <h1
-                        class="text-xl font-bold text-white tracking-tight leading-none"
+                        class="text-xl font-bold text-text-primary tracking-tight leading-none"
                     >
                         Royalty Societies
                     </h1>
@@ -289,7 +289,7 @@
             </div>
 
             <button
-                class="h-9 px-4 btn-primary rounded-lg flex items-center gap-2 shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all font-bold uppercase tracking-widest text-[10px]"
+                class="h-9 px-4 btn-primary rounded-md flex items-center gap-2 shadow-saas-sm transition-all font-bold uppercase tracking-widest text-[10px]"
                 onclick={() => {
                     resetForm();
                     isCreateOpen = true;
@@ -303,7 +303,7 @@
 
     <!-- Filters Bar -->
     <div
-        class="h-14 shrink-0 border-b border-border-dark bg-surface-dark/50 px-8 flex items-center gap-4 z-20 overflow-x-auto scrollbar-none"
+        class="h-14 shrink-0 border-b border-border-dark bg-white/50 px-8 flex items-center gap-4 z-20 overflow-x-auto scrollbar-none"
     >
         <!-- Search -->
         <div class="relative group min-w-[240px]">
@@ -314,7 +314,7 @@
             <input
                 type="text"
                 placeholder="Search by name or country..."
-                class="h-8 w-full bg-surface-darker border border-border-dark rounded-md pl-9 pr-4 text-xs text-white placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary/50 transition-all font-medium"
+                class="h-8 w-full bg-background-dark border border-border-dark rounded-md pl-9 pr-4 text-xs text-text-primary placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary focus:border-primary transition-all font-medium"
                 bind:value={searchQuery}
             />
         </div>
@@ -325,7 +325,7 @@
             <!-- Country Filter -->
             <div class="relative group">
                 <select
-                    class="h-8 w-36 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-36 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterCountry}
                 >
                     <option value="All">All Countries</option>
@@ -342,7 +342,7 @@
             <!-- Status Filter -->
             <div class="relative group">
                 <select
-                    class="h-8 w-32 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-32 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterStatus}
                 >
                     <option value="All">All Status</option>
@@ -373,7 +373,7 @@
         >
             {#each filteredSocieties as society}
                 <div
-                    class="group relative bg-surface-darker/30 border border-border-dark/50 rounded-2xl p-6 hover:bg-surface-darker transition-all duration-300 hover:border-primary/30 cursor-pointer shadow-sm hover:shadow-xl hover:shadow-primary/5 flex flex-col justify-between"
+                    class="group relative bg-white border border-border-dark rounded-xl p-6 hover:shadow-saas-md transition-all duration-300 hover:border-primary/30 cursor-pointer shadow-saas-sm flex flex-col justify-between overflow-hidden"
                     onclick={() => openDetail(society.id)}
                 >
                     <!-- Background Shine Effect -->
@@ -384,7 +384,7 @@
                     <div class="relative z-10">
                         <div class="flex justify-between items-start mb-6">
                             <div
-                                class="size-14 rounded-2xl bg-surface-dark border border-border-dark flex items-center justify-center text-2xl font-black text-white group-hover:text-primary transition-colors shadow-inner"
+                                class="size-14 rounded-xl bg-background-dark border border-border-dark flex items-center justify-center text-2xl font-black text-text-secondary group-hover:text-primary transition-colors shadow-inner"
                             >
                                 {society.name.substring(0, 2)}
                             </div>
@@ -402,7 +402,7 @@
 
                         <div class="mb-6">
                             <h3
-                                class="text-xl font-bold text-white tracking-tight group-hover:text-primary transition-colors"
+                                class="text-xl font-bold text-text-primary tracking-tight group-hover:text-primary transition-colors"
                             >
                                 {society.name}
                             </h3>
@@ -423,7 +423,7 @@
                                 >
                                 <div class="flex items-center gap-1.5">
                                     <span
-                                        class="text-xs font-bold text-white uppercase"
+                                        class="text-xs font-bold text-text-primary uppercase"
                                         >{society.country}</span
                                     >
                                 </div>
@@ -436,7 +436,7 @@
                                     >Currency</span
                                 >
                                 <span
-                                    class="text-xs font-mono font-bold text-white"
+                                    class="text-xs font-mono font-bold text-text-primary"
                                     >{society.currency}</span
                                 >
                             </div>
@@ -459,7 +459,7 @@
                             >
                         </div>
                         <button
-                            class="size-8 rounded-lg bg-surface-dark border border-border-dark text-text-muted hover:text-white transition-all flex items-center justify-center opacity-0 group-hover:opacity-100"
+                            class="size-8 rounded-md bg-background-dark border border-border-dark text-text-muted hover:text-primary transition-all flex items-center justify-center opacity-0 group-hover:opacity-100"
                             onclick={(e) => {
                                 e.stopPropagation();
                                 openEdit(society.id);
@@ -478,7 +478,7 @@
                     <span class="material-symbols-outlined text-6xl mb-4"
                         >account_balance</span
                     >
-                    <h3 class="text-xl font-bold text-white">
+                    <h3 class="text-xl font-bold text-text-primary">
                         No Societies Found
                     </h3>
                     <p class="text-sm">
@@ -495,7 +495,7 @@
 
     <!-- Footer -->
     <footer
-        class="h-10 shrink-0 border-t border-border-dark bg-surface-dark px-8 flex items-center justify-between text-[10px] font-mono text-text-muted uppercase tracking-widest"
+        class="h-10 shrink-0 border-t border-border-dark bg-white px-8 flex items-center justify-between text-[10px] font-mono text-text-muted uppercase tracking-widest"
     >
         <div>Total Registered CMOs: {filteredSocieties.length}</div>
         <div class="flex gap-4">
@@ -967,44 +967,44 @@
 <style>
     .input {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         transition: all 0.2s;
     }
     .input:focus {
         outline: none;
-        border-color: rgba(16, 185, 129, 0.5);
+        border-color: #10b981;
         box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
     }
     .select {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding-left: 1rem;
         padding-right: 2.5rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(148, 163, 184, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(71, 85, 105, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 0.75rem center;
         background-size: 1.25rem;
         cursor: pointer;
     }
     .textarea {
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding: 0.75rem 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         transition: all 0.2s;
@@ -1012,7 +1012,7 @@
     }
     .textarea:focus {
         outline: none;
-        border-color: rgba(16, 185, 129, 0.5);
+        border-color: #10b981;
         box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
     }
 
