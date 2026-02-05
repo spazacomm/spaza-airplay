@@ -25,7 +25,7 @@
         <div class="flex flex-col gap-3">
             <div class="flex gap-6 justify-between items-end">
                 <p
-                    class="text-white text-sm font-semibold uppercase tracking-widest"
+                    class="text-text-main text-sm font-semibold uppercase tracking-widest"
                 >
                     Step 1 of 4
                 </p>
@@ -46,7 +46,7 @@
     <!-- Headline & Body -->
     <div class="text-center mb-10">
         <h1
-            class="text-white tracking-tight text-3xl md:text-4xl font-extrabold leading-tight mb-4"
+            class="text-text-main tracking-tight text-3xl md:text-4xl font-extrabold leading-tight mb-4"
         >
             Tell us about yourself
         </h1>
@@ -82,7 +82,7 @@
                     >mic_external_on</span
                 >
             </div>
-            <h3 class="text-white text-xl font-bold mb-3">
+            <h3 class="text-text-main text-xl font-bold mb-3">
                 Independent Artist
             </h3>
             <p
@@ -125,7 +125,7 @@
             >
                 <span class="material-symbols-outlined text-3xl">album</span>
             </div>
-            <h3 class="text-white text-xl font-bold mb-3">
+            <h3 class="text-text-main text-xl font-bold mb-3">
                 Record Label / Publisher
             </h3>
             <p
@@ -170,7 +170,7 @@
                     >account_balance</span
                 >
             </div>
-            <h3 class="text-white text-xl font-bold mb-3">PRO / CMO</h3>
+            <h3 class="text-text-main text-xl font-bold mb-3">PRO / CMO</h3>
             <p
                 class="text-text-secondary text-sm leading-relaxed mb-8 flex-grow"
             >

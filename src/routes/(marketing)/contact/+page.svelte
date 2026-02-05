@@ -40,7 +40,7 @@
                     >VIP Access Only</span
                 >
                 <h1
-                    class="text-white text-5xl md:text-7xl font-black leading-tight tracking-tighter mb-6"
+                    class="text-text-main text-5xl md:text-7xl font-black leading-tight tracking-tighter mb-6"
                 >
                     Request Early Access
                 </h1>
@@ -73,7 +73,7 @@
                             >
                             <input
                                 id="full_name"
-                                class="w-full bg-[#111816] border border-white/10 rounded-2xl h-16 px-6 text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all"
+                                class="w-full bg-[#111816] border border-white/10 rounded-2xl h-16 px-6 text-text-main focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all"
                                 placeholder="e.g. Kofi Mensah"
                                 type="text"
                             />
@@ -86,7 +86,7 @@
                             >
                             <input
                                 id="email"
-                                class="w-full bg-[#111816] border border-white/10 rounded-2xl h-16 px-6 text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all"
+                                class="w-full bg-[#111816] border border-white/10 rounded-2xl h-16 px-6 text-text-main focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all"
                                 placeholder="kofi@recordlabel.africa"
                                 type="email"
                             />
@@ -102,7 +102,7 @@
                             >
                             <select
                                 id="sector"
-                                class="w-full bg-[#111816] border border-white/10 rounded-2xl h-16 px-6 text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all appearance-none cursor-pointer"
+                                class="w-full bg-[#111816] border border-white/10 rounded-2xl h-16 px-6 text-text-main focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all appearance-none cursor-pointer"
                             >
                                 <option disabled selected value=""
                                     >Select Sector</option
@@ -126,7 +126,7 @@
                             >
                             <select
                                 id="catalog_size"
-                                class="w-full bg-[#111816] border border-white/10 rounded-2xl h-16 px-6 text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all appearance-none cursor-pointer"
+                                class="w-full bg-[#111816] border border-white/10 rounded-2xl h-16 px-6 text-text-main focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all appearance-none cursor-pointer"
                             >
                                 <option disabled selected value=""
                                     >Number of Tracks</option
@@ -149,7 +149,7 @@
                         >
                         <input
                             id="territory"
-                            class="w-full bg-[#111816] border border-white/10 rounded-2xl h-16 px-6 text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all"
+                            class="w-full bg-[#111816] border border-white/10 rounded-2xl h-16 px-6 text-text-main focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all"
                             placeholder="e.g. Nigeria, South Africa, East Africa, Global"
                             type="text"
                         />
@@ -163,7 +163,7 @@
                         >
                         <textarea
                             id="message"
-                            class="w-full bg-[#111816] border border-white/10 rounded-2xl p-6 text-white h-40 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all resize-none"
+                            class="w-full bg-[#111816] border border-white/10 rounded-2xl p-6 text-text-main h-40 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all resize-none"
                             placeholder="Tell us about your reconciliation needs..."
                         ></textarea>
                     </div>
@@ -177,10 +177,10 @@
                         <p class="text-center text-text-secondary text-sm mt-6">
                             By requesting access, you agree to our <a
                                 href="/terms"
-                                class="text-white underline">Terms</a
+                                class="text-text-main underline">Terms</a
                             >
                             and
-                            <a href="/privacy" class="text-white underline"
+                            <a href="/privacy" class="text-text-main underline"
                                 >Privacy Policy</a
                             >.
                         </p>
@@ -195,7 +195,7 @@
         class="max-w-7xl mx-auto px-6 lg:px-10 py-24 border-t border-white/10"
     >
         <div class="text-center mb-16">
-            <h2 class="text-4xl font-black text-white mb-4">
+            <h2 class="text-4xl font-black text-text-main mb-4">
                 Our Continental Hubs
             </h2>
             <p class="text-text-secondary text-xl max-w-2xl mx-auto">
@@ -223,7 +223,7 @@
                             >
                                 {office.role}
                             </p>
-                            <h4 class="text-2xl font-black text-white">
+                            <h4 class="text-2xl font-black text-text-main">
                                 {office.city}
                             </h4>
                         </div>

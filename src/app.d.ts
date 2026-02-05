@@ -8,7 +8,9 @@ declare global {
 			getUser: () => Promise<User | null>
 		}
 		interface PageData {
-			session: string | null
+			[key: string]: any
+			session?: string | null
+			user?: (User & { profile?: any }) | null
 		}
 		// interface PageState {}
 		// interface Platform {}

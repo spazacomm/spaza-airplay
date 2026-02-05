@@ -45,28 +45,28 @@
 			href: "/play-logs",
 			icon: "history",
 		},
-		{
-			label: "Royalties",
-			href: "/royalties",
-			icon: "payments",
-			children: [
-				{
-					label: "Rates",
-					href: "/royalties/rates",
-					icon: "request_quote",
-				},
-				{
-					label: "Societies",
-					href: "/royalties/societies",
-					icon: "account_balance",
-				},
-				{
-					label: "Statements",
-					href: "/royalties/statements",
-					icon: "description",
-				},
-			],
-		},
+		// {
+		// 	label: "Royalties",
+		// 	href: "/royalties",
+		// 	icon: "payments",
+		// 	children: [
+		// 		{
+		// 			label: "Rates",
+		// 			href: "/royalties/rates",
+		// 			icon: "request_quote",
+		// 		},
+		// 		{
+		// 			label: "Societies",
+		// 			href: "/royalties/societies",
+		// 			icon: "account_balance",
+		// 		},
+		// 		{
+		// 			label: "Statements",
+		// 			href: "/royalties/statements",
+		// 			icon: "description",
+		// 		},
+		// 	],
+		// },
 		{
 			label: "Reports & Alerts",
 			href: "/reports",
@@ -133,7 +133,7 @@
 </script>
 
 <aside
-	class="w-64 flex-shrink-0 border-r border-border-dark bg-surface-darker flex flex-col justify-between p-4 hidden md:flex"
+	class="w-64 flex-shrink-0 border-r border-border-dark bg-white flex flex-col justify-between p-4 hidden md:flex"
 >
 	<div class="flex flex-col gap-6">
 		<!-- Logo -->
@@ -223,7 +223,7 @@
 		<!-- User Profile -->
 		<div class="flex items-center gap-3 mt-4 pt-4 border-t border-white/10">
 			<div
-				class="rounded-full size-10 border-2 border-primary/20 bg-surface-dark flex items-center justify-center overflow-hidden"
+				class="rounded-full size-10 border border-border-dark bg-background-dark flex items-center justify-center overflow-hidden"
 			>
 				{#if profile?.avatar_url}
 					<img

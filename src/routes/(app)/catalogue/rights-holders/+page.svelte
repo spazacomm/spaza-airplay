@@ -206,7 +206,7 @@
                     </nav>
                     <div class="space-y-1">
                         <h1
-                            class="text-2xl font-bold tracking-tight text-white leading-none"
+                            class="text-2xl font-bold tracking-tight text-text-main leading-none"
                         >
                             Rights Holders
                         </h1>
@@ -234,7 +234,7 @@
                             <input
                                 type="text"
                                 placeholder="Search by name or IPI..."
-                                class="w-full bg-surface-darker/80 border border-border-dark rounded-md py-1.5 pl-9 pr-4 text-xs text-white placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary/40 focus:border-primary/40 transition-all"
+                                class="w-full bg-surface-darker/80 border border-border-dark rounded-md py-1.5 pl-9 pr-4 text-xs text-text-main placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary/40 focus:border-primary/40 transition-all"
                                 bind:value={searchQuery}
                             />
                         </div>
@@ -279,7 +279,7 @@
                             </div>
 
                             <button
-                                class="p-1.5 rounded-md text-text-muted hover:text-white hover:bg-surface-dark transition-all"
+                                class="p-1.5 rounded-md text-text-muted hover:text-text-main hover:bg-surface-dark transition-all"
                                 onclick={resetFilters}
                                 title="Reset Filters"
                             >
@@ -358,7 +358,7 @@
                                         >
                                     </div>
                                     <p
-                                        class="font-bold text-sm text-white tracking-tight group-hover:text-primary transition-colors"
+                                        class="font-bold text-sm text-text-main tracking-tight group-hover:text-primary transition-colors"
                                     >
                                         {holder.name}
                                     </p>
@@ -376,7 +376,7 @@
                                 </span>
                             </td>
                             <td
-                                class="py-4 px-6 text-right text-xs text-white font-medium"
+                                class="py-4 px-6 text-right text-xs text-text-main font-medium"
                                 >{holder.worksCount}</td
                             >
                             <td class="py-4 px-6 text-center">
@@ -391,7 +391,7 @@
                             </td>
                             <td class="py-4 px-6 text-right">
                                 <button
-                                    class="size-8 flex items-center justify-center rounded-lg text-text-muted hover:text-white hover:bg-surface-dark transition-all"
+                                    class="size-8 flex items-center justify-center rounded-lg text-text-muted hover:text-text-main hover:bg-surface-dark transition-all"
                                 >
                                     <span
                                         class="material-symbols-outlined text-lg"
@@ -433,21 +433,22 @@
             <p
                 class="text-[11px] font-bold uppercase tracking-widest text-text-muted"
             >
-                Showing <span class="text-white">{paginatedHolders.length}</span
+                Showing <span class="text-text-main"
+                    >{paginatedHolders.length}</span
                 >
-                of <span class="text-white">{filteredHolders.length}</span> holders
+                of <span class="text-text-main">{filteredHolders.length}</span> holders
             </p>
             <div class="flex items-center gap-6">
                 <span
                     class="text-[11px] font-bold uppercase tracking-widest text-text-muted"
                 >
-                    Page <span class="text-white">{currentPage}</span> / {Math.ceil(
+                    Page <span class="text-text-main">{currentPage}</span> / {Math.ceil(
                         filteredHolders.length / itemsPerPage,
                     ) || 1}
                 </span>
                 <div class="flex gap-2">
                     <button
-                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-white hover:bg-primary/5 transition-all disabled:opacity-20"
+                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-text-main hover:bg-primary/5 transition-all disabled:opacity-20"
                         onclick={() =>
                             (currentPage = Math.max(1, currentPage - 1))}
                         disabled={currentPage === 1}
@@ -457,7 +458,7 @@
                         >
                     </button>
                     <button
-                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-white hover:bg-primary/5 transition-all disabled:opacity-20"
+                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-text-main hover:bg-primary/5 transition-all disabled:opacity-20"
                         onclick={() =>
                             (currentPage = Math.min(
                                 Math.ceil(
@@ -492,7 +493,7 @@
                 class="p-6 border-b border-border-dark flex items-center justify-between bg-surface-dark sticky top-0 z-10"
             >
                 <div>
-                    <h2 class="text-xl font-bold text-white tracking-tight">
+                    <h2 class="text-xl font-bold text-text-main tracking-tight">
                         Holder Profile
                     </h2>
                     <p
@@ -502,7 +503,7 @@
                     </p>
                 </div>
                 <button
-                    class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-white transition-colors"
+                    class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-text-main transition-colors"
                     onclick={closeDetails}
                 >
                     <span class="material-symbols-outlined">close</span>
@@ -522,7 +523,7 @@
                     </div>
                     <div class="mt-4 text-center">
                         <h3
-                            class="text-2xl font-bold text-white tracking-tight leading-relaxed"
+                            class="text-2xl font-bold text-text-main tracking-tight leading-relaxed"
                         >
                             {selectedHolder.name}
                         </h3>
@@ -543,7 +544,7 @@
                                 IPI Number
                             </p>
                             <p
-                                class="text-sm font-mono text-white tracking-tighter"
+                                class="text-sm font-mono text-text-main tracking-tighter"
                             >
                                 {selectedHolder.ipi}
                             </p>
@@ -577,7 +578,7 @@
                                     class="material-symbols-outlined text-text-muted text-sm"
                                     >mail</span
                                 >
-                                <span class="text-sm text-white"
+                                <span class="text-sm text-text-main"
                                     >{selectedHolder.email || "N/A"}</span
                                 >
                             </div>
@@ -586,7 +587,7 @@
                                     class="material-symbols-outlined text-text-muted text-sm"
                                     >call</span
                                 >
-                                <span class="text-sm text-white"
+                                <span class="text-sm text-text-main"
                                     >{selectedHolder.phone || "N/A"}</span
                                 >
                             </div>
@@ -595,7 +596,7 @@
                                     class="material-symbols-outlined text-text-muted text-sm"
                                     >public</span
                                 >
-                                <span class="text-sm text-white"
+                                <span class="text-sm text-text-main"
                                     >{selectedHolder.country || "N/A"}</span
                                 >
                             </div>
@@ -617,7 +618,9 @@
                                 >
                                     Linked Works
                                 </p>
-                                <p class="text-xl font-bold text-white mt-1">
+                                <p
+                                    class="text-xl font-bold text-text-main mt-1"
+                                >
                                     {selectedHolder.worksCount}
                                 </p>
                             </div>
@@ -629,7 +632,9 @@
                                 >
                                     Share Avg.
                                 </p>
-                                <p class="text-xl font-bold text-white mt-1">
+                                <p
+                                    class="text-xl font-bold text-text-main mt-1"
+                                >
                                     12.5%
                                 </p>
                             </div>
@@ -654,7 +659,7 @@
                 class="p-6 border-b border-border-dark flex items-center justify-between bg-surface-dark sticky top-0 z-10"
             >
                 <div>
-                    <h2 class="text-xl font-bold text-white tracking-tight">
+                    <h2 class="text-xl font-bold text-text-main tracking-tight">
                         Add Rights Holder
                     </h2>
                     <p class="text-xs text-text-secondary mt-1">
@@ -662,7 +667,7 @@
                     </p>
                 </div>
                 <button
-                    class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-white transition-colors"
+                    class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-text-main transition-colors"
                     onclick={() => (isCreateOffcanvasOpen = false)}
                 >
                     <span class="material-symbols-outlined">close</span>
@@ -792,25 +797,25 @@
         background: rgba(16, 185, 129, 0.05) !important;
     }
     .input {
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding: 0.75rem 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         transition: all 0.2s;
     }
     .input:focus {
         outline: none;
-        border-color: rgba(16, 185, 129, 0.5);
+        border-color: #10b981;
         box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
     }
     .select {
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding: 0.75rem 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         appearance: none;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");

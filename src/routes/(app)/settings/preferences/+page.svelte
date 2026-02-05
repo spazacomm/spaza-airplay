@@ -43,7 +43,9 @@
                 >System Preferences</span
             >
         </nav>
-        <h1 class="text-xl font-bold text-white tracking-tight leading-none">
+        <h1
+            class="text-xl font-bold text-text-main tracking-tight leading-none"
+        >
             Global Preferences
         </h1>
     </header>
@@ -59,7 +61,7 @@
                         >palette</span
                     >
                     <h2
-                        class="text-xs font-black text-white uppercase tracking-[0.2em]"
+                        class="text-xs font-black text-text-main uppercase tracking-[0.2em]"
                     >
                         Appearance & Display
                     </h2>
@@ -71,7 +73,7 @@
                     >
                         <div>
                             <p
-                                class="text-[11px] font-bold text-white uppercase tracking-widest"
+                                class="text-[11px] font-bold text-text-main uppercase tracking-widest"
                             >
                                 High Density Mode
                             </p>
@@ -100,7 +102,7 @@
                     >
                         <div>
                             <p
-                                class="text-[11px] font-bold text-white uppercase tracking-widest"
+                                class="text-[11px] font-bold text-text-main uppercase tracking-widest"
                             >
                                 Glassmorphism FX
                             </p>
@@ -124,7 +126,7 @@
                         >language</span
                     >
                     <h2
-                        class="text-xs font-black text-white uppercase tracking-[0.2em]"
+                        class="text-xs font-black text-text-main uppercase tracking-[0.2em]"
                     >
                         Regional & Financial
                     </h2>
@@ -171,7 +173,7 @@
                         >robot_2</span
                     >
                     <h2
-                        class="text-xs font-black text-white uppercase tracking-[0.2em]"
+                        class="text-xs font-black text-text-main uppercase tracking-[0.2em]"
                     >
                         Automation & Workflow
                     </h2>
@@ -194,7 +196,7 @@
                             </div>
                             <div>
                                 <p
-                                    class="text-xs font-bold text-white uppercase tracking-widest"
+                                    class="text-xs font-bold text-text-main uppercase tracking-widest"
                                 >
                                     Auto-Approve Low Value Statements
                                 </p>
@@ -234,15 +236,15 @@
 <style>
     .select {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.4);
-        border: 1px solid rgba(51, 65, 85, 0.4);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding: 0 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 13px;
         font-weight: 500;
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(148, 163, 184, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(71, 85, 105, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 0.75rem center;
         background-size: 1.15rem;

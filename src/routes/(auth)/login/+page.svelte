@@ -1,6 +1,10 @@
 <script lang="ts">
+    import { enhance } from "$app/forms";
+    let { form } = $props();
+
     let email = $state("");
     let password = $state("");
+    let loading = $state(false);
 </script>
 
 <svelte:head>
@@ -15,7 +19,25 @@
         </p>
     </div>
 
-    <form class="flex flex-col gap-4">
+    {#if form?.message}
+        <div
+            class="bg-red-500/10 border border-red-500/20 text-red-500 text-xs p-3 rounded-md text-center font-medium"
+        >
+            {form.message}
+        </div>
+    {/if}
+
+    <form
+        method="POST"
+        use:enhance={() => {
+            loading = true;
+            return async ({ update }) => {
+                loading = false;
+                await update();
+            };
+        }}
+        class="flex flex-col gap-4"
+    >
         <div class="flex flex-col gap-1.5">
             <label
                 for="email"
@@ -24,7 +46,9 @@
             >
             <input
                 id="email"
+                name="email"
                 type="email"
+                required
                 placeholder="artist@example.com"
                 class="input"
                 bind:value={email}
@@ -46,14 +70,22 @@
             </div>
             <input
                 id="password"
+                name="password"
                 type="password"
+                required
                 placeholder="••••••••"
                 class="input"
                 bind:value={password}
             />
         </div>
 
-        <button type="submit" class="btn-primary w-full mt-2"> Sign In </button>
+        <button
+            type="submit"
+            class="btn-primary w-full mt-2"
+            disabled={loading}
+        >
+            {loading ? "Signing In..." : "Sign In"}
+        </button>
     </form>
 
     <div class="relative">

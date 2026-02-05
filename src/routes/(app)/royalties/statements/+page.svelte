@@ -2,55 +2,17 @@
     import { fly, fade, slide } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
 
-    // Mock Data based on royalty_statements schema
-    let statements = $state([
-        {
-            id: "st-001",
-            period_start: "2025-10-01",
-            period_end: "2025-12-31",
-            society_name: "MCSK",
-            rights_holder: "Sauti Sol",
-            total_amount: 450200.0,
-            status: "paid",
-            generated_at: "2026-01-15T10:00:00Z",
-            currency: "KES",
-            details: [
-                { recording: "Midnight Train", plays: 1240, amount: 62000.0 },
-                { recording: "Suzanna", plays: 850, amount: 42500.0 },
-                { recording: "Extravaganza", plays: 2100, amount: 105000.0 },
-            ],
-        },
-        {
-            id: "st-002",
-            period_start: "2025-10-01",
-            period_end: "2025-12-31",
-            society_name: "KAMP",
-            rights_holder: "Nyashinski",
-            total_amount: 120000.0,
-            status: "approved",
-            generated_at: "2026-01-20T14:30:00Z",
-            currency: "KES",
-            details: [
-                { recording: "Malaika", plays: 2400, amount: 72000.0 },
-                { recording: "Properly", plays: 1600, amount: 48000.0 },
-            ],
-        },
-        {
-            id: "st-003",
-            period_start: "2026-01-01",
-            period_end: "2026-01-31",
-            society_name: "PRISK",
-            rights_holder: "Khaligraph Jones",
-            total_amount: 85400.0,
-            status: "draft",
-            generated_at: "2026-02-01T09:15:00Z",
-            currency: "KES",
-            details: [
-                { recording: "Mazishi", plays: 1200, amount: 36000.0 },
-                { recording: "Tuma Kitu", plays: 1600, amount: 49400.0 },
-            ],
-        },
-    ]);
+    import type { PageData } from "./$types";
+    let { data }: { data: PageData } = $props();
+
+    // statements from Supabase
+    let statements = $state(data.statements || []);
+
+    $effect(() => {
+        if (data.statements) {
+            statements = data.statements;
+        }
+    });
 
     // Filter State
     let searchQuery = $state("");
@@ -163,7 +125,7 @@
                 </div>
                 <div>
                     <h1
-                        class="text-xl font-bold text-white tracking-tight leading-none"
+                        class="text-xl font-bold text-text-main tracking-tight leading-none"
                     >
                         Distribution Statements
                     </h1>
@@ -197,7 +159,7 @@
             <input
                 type="text"
                 placeholder="Search by ID, Holder or CMO..."
-                class="h-8 w-full bg-surface-darker border border-border-dark rounded-md pl-9 pr-4 text-xs text-white placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary/50 transition-all font-medium"
+                class="h-8 w-full bg-surface-darker border border-border-dark rounded-md pl-9 pr-4 text-xs text-text-main placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary/50 transition-all font-medium"
                 bind:value={searchQuery}
             />
         </div>
@@ -292,7 +254,7 @@
                             </div>
                         </td>
                         <td
-                            class="py-4 px-4 font-semibold text-white group-hover:text-primary transition-colors"
+                            class="py-4 px-4 font-semibold text-text-main group-hover:text-primary transition-colors"
                         >
                             {stmt.rights_holder}
                         </td>
@@ -341,7 +303,7 @@
                         </td>
                         <td class="py-4 px-8 text-right">
                             <button
-                                class="size-8 rounded-lg bg-surface-dark border border-border-dark text-text-muted hover:text-white transition-all inline-flex items-center justify-center"
+                                class="size-8 rounded-lg bg-surface-dark border border-border-dark text-text-muted hover:text-text-main transition-all inline-flex items-center justify-center"
                                 onclick={(e) => {
                                     e.stopPropagation();
                                 }}
@@ -394,7 +356,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <h2
-                            class="text-xl font-bold text-white tracking-tight text-glow"
+                            class="text-xl font-bold text-text-main tracking-tight text-glow"
                         >
                             Distribution Wizard
                         </h2>
@@ -405,7 +367,7 @@
                         </p>
                     </div>
                     <button
-                        class="size-9 flex items-center justify-center rounded-xl bg-surface-dark border border-border-dark text-text-muted hover:text-white transition-all shadow-sm"
+                        class="size-9 flex items-center justify-center rounded-xl bg-surface-dark border border-border-dark text-text-muted hover:text-text-main transition-all shadow-sm"
                         onclick={() => (isWizardOpen = false)}
                     >
                         <span class="material-symbols-outlined">close</span>
@@ -479,7 +441,7 @@
                             >info</span
                         >
                         <h4
-                            class="text-xs font-bold text-white uppercase tracking-widest"
+                            class="text-xs font-bold text-text-main uppercase tracking-widest"
                         >
                             Logic Insight
                         </h4>
@@ -488,8 +450,9 @@
                         This process will scan over <strong
                             >1.2M detections</strong
                         >
-                        for the selected period and calculate earnings based on
-                        configured <strong>Rate Tables</strong> for {wizardForm.society}.
+                        for the selected period and calculate earnings based on configured
+                        <strong>Rate Tables</strong>
+                        for {wizardForm.society}.
                     </p>
                 </div>
             </div>
@@ -537,7 +500,7 @@
 
                 <div class="absolute top-6 right-6 z-10">
                     <button
-                        class="size-9 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur text-white flex items-center justify-center transition-all"
+                        class="size-9 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur text-text-main flex items-center justify-center transition-all"
                         onclick={closeDetail}
                     >
                         <span class="material-symbols-outlined">close</span>
@@ -557,7 +520,7 @@
                     <div class="flex-1 mb-1">
                         <div class="flex items-center gap-3">
                             <h2
-                                class="text-2xl font-black text-white tracking-tighter"
+                                class="text-2xl font-black text-text-main tracking-tighter"
                             >
                                 {selectedStatement.rights_holder}
                             </h2>
@@ -599,7 +562,7 @@
                         class="text-[9px] font-bold text-text-muted uppercase block"
                         >Recordings</span
                     >
-                    <span class="text-sm font-black text-white font-mono"
+                    <span class="text-sm font-black text-text-main font-mono"
                         >{selectedStatement.details.length}</span
                     >
                 </div>
@@ -610,7 +573,7 @@
                         class="text-[9px] font-bold text-text-muted uppercase block"
                         >Period</span
                     >
-                    <span class="text-[10px] font-bold text-white uppercase"
+                    <span class="text-[10px] font-bold text-text-main uppercase"
                         >{new Date(
                             selectedStatement.period_start,
                         ).toLocaleDateString("en-US", {
@@ -627,7 +590,7 @@
             <!-- Details Breakdown -->
             <div class="flex-1 overflow-y-auto p-8 space-y-6">
                 <h3
-                    class="text-xs font-bold text-white uppercase tracking-widest flex items-center gap-2"
+                    class="text-xs font-bold text-text-main uppercase tracking-widest flex items-center gap-2"
                 >
                     <span class="material-symbols-outlined text-base"
                         >format_list_bulleted</span
@@ -650,7 +613,7 @@
                                 </div>
                                 <div>
                                     <h4
-                                        class="text-sm font-bold text-white transition-colors"
+                                        class="text-sm font-bold text-text-main transition-colors"
                                     >
                                         {item.recording}
                                     </h4>
@@ -663,7 +626,7 @@
                             </div>
                             <div class="text-right">
                                 <span
-                                    class="text-sm font-mono font-bold text-white"
+                                    class="text-sm font-mono font-bold text-text-main"
                                     >{selectedStatement.currency}
                                     {item.amount.toLocaleString()}</span
                                 >
@@ -683,7 +646,7 @@
                 class="p-6 border-t border-border-dark bg-surface-darker/50 flex gap-3"
             >
                 <button
-                    class="flex-1 h-12 rounded-xl border border-border-dark bg-surface-dark text-white text-[10px] font-bold uppercase tracking-widest hover:bg-surface-darker transition-all flex items-center justify-center gap-2"
+                    class="flex-1 h-12 rounded-xl border border-border-dark bg-surface-dark text-text-main text-[10px] font-bold uppercase tracking-widest hover:bg-surface-darker transition-all flex items-center justify-center gap-2"
                 >
                     <span class="material-symbols-outlined text-lg"
                         >download</span
@@ -704,16 +667,16 @@
 <style>
     .select {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding-left: 1rem;
         padding-right: 2.5rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(148, 163, 184, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(71, 85, 105, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 0.75rem center;
         background-size: 1.25rem;
@@ -722,19 +685,19 @@
 
     .input {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         transition: all 0.2s;
     }
     .input:focus {
         outline: none;
-        border-color: rgba(16, 185, 129, 0.5);
+        border-color: #10b981;
         box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
     }
 

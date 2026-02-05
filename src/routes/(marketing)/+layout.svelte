@@ -10,7 +10,7 @@
         <div
             class="px-4 md:px-10 py-3 max-w-[1280px] mx-auto w-full flex items-center justify-between"
         >
-            <div class="flex items-center gap-4 text-white">
+            <div class="flex items-center gap-4 text-text-main">
                 <div class="text-primary">
                     <span
                         class="material-symbols-outlined"
@@ -18,7 +18,7 @@
                     >
                 </div>
                 <h2
-                    class="text-white text-xl font-bold leading-tight tracking-[-0.015em]"
+                    class="text-text-main text-xl font-bold leading-tight tracking-[-0.015em]"
                 >
                     Spaza Airplay
                 </h2>
@@ -26,22 +26,22 @@
             <div class="hidden md:flex items-center gap-8">
                 <div class="flex items-center gap-6">
                     <a
-                        class="text-white text-sm font-medium hover:text-primary transition-colors"
+                        class="text-text-main text-sm font-medium hover:text-primary transition-colors"
                         href="#features">Features</a
                     >
                     <a
-                        class="text-white text-sm font-medium hover:text-primary transition-colors"
+                        class="text-text-main text-sm font-medium hover:text-primary transition-colors"
                         href="#pricing">Pricing</a
                     >
                     <a
-                        class="text-white text-sm font-medium hover:text-primary transition-colors"
+                        class="text-text-main text-sm font-medium hover:text-primary transition-colors"
                         href="/resources">Resources</a
                     >
                 </div>
             </div>
             <div class="flex items-center gap-4">
                 <a
-                    class="hidden md:block text-white text-sm font-medium hover:text-primary transition-colors"
+                    class="hidden md:block text-text-main text-sm font-medium hover:text-primary transition-colors"
                     href="/login">Login</a
                 >
                 <button
@@ -63,7 +63,7 @@
             <div
                 class="max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4"
             >
-                <div class="flex items-center gap-2 text-white">
+                <div class="flex items-center gap-2 text-text-main">
                     <div class="text-primary">
                         <span class="material-symbols-outlined">graphic_eq</span
                         >
@@ -72,7 +72,7 @@
                 </div>
                 <div class="flex gap-6 text-sm text-text-secondary">
                     <a
-                        class="hover:text-white transition-colors flex items-center gap-1"
+                        class="hover:text-text-main transition-colors flex items-center gap-1"
                         href="/privacy"
                         >Privacy <span
                             class="material-symbols-outlined text-[14px]"
@@ -80,7 +80,7 @@
                         ></a
                     >
                     <a
-                        class="hover:text-white transition-colors flex items-center gap-1"
+                        class="hover:text-text-main transition-colors flex items-center gap-1"
                         href="/terms"
                         >Terms <span
                             class="material-symbols-outlined text-[14px]"
@@ -88,7 +88,7 @@
                         ></a
                     >
                     <a
-                        class="hover:text-white transition-colors flex items-center gap-1"
+                        class="hover:text-text-main transition-colors flex items-center gap-1"
                         href="/support"
                         >Support <span
                             class="material-symbols-outlined text-[14px]"

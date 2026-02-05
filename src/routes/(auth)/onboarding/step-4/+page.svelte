@@ -15,7 +15,7 @@
         <!-- Progress Bar -->
         <div class="flex flex-col gap-3 p-4 mb-6">
             <div class="flex gap-6 justify-between">
-                <p class="text-white text-base font-medium leading-normal">
+                <p class="text-text-main text-base font-medium leading-normal">
                     Onboarding Complete
                 </p>
                 <p class="text-primary text-sm font-bold leading-normal">
@@ -47,7 +47,7 @@
                     >
                 </div>
                 <h1
-                    class="text-white tracking-light text-[36px] font-extrabold leading-tight pb-3"
+                    class="text-text-main tracking-light text-[36px] font-extrabold leading-tight pb-3"
                 >
                     You're all set! Welcome to the future of African Music
                     Royalties.
@@ -68,7 +68,7 @@
                 </button>
                 <div class="border-t border-white/10 pt-8">
                     <h3
-                        class="text-white text-lg font-bold leading-tight tracking-[-0.015em] pb-6 uppercase"
+                        class="text-text-main text-lg font-bold leading-tight tracking-[-0.015em] pb-6 uppercase"
                     >
                         Next steps to maximize earnings
                     </h3>
@@ -85,7 +85,7 @@
                                     >check</span
                                 >
                             </div>
-                            <div class="flex flex-col text-white">
+                            <div class="flex flex-col text-text-main">
                                 <p class="font-medium">
                                     Invite your management team
                                 </p>
@@ -106,7 +106,7 @@
                                     >check</span
                                 >
                             </div>
-                            <div class="flex flex-col text-white">
+                            <div class="flex flex-col text-text-main">
                                 <p class="font-medium">
                                     Complete rights splits
                                 </p>
@@ -132,7 +132,7 @@
                         class="p-6 border-b border-white/10 flex justify-between items-center bg-white/5"
                     >
                         <h3
-                            class="text-white text-sm font-bold tracking-widest uppercase"
+                            class="text-text-main text-sm font-bold tracking-widest uppercase"
                         >
                             Dashboard Preview
                         </h3>
@@ -154,7 +154,7 @@
                                 >
                                     Total Royalty Pool
                                 </p>
-                                <p class="text-2xl font-bold text-white">
+                                <p class="text-2xl font-bold text-text-main">
                                     $142,500.00
                                 </p>
                             </div>
@@ -166,7 +166,7 @@
                                 >
                                     Monthly Airplays
                                 </p>
-                                <p class="text-2xl font-bold text-white">
+                                <p class="text-2xl font-bold text-text-main">
                                     1.2M
                                 </p>
                             </div>
@@ -184,7 +184,7 @@
                                 >lock</span
                             >
                             <span
-                                class="text-xs font-bold uppercase tracking-widest text-white/80"
+                                class="text-xs font-bold uppercase tracking-widest text-text-main/80"
                                 >Connecting to Streams...</span
                             >
                         </div>

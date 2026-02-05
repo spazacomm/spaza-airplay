@@ -276,13 +276,11 @@
 
 <div class="flex flex-col min-h-full w-full max-w-full">
     <!-- Middle: Songs Table -->
-    <main class="flex-1 flex flex-col min-w-0 bg-surface-darker">
+    <main class="flex-1 flex flex-col min-w-0 bg-background-dark">
         <!-- Page Header -->
-        <div
-            class="bg-surface-dark border-b border-border-dark shadow-sm sticky top-0 z-30"
-        >
+        <div class="bg-white border-b border-border-dark sticky top-0 z-30">
             <!-- Title Section -->
-            <div class="px-6 py-5 border-b border-border-dark/50">
+            <div class="px-6 py-5 border-b border-border-dark">
                 <div class="max-w-[1600px] mx-auto">
                     <nav
                         class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-text-muted mb-3"
@@ -296,7 +294,7 @@
                     </nav>
                     <div class="space-y-1">
                         <h1
-                            class="text-2xl font-bold tracking-tight text-white leading-none"
+                            class="text-2xl font-bold tracking-tight text-text-primary leading-none"
                         >
                             Catalog
                         </h1>
@@ -309,7 +307,7 @@
             </div>
 
             <!-- Toolbar Section -->
-            <div class="px-6 py-2 bg-surface-darker/50 backdrop-blur-sm">
+            <div class="px-6 py-2 bg-white/50 backdrop-blur-sm">
                 <div
                     class="flex flex-col md:flex-row items-center justify-between gap-4"
                 >
@@ -325,7 +323,7 @@
                             <input
                                 type="text"
                                 placeholder="Search catalog..."
-                                class="w-full bg-surface-darker/80 border border-border-dark rounded-md py-1.5 pl-9 pr-4 text-xs text-white placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary/40 focus:border-primary/40 transition-all"
+                                class="w-full bg-background-dark border border-border-dark rounded-md py-1.5 pl-9 pr-4 text-xs text-text-primary placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-saas-sm"
                                 bind:value={searchQuery}
                             />
                         </div>
@@ -334,7 +332,7 @@
                             <!-- Genre Select -->
                             <div class="relative min-w-[130px]">
                                 <select
-                                    class="w-full bg-surface-darker/80 border border-border-dark rounded-md py-1.5 pl-3 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary hover:border-border-muted transition-colors appearance-none cursor-pointer"
+                                    class="w-full bg-background-dark border border-border-dark rounded-md py-1.5 pl-3 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary hover:border-primary/30 transition-colors appearance-none cursor-pointer"
                                     bind:value={filterGenre}
                                 >
                                     {#each genres as g}
@@ -354,7 +352,7 @@
                             <!-- Status Select -->
                             <div class="relative min-w-[130px]">
                                 <select
-                                    class="w-full bg-surface-darker/80 border border-border-dark rounded-md py-1.5 pl-3 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary hover:border-border-muted transition-colors appearance-none cursor-pointer"
+                                    class="w-full bg-background-dark border border-border-dark rounded-md py-1.5 pl-3 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary hover:border-primary/30 transition-colors appearance-none cursor-pointer"
                                     bind:value={filterStatus}
                                 >
                                     {#each statuses as s}
@@ -372,7 +370,7 @@
                             </div>
 
                             <button
-                                class="p-1.5 rounded-md text-text-muted hover:text-white hover:bg-surface-dark transition-all"
+                                class="p-1.5 rounded-md text-text-muted hover:text-primary hover:bg-background-dark transition-all"
                                 onclick={resetFilters}
                                 title="Reset Filters"
                             >
@@ -402,7 +400,7 @@
             <div class="overflow-x-auto bg-surface-dark">
                 <table class="w-full text-left border-collapse">
                     <thead
-                        class="bg-surface-dark border-b border-border-dark shadow-sm sticky top-0 z-10"
+                        class="bg-background-dark border-b border-border-dark shadow-sm sticky top-0 z-10"
                     >
                         <tr>
                             <th
@@ -462,7 +460,7 @@
                                         </div>
                                         <div class="flex flex-col gap-0.5">
                                             <p
-                                                class="font-bold text-base text-white tracking-tight group-hover:text-primary transition-colors"
+                                                class="font-bold text-base text-text-primary tracking-tight group-hover:text-primary transition-colors"
                                             >
                                                 {work.title}
                                             </p>
@@ -512,7 +510,7 @@
                                     </div>
                                 </td>
                                 <td
-                                    class="py-5 px-6 text-right text-base font-bold tabular-nums text-white"
+                                    class="py-5 px-6 text-right text-base font-bold tabular-nums text-text-main"
                                     >{work.plays}</td
                                 >
                                 <td
@@ -521,7 +519,7 @@
                                 >
                                 <td class="py-5 px-6 text-center">
                                     <button
-                                        class="size-8 flex items-center justify-center rounded-full hover:bg-surface-dark text-text-muted hover:text-white opacity-0 group-hover:opacity-100 transition-all"
+                                        class="size-8 flex items-center justify-center rounded-full hover:bg-surface-dark text-text-muted hover:text-text-main opacity-0 group-hover:opacity-100 transition-all"
                                     >
                                         <span
                                             class="material-symbols-outlined text-lg"
@@ -546,7 +544,7 @@
                                             >
                                         </div>
                                         <h3
-                                            class="text-lg font-bold text-white"
+                                            class="text-lg font-bold text-text-main"
                                         >
                                             No works found
                                         </h3>
@@ -584,20 +582,22 @@
             <p
                 class="text-[11px] font-bold uppercase tracking-widest text-text-muted"
             >
-                Showing <span class="text-white">{paginatedWorks.length}</span>
-                of <span class="text-white">{filteredWorks.length}</span> works
+                Showing <span class="text-text-main"
+                    >{paginatedWorks.length}</span
+                >
+                of <span class="text-text-main">{filteredWorks.length}</span> works
             </p>
             <div class="flex items-center gap-6">
                 <span
                     class="text-[11px] font-bold uppercase tracking-widest text-text-muted"
                 >
-                    Page <span class="text-white">{currentPage}</span> / {Math.ceil(
+                    Page <span class="text-text-main">{currentPage}</span> / {Math.ceil(
                         filteredWorks.length / itemsPerPage,
                     )}
                 </span>
                 <div class="flex gap-2">
                     <button
-                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-white hover:border-primary/50 hover:bg-primary/5 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-text-main hover:border-primary/50 hover:bg-primary/5 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
                         onclick={() =>
                             (currentPage = Math.max(1, currentPage - 1))}
                         disabled={currentPage === 1}
@@ -607,7 +607,7 @@
                         >
                     </button>
                     <button
-                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-white hover:border-primary/50 hover:bg-primary/5 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-text-main hover:border-primary/50 hover:bg-primary/5 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
                         onclick={() =>
                             (currentPage = Math.min(
                                 Math.ceil(filteredWorks.length / itemsPerPage),
@@ -652,7 +652,7 @@
                             >Work Details</span
                         >
                         <button
-                            class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-white transition-colors"
+                            class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-text-main transition-colors"
                             onclick={() => (isOffcanvasOpen = false)}
                         >
                             <span class="material-symbols-outlined">close</span>
@@ -681,7 +681,7 @@
                             {/if}
                         </div>
                         <div>
-                            <h2 class="text-2xl font-bold text-white mb-1">
+                            <h2 class="text-2xl font-bold text-text-main mb-1">
                                 {selectedWork.title}
                             </h2>
                             <p class="text-primary font-medium">
@@ -845,7 +845,7 @@
                                     >
                                         <div>
                                             <h5
-                                                class="font-bold text-white transition-colors group-hover:text-primary"
+                                                class="font-bold text-text-main transition-colors group-hover:text-primary"
                                             >
                                                 {rec.title}
                                             </h5>
@@ -871,7 +871,7 @@
                                                 class="text-text-secondary uppercase font-bold tracking-tighter"
                                                 >Version</span
                                             >
-                                            <span class="text-white"
+                                            <span class="text-text-main"
                                                 >{rec.version}</span
                                             >
                                         </div>
@@ -880,7 +880,7 @@
                                                 class="text-text-secondary uppercase font-bold tracking-tighter"
                                                 >Duration</span
                                             >
-                                            <span class="text-white"
+                                            <span class="text-text-main"
                                                 >{rec.duration}</span
                                             >
                                         </div>
@@ -889,7 +889,7 @@
                                                 class="text-text-secondary uppercase font-bold tracking-tighter"
                                                 >Release Date</span
                                             >
-                                            <span class="text-white"
+                                            <span class="text-text-main"
                                                 >{rec.releaseDate}</span
                                             >
                                         </div>
@@ -898,7 +898,8 @@
                                                 class="text-text-secondary uppercase font-bold tracking-tighter"
                                                 >Fingerprint</span
                                             >
-                                            <span class="text-white font-mono"
+                                            <span
+                                                class="text-text-main font-mono"
                                                 >{rec.fingerprintId}</span
                                             >
                                         </div>
@@ -983,7 +984,7 @@
                             </div>
 
                             <button
-                                class="w-full py-4 rounded-xl border-2 border-dashed border-border-dark text-text-secondary hover:text-white hover:border-primary transition-all font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 mt-8"
+                                class="w-full py-4 rounded-xl border-2 border-dashed border-border-dark text-text-secondary hover:text-text-main hover:border-primary transition-all font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 mt-8"
                             >
                                 <span class="material-symbols-outlined"
                                     >edit_note</span
@@ -1043,7 +1044,7 @@
                     class="p-6 border-b border-border-dark flex items-center justify-between bg-surface-dark sticky top-0 z-10"
                 >
                     <div>
-                        <h2 class="text-xl font-bold text-white">
+                        <h2 class="text-xl font-bold text-text-main">
                             Register New Work
                         </h2>
                         <p class="text-xs text-text-secondary mt-1">
@@ -1051,7 +1052,7 @@
                         </p>
                     </div>
                     <button
-                        class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-white transition-colors"
+                        class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-text-main transition-colors"
                         onclick={() => (isCreateOffcanvasOpen = false)}
                     >
                         <span class="material-symbols-outlined">close</span>

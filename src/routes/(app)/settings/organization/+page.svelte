@@ -36,7 +36,7 @@
                 >Organization Settings</span
             >
         </nav>
-        <h1 class="text-xl font-bold text-white tracking-tight">
+        <h1 class="text-xl font-bold text-text-main tracking-tight">
             Organization Profile
         </h1>
     </header>
@@ -55,7 +55,7 @@
                 </div>
                 <div>
                     <h2
-                        class="text-2xl font-black text-white uppercase tracking-tighter"
+                        class="text-2xl font-black text-text-main uppercase tracking-tighter"
                     >
                         {org.name}
                     </h2>
@@ -137,18 +137,18 @@
 <style>
     .input {
         height: 3rem;
-        background: rgba(15, 23, 42, 0.4);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 1rem;
         padding: 0 1.25rem;
-        color: white;
+        color: #0f172a;
     }
     .textarea {
-        background: rgba(15, 23, 42, 0.4);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 1rem;
         padding: 1rem;
-        color: white;
+        color: #0f172a;
         resize: none;
     }
 </style>

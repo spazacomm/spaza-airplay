@@ -28,7 +28,7 @@
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="text-center mb-20">
         <h1
-            class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter"
+            class="text-5xl md:text-7xl font-black text-text-main mb-6 tracking-tighter"
         >
             Artist Success Stories
         </h1>
@@ -73,7 +73,7 @@
                                             Total Airplays
                                         </p>
                                         <p
-                                            class="text-2xl font-black text-white"
+                                            class="text-2xl font-black text-text-main"
                                         >
                                             {study.plays}
                                         </p>
@@ -87,7 +87,7 @@
                                             Royalty Growth
                                         </p>
                                         <p
-                                            class="text-2xl font-black text-white"
+                                            class="text-2xl font-black text-text-main"
                                         >
                                             ↑ 42%
                                         </p>
@@ -104,7 +104,7 @@
                         {study.region}
                     </div>
                     <h2
-                        class="text-4xl md:text-5xl font-black text-white leading-tight"
+                        class="text-4xl md:text-5xl font-black text-text-main leading-tight"
                     >
                         {study.title}
                     </h2>
@@ -131,10 +131,10 @@
             class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"
         ></div>
         <div class="relative z-10 max-w-3xl mx-auto">
-            <h2 class="text-4xl md:text-6xl font-black text-white mb-6">
+            <h2 class="text-4xl md:text-6xl font-black text-text-main mb-6">
                 Ready to scale your legacy?
             </h2>
-            <p class="text-white/80 text-xl md:text-2xl font-medium mb-12">
+            <p class="text-text-main/80 text-xl md:text-2xl font-medium mb-12">
                 Join the community of forward-thinking African artists
                 worldwide.
             </p>
@@ -145,7 +145,7 @@
                     Get Started Now
                 </button>
                 <button
-                    class="bg-primary-dark/20 backdrop-blur-md border border-white/30 text-white px-12 h-16 rounded-2xl text-xl font-bold hover:bg-white/10 transition-all"
+                    class="bg-primary-dark/20 backdrop-blur-md border border-white/30 text-text-main px-12 h-16 rounded-2xl text-xl font-bold hover:bg-white/10 transition-all"
                 >
                     Talk to an Expert
                 </button>

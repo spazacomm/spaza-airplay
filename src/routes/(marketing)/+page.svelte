@@ -49,7 +49,7 @@
                             >
                         </div>
                         <h1
-                            class="text-white text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em] drop-shadow-2xl"
+                            class="text-text-main text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em] drop-shadow-2xl"
                         >
                             Real-time Royalty Transparency for <span
                                 class="text-primary">African Music</span
@@ -72,7 +72,7 @@
                         </a>
                         <button
                             onclick={() => (showVideo = true)}
-                            class="flex items-center justify-center rounded-lg h-12 px-8 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-base font-bold hover:bg-white/20 transition-all"
+                            class="flex items-center justify-center rounded-lg h-12 px-8 bg-white/10 backdrop-blur-sm border border-white/20 text-text-main text-base font-bold hover:bg-white/20 transition-all"
                         >
                             <span class="truncate">View Demo</span>
                         </button>
@@ -97,7 +97,7 @@
                     <div class="grid grid-cols-3 gap-4 pt-4">
                         <div class="flex flex-col gap-1">
                             <div
-                                class="text-2xl md:text-3xl font-black text-white"
+                                class="text-2xl md:text-3xl font-black text-text-main"
                             >
                                 54
                             </div>
@@ -107,7 +107,7 @@
                         </div>
                         <div class="flex flex-col gap-1">
                             <div
-                                class="text-2xl md:text-3xl font-black text-white"
+                                class="text-2xl md:text-3xl font-black text-text-main"
                             >
                                 2K+
                             </div>
@@ -117,7 +117,7 @@
                         </div>
                         <div class="flex flex-col gap-1">
                             <div
-                                class="text-2xl md:text-3xl font-black text-white"
+                                class="text-2xl md:text-3xl font-black text-text-main"
                             >
                                 99.8%
                             </div>
@@ -145,35 +145,35 @@
         >
             <div class="flex items-center gap-2 group cursor-default">
                 <div
-                    class="h-10 w-auto flex items-center justify-center font-bold text-2xl text-white"
+                    class="h-10 w-auto flex items-center justify-center font-bold text-2xl text-text-main"
                 >
                     SAMRO
                 </div>
             </div>
             <div class="flex items-center gap-2 group cursor-default">
                 <div
-                    class="h-10 w-auto flex items-center justify-center font-bold text-2xl text-white"
+                    class="h-10 w-auto flex items-center justify-center font-bold text-2xl text-text-main"
                 >
                     MCSK
                 </div>
             </div>
             <div class="flex items-center gap-2 group cursor-default">
                 <div
-                    class="h-10 w-auto flex items-center justify-center font-bold text-2xl text-white"
+                    class="h-10 w-auto flex items-center justify-center font-bold text-2xl text-text-main"
                 >
                     COSON
                 </div>
             </div>
             <div class="flex items-center gap-2 group cursor-default">
                 <div
-                    class="h-10 w-auto flex items-center justify-center font-bold text-2xl text-white"
+                    class="h-10 w-auto flex items-center justify-center font-bold text-2xl text-text-main"
                 >
                     GHAMRO
                 </div>
             </div>
             <div class="flex items-center gap-2 group cursor-default">
                 <div
-                    class="h-10 w-auto flex items-center justify-center font-bold text-2xl text-white"
+                    class="h-10 w-auto flex items-center justify-center font-bold text-2xl text-text-main"
                 >
                     KAMP
                 </div>
@@ -197,7 +197,7 @@
                 ROAMAP
             </div>
             <h2
-                class="text-white text-4xl md:text-6xl font-black leading-tight tracking-tight"
+                class="text-text-main text-4xl md:text-6xl font-black leading-tight tracking-tight"
             >
                 Streamlined <span class="text-primary italic">Process</span>
             </h2>
@@ -223,7 +223,7 @@
                         >
                     </div>
                     <h3
-                        class="text-white text-3xl font-black mb-4 tracking-tight"
+                        class="text-text-main text-3xl font-black mb-4 tracking-tight"
                     >
                         Catalog Integration
                     </h3>
@@ -236,7 +236,7 @@
                     <div class="flex gap-4">
                         <div class="flex flex-col gap-1">
                             <span
-                                class="text-white text-xs font-bold uppercase tracking-wider opacity-50"
+                                class="text-text-main text-xs font-bold uppercase tracking-wider opacity-50"
                                 >Uploads</span
                             >
                             <span
@@ -248,7 +248,7 @@
                             class="flex flex-col gap-1 pl-4 border-l border-white/10"
                         >
                             <span
-                                class="text-white text-xs font-bold uppercase tracking-wider opacity-50"
+                                class="text-text-main text-xs font-bold uppercase tracking-wider opacity-50"
                                 >Metadata</span
                             >
                             <span
@@ -299,7 +299,7 @@
                                 </span>
                             </div>
                             <h3
-                                class="text-white text-3xl font-black mb-4 tracking-tight"
+                                class="text-text-main text-3xl font-black mb-4 tracking-tight"
                             >
                                 Broadcast Intelligence
                             </h3>
@@ -312,7 +312,8 @@
                             </p>
                             <div class="mt-8 grid grid-cols-2 gap-6">
                                 <div class="flex flex-col">
-                                    <span class="text-2xl font-black text-white"
+                                    <span
+                                        class="text-2xl font-black text-text-main"
                                         >2,000+</span
                                     >
                                     <span
@@ -321,7 +322,8 @@
                                     >
                                 </div>
                                 <div class="flex flex-col">
-                                    <span class="text-2xl font-black text-white"
+                                    <span
+                                        class="text-2xl font-black text-text-main"
                                         >100ms</span
                                     >
                                     <span
@@ -357,12 +359,12 @@
                                 >Step 03</span
                             >
                             <span
-                                class="text-white/40 text-[10px] font-bold uppercase tracking-widest"
+                                class="text-text-main/40 text-[10px] font-bold uppercase tracking-widest"
                                 >Final Phase</span
                             >
                         </div>
                         <h3
-                            class="text-white text-3xl font-black mb-4 tracking-tight"
+                            class="text-text-main text-3xl font-black mb-4 tracking-tight"
                         >
                             Royalty Reconciliation
                         </h3>
@@ -375,15 +377,15 @@
                         </p>
                         <div class="mt-6 flex flex-wrap gap-3">
                             <span
-                                class="px-3 py-1.5 bg-white/5 rounded-lg text-xs text-white/70 border border-white/10"
+                                class="px-3 py-1.5 bg-white/5 rounded-lg text-xs text-text-main/70 border border-white/10"
                                 >PDF Export</span
                             >
                             <span
-                                class="px-3 py-1.5 bg-white/5 rounded-lg text-xs text-white/70 border border-white/10"
+                                class="px-3 py-1.5 bg-white/5 rounded-lg text-xs text-text-main/70 border border-white/10"
                                 >Discrepancy Audit</span
                             >
                             <span
-                                class="px-3 py-1.5 bg-white/5 rounded-lg text-xs text-white/70 border border-white/10"
+                                class="px-3 py-1.5 bg-white/5 rounded-lg text-xs text-text-main/70 border border-white/10"
                                 >Claim Automation</span
                             >
                         </div>
@@ -410,7 +412,9 @@
 >
     <div class="flex flex-col gap-12 max-w-[1280px] mx-auto">
         <div class="flex flex-col gap-4 text-center max-w-[720px] mx-auto">
-            <h2 class="text-white text-3xl md:text-4xl font-bold leading-tight">
+            <h2
+                class="text-text-main text-3xl md:text-4xl font-bold leading-tight"
+            >
                 Comprehensive Royalty Intelligence
             </h2>
             <p class="text-text-secondary text-lg font-normal">
@@ -432,7 +436,7 @@
                     >
                 </div>
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-white text-xl font-bold">
+                    <h3 class="text-text-main text-xl font-bold">
                         Precision Airplay Monitoring
                     </h3>
                     <p class="text-text-secondary text-base leading-relaxed">
@@ -455,7 +459,7 @@
                     >
                 </div>
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-white text-xl font-bold">
+                    <h3 class="text-text-main text-xl font-bold">
                         Royalty Calculator
                     </h3>
                     <p class="text-text-secondary text-base leading-relaxed">
@@ -477,7 +481,7 @@
                     >
                 </div>
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-white text-xl font-bold">
+                    <h3 class="text-text-main text-xl font-bold">
                         PRO Reconciliation
                     </h3>
                     <p class="text-text-secondary text-base leading-relaxed">
@@ -495,7 +499,9 @@
 <section class="w-full px-4 py-20 max-w-[1280px]">
     <div class="flex flex-col gap-12">
         <div class="flex flex-col gap-4 text-center max-w-[720px] mx-auto">
-            <h2 class="text-white text-3xl md:text-4xl font-bold leading-tight">
+            <h2
+                class="text-text-main text-3xl md:text-4xl font-bold leading-tight"
+            >
                 Built for Every Music Professional
             </h2>
             <p class="text-text-secondary text-lg font-normal">
@@ -517,7 +523,7 @@
                     >
                 </div>
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-white text-lg font-bold">
+                    <h3 class="text-text-main text-lg font-bold">
                         Independent Artists
                     </h3>
                     <p class="text-text-secondary text-sm leading-relaxed">
@@ -540,7 +546,7 @@
                     >
                 </div>
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-white text-lg font-bold">
+                    <h3 class="text-text-main text-lg font-bold">
                         Managers & Producers
                     </h3>
                     <p class="text-text-secondary text-sm leading-relaxed">
@@ -563,7 +569,9 @@
                     >
                 </div>
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-white text-lg font-bold">Record Labels</h3>
+                    <h3 class="text-text-main text-lg font-bold">
+                        Record Labels
+                    </h3>
                     <p class="text-text-secondary text-sm leading-relaxed">
                         Scale your operations. API access, white-label reports,
                         and bulk catalog management for hundreds or thousands of
@@ -584,7 +592,7 @@
                     >
                 </div>
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-white text-lg font-bold">
+                    <h3 class="text-text-main text-lg font-bold">
                         Music Rights Organizations
                     </h3>
                     <p class="text-text-secondary text-sm leading-relaxed">
@@ -606,7 +614,7 @@
     <div class="flex flex-col gap-12 md:gap-16 max-w-[1280px] mx-auto">
         <div class="text-center max-w-[800px] mx-auto mb-8">
             <h2
-                class="text-white text-4xl md:text-5xl font-black leading-tight tracking-tight mb-6"
+                class="text-text-main text-4xl md:text-5xl font-black leading-tight tracking-tight mb-6"
             >
                 Institutional <span class="text-primary italic"
                     >Intelligence</span
@@ -624,7 +632,7 @@
                 <span
                     class="text-sm font-bold {isAnnual
                         ? 'text-text-secondary'
-                        : 'text-white'}">Monthly</span
+                        : 'text-text-main'}">Monthly</span
                 >
                 <button
                     class="relative w-14 h-7 rounded-full bg-surface-dark border border-border-dark p-1 transition-colors duration-300"
@@ -639,7 +647,7 @@
                 <div class="flex items-center gap-2">
                     <span
                         class="text-sm font-bold {isAnnual
-                            ? 'text-white'
+                            ? 'text-text-main'
                             : 'text-text-secondary'}">Annual</span
                     >
                     <span
@@ -656,7 +664,7 @@
                 class="flex flex-col rounded-[32px] border border-white/10 bg-surface-darker p-8 hover:border-primary/20 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5"
             >
                 <div class="mb-8">
-                    <h3 class="text-xl font-black text-white mb-2">
+                    <h3 class="text-xl font-black text-text-main mb-2">
                         Artist Elite
                     </h3>
                     <p class="text-text-secondary text-sm leading-relaxed">
@@ -665,7 +673,7 @@
                     </p>
                 </div>
                 <div class="mb-8 flex items-baseline gap-1">
-                    <span class="text-5xl font-black text-white"
+                    <span class="text-5xl font-black text-text-main"
                         >${isAnnual
                             ? prices.artist.annual
                             : prices.artist.monthly}</span
@@ -675,28 +683,36 @@
                     >
                 </div>
                 <ul class="flex flex-col gap-4 mb-10 flex-1">
-                    <li class="flex items-center gap-3 text-sm text-white/80">
+                    <li
+                        class="flex items-center gap-3 text-sm text-text-main/80"
+                    >
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
                         >
                         <span>Track up to 20 Songs</span>
                     </li>
-                    <li class="flex items-center gap-3 text-sm text-white/80">
+                    <li
+                        class="flex items-center gap-3 text-sm text-text-main/80"
+                    >
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
                         >
                         <span>Boomplay & Mdundo Tracking</span>
                     </li>
-                    <li class="flex items-center gap-3 text-sm text-white/80">
+                    <li
+                        class="flex items-center gap-3 text-sm text-text-main/80"
+                    >
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
                         >
                         <span>Daily Airplay Reports</span>
                     </li>
-                    <li class="flex items-center gap-3 text-sm text-white/80">
+                    <li
+                        class="flex items-center gap-3 text-sm text-text-main/80"
+                    >
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
@@ -706,7 +722,7 @@
                 </ul>
                 <a
                     href="/contact"
-                    class="w-full py-4 rounded-xl border border-white/10 bg-white/5 text-center text-white font-black hover:bg-white/10 transition-all"
+                    class="w-full py-4 rounded-xl border border-white/10 bg-white/5 text-center text-text-main font-black hover:bg-white/10 transition-all"
                     >Request Invitation</a
                 >
             </div>
@@ -721,7 +737,7 @@
                     Pro Standard
                 </div>
                 <div class="mb-8 text-left">
-                    <h3 class="text-xl font-black text-white mb-2">
+                    <h3 class="text-xl font-black text-text-main mb-2">
                         Label Scale
                     </h3>
                     <p class="text-text-secondary text-sm leading-relaxed">
@@ -730,7 +746,7 @@
                     </p>
                 </div>
                 <div class="mb-8 flex items-baseline gap-1">
-                    <span class="text-5xl font-black text-white"
+                    <span class="text-5xl font-black text-text-main"
                         >${isAnnual
                             ? prices.label.annual
                             : prices.label.monthly}</span
@@ -740,35 +756,35 @@
                     >
                 </div>
                 <ul class="flex flex-col gap-4 mb-10 flex-1 text-left">
-                    <li class="flex items-center gap-3 text-sm text-white">
+                    <li class="flex items-center gap-3 text-sm text-text-main">
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
                         >
                         <span class="font-bold">500+ Radio & TV Channels</span>
                     </li>
-                    <li class="flex items-center gap-3 text-sm text-white">
+                    <li class="flex items-center gap-3 text-sm text-text-main">
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
                         >
                         <span>Audiomack, Spotify, Boomplay</span>
                     </li>
-                    <li class="flex items-center gap-3 text-sm text-white">
+                    <li class="flex items-center gap-3 text-sm text-text-main">
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
                         >
                         <span>Real-time Global Alerts</span>
                     </li>
-                    <li class="flex items-center gap-3 text-sm text-white">
+                    <li class="flex items-center gap-3 text-sm text-text-main">
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
                         >
                         <span>PDF Discrepancy Audits</span>
                     </li>
-                    <li class="flex items-center gap-3 text-sm text-white">
+                    <li class="flex items-center gap-3 text-sm text-text-main">
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
@@ -788,7 +804,7 @@
                 class="flex flex-col rounded-[32px] border border-white/10 bg-surface-darker p-8 hover:border-primary/20 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5"
             >
                 <div class="mb-8">
-                    <h3 class="text-xl font-black text-white mb-2">
+                    <h3 class="text-xl font-black text-text-main mb-2">
                         CMO / PRO
                     </h3>
                     <p class="text-text-secondary text-sm leading-relaxed">
@@ -797,7 +813,7 @@
                     </p>
                 </div>
                 <div class="mb-8 flex items-baseline gap-1">
-                    <span class="text-5xl font-black text-white"
+                    <span class="text-5xl font-black text-text-main"
                         >${isAnnual
                             ? prices.pro.annual
                             : prices.pro.monthly}</span
@@ -807,28 +823,36 @@
                     >
                 </div>
                 <ul class="flex flex-col gap-4 mb-10 flex-1">
-                    <li class="flex items-center gap-3 text-sm text-white/80">
+                    <li
+                        class="flex items-center gap-3 text-sm text-text-main/80"
+                    >
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
                         >
                         <span>2,000+ Continental Channels</span>
                     </li>
-                    <li class="flex items-center gap-3 text-sm text-white/80">
+                    <li
+                        class="flex items-center gap-3 text-sm text-text-main/80"
+                    >
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
                         >
                         <span>Full API & Data Sovereignty</span>
                     </li>
-                    <li class="flex items-center gap-3 text-sm text-white/80">
+                    <li
+                        class="flex items-center gap-3 text-sm text-text-main/80"
+                    >
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
                         >
                         <span>White-label Dispute Engine</span>
                     </li>
-                    <li class="flex items-center gap-3 text-sm text-white/80">
+                    <li
+                        class="flex items-center gap-3 text-sm text-text-main/80"
+                    >
                         <span
                             class="material-symbols-outlined text-primary text-[18px]"
                             >check_circle</span
@@ -838,7 +862,7 @@
                 </ul>
                 <a
                     href="/contact"
-                    class="w-full py-4 rounded-xl border border-white/10 bg-white/5 text-center text-white font-black hover:bg-white/10 transition-all"
+                    class="w-full py-4 rounded-xl border border-white/10 bg-white/5 text-center text-text-main font-black hover:bg-white/10 transition-all"
                     >Contact Sales</a
                 >
             </div>
@@ -850,7 +874,9 @@
 <section class="w-full px-4 py-20 max-w-[1280px]" id="faq">
     <div class="flex flex-col gap-12">
         <div class="flex flex-col gap-4 text-center max-w-[720px] mx-auto">
-            <h2 class="text-white text-3xl md:text-4xl font-bold leading-tight">
+            <h2
+                class="text-text-main text-3xl md:text-4xl font-bold leading-tight"
+            >
                 Frequently Asked Questions
             </h2>
             <p class="text-text-secondary text-lg font-normal">
@@ -865,7 +891,7 @@
                 <summary
                     class="flex items-center justify-between p-6 cursor-pointer list-none"
                 >
-                    <span class="text-white font-semibold text-lg"
+                    <span class="text-text-main font-semibold text-lg"
                         >How accurate is the airplay monitoring?</span
                     >
                     <span
@@ -888,7 +914,7 @@
                 <summary
                     class="flex items-center justify-between p-6 cursor-pointer list-none"
                 >
-                    <span class="text-white font-semibold text-lg"
+                    <span class="text-text-main font-semibold text-lg"
                         >Which countries and stations do you cover?</span
                     >
                     <span
@@ -911,7 +937,7 @@
                 <summary
                     class="flex items-center justify-between p-6 cursor-pointer list-none"
                 >
-                    <span class="text-white font-semibold text-lg"
+                    <span class="text-text-main font-semibold text-lg"
                         >How does the PRO reconciliation work?</span
                     >
                     <span
@@ -935,7 +961,7 @@
                 <summary
                     class="flex items-center justify-between p-6 cursor-pointer list-none"
                 >
-                    <span class="text-white font-semibold text-lg"
+                    <span class="text-text-main font-semibold text-lg"
                         >Can I try RoyaltyTrack before committing?</span
                     >
                     <span
@@ -958,7 +984,7 @@
                 <summary
                     class="flex items-center justify-between p-6 cursor-pointer list-none"
                 >
-                    <span class="text-white font-semibold text-lg"
+                    <span class="text-text-main font-semibold text-lg"
                         >How do I add my music to the platform?</span
                     >
                     <span
@@ -981,7 +1007,7 @@
                 <summary
                     class="flex items-center justify-between p-6 cursor-pointer list-none"
                 >
-                    <span class="text-white font-semibold text-lg"
+                    <span class="text-text-main font-semibold text-lg"
                         >What payment methods do you accept?</span
                     >
                     <span
@@ -1003,7 +1029,9 @@
 <!-- CTA Section -->
 <section class="w-full py-20 bg-surface-darker border-t border-border-dark">
     <div class="max-w-[720px] mx-auto text-center flex flex-col gap-6">
-        <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight">
+        <h2
+            class="text-3xl md:text-4xl font-bold text-text-main tracking-tight"
+        >
             Ready to reclaim your <span class="text-primary italic"
                 >royalties?</span
             >
@@ -1041,7 +1069,7 @@
             class="relative w-full max-w-6xl aspect-video rounded-[32px] overflow-hidden bg-black shadow-2xl border border-white/10 group"
         >
             <button
-                class="absolute top-6 right-6 z-20 h-10 w-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-all"
+                class="absolute top-6 right-6 z-20 h-10 w-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-text-main flex items-center justify-center hover:bg-white/20 transition-all"
                 onclick={() => (showVideo = false)}
             >
                 <span class="material-symbols-outlined">close</span>
@@ -1060,7 +1088,7 @@
                         >
                     </div>
                     <p
-                        class="text-white text-xl font-black uppercase tracking-[0.2em] opacity-50"
+                        class="text-text-main text-xl font-black uppercase tracking-[0.2em] opacity-50"
                     >
                         Demo Presentation
                     </p>

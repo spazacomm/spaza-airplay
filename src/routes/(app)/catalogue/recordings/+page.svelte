@@ -4,61 +4,14 @@
 
     let { data }: { data: PageData } = $props();
 
-    // Mock Recordings Data
-    const baseRecordings = [
-        {
-            id: "rec-1",
-            title: "Sitya Loss (Radio Edit)",
-            isrc: "UG-ABB-14-00123",
-            version: "Radio Edit",
-            duration: "3:45",
-            releaseDate: "2014-05-12",
-            workTitle: "Sitya Loss",
-            label: "Big Talent Entertainment",
-            status: "Live",
-            cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&h=100&fit=crop",
-            artist: "Eddy Kenzo",
-        },
-        {
-            id: "rec-2",
-            title: "Midnight Train (Official Audio)",
-            isrc: "KE-SOL-20-00045",
-            version: "Original",
-            duration: "4:12",
-            releaseDate: "2020-06-18",
-            workTitle: "Midnight Train",
-            label: "Sol Generation",
-            status: "Live",
-            cover: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=100&h=100&fit=crop",
-            artist: "Sauti Sol",
-        },
-        {
-            id: "rec-3",
-            title: "Jerusalema (Master KG Remix)",
-            isrc: "ZA-MIC-19-00789",
-            version: "Remix",
-            duration: "5:20",
-            releaseDate: "2019-11-29",
-            workTitle: "Jerusalema",
-            label: "Open Mic Productions",
-            status: "Pending",
-            cover: "https://images.unsplash.com/photo-1459749411177-042180ce673c?w=100&h=100&fit=crop",
-            artist: "Master KG",
-        },
-    ];
+    // recordings from Supabase
+    let recordings = $state(data.recordings || []);
 
-    // Generate 500 recordings deterministically
-    let recordings = $state(
-        Array.from({ length: 500 }, (_, i) => {
-            const base = baseRecordings[i % baseRecordings.length];
-            return {
-                ...base,
-                id: `rec-${i}`,
-                isrc: `CC-XXX-${24 + (i % 5)}-${(10000 + i).toString().slice(-5)}`,
-                title: `${base.title} #${i + 1}`,
-            };
-        }),
-    );
+    $effect(() => {
+        if (data.recordings) {
+            recordings = data.recordings;
+        }
+    });
 
     // Filter & Search State
     let searchQuery = $state("");
@@ -185,13 +138,13 @@
                         <span class="text-border-dark">/</span>
                         <span class="text-text-secondary">Catalog</span>
                     </nav>
-                    <div class="space-y-1">
+                    <div>
                         <h1
-                            class="text-2xl font-bold tracking-tight text-white leading-none"
+                            class="text-3xl font-bold tracking-tight text-text-main"
                         >
                             Recordings
                         </h1>
-                        <p class="text-xs text-text-secondary font-medium">
+                        <p class="text-text-secondary mt-1">
                             Manage master recordings, ISRCs, and fingerprint
                             status.
                         </p>
@@ -216,7 +169,7 @@
                             <input
                                 type="text"
                                 placeholder="Search recordings..."
-                                class="w-full bg-surface-darker/80 border border-border-dark rounded-md py-1.5 pl-9 pr-4 text-xs text-white placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary/40 focus:border-primary/40 transition-all"
+                                class="w-full bg-surface-darker/80 border border-border-dark rounded-md py-1.5 pl-9 pr-4 text-xs text-text-main placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary/40 focus:border-primary/40 transition-all"
                                 bind:value={searchQuery}
                             />
                         </div>
@@ -263,7 +216,7 @@
                             </div>
 
                             <button
-                                class="p-1.5 rounded-md text-text-muted hover:text-white hover:bg-surface-dark transition-all"
+                                class="p-1.5 rounded-md text-text-muted hover:text-text-main hover:bg-surface-dark transition-all"
                                 onclick={resetFilters}
                                 title="Reset Filters"
                             >
@@ -356,7 +309,7 @@
                                         </div>
                                         <div class="flex flex-col gap-0.5">
                                             <p
-                                                class="font-bold text-sm text-white tracking-tight group-hover:text-primary transition-colors"
+                                                class="font-bold text-sm text-text-main tracking-tight group-hover:text-primary transition-colors"
                                             >
                                                 {rec.title}
                                             </p>
@@ -396,7 +349,7 @@
                                 </td>
                                 <td class="py-4 px-6 text-right">
                                     <button
-                                        class="size-8 flex items-center justify-center rounded-lg text-text-muted hover:text-white hover:bg-surface-dark transition-all"
+                                        class="size-8 flex items-center justify-center rounded-lg text-text-muted hover:text-text-main hover:bg-surface-dark transition-all"
                                     >
                                         <span
                                             class="material-symbols-outlined text-lg"
@@ -440,22 +393,23 @@
             <p
                 class="text-[11px] font-bold uppercase tracking-widest text-text-muted"
             >
-                Showing <span class="text-white"
+                Showing <span class="text-text-main"
                     >{paginatedRecordings.length}</span
                 >
-                of <span class="text-white">{filteredRecordings.length}</span> recordings
+                of
+                <span class="text-text-main">{filteredRecordings.length}</span> recordings
             </p>
             <div class="flex items-center gap-6">
                 <span
                     class="text-[11px] font-bold uppercase tracking-widest text-text-muted"
                 >
-                    Page <span class="text-white">{currentPage}</span> / {Math.ceil(
+                    Page <span class="text-text-main">{currentPage}</span> / {Math.ceil(
                         filteredRecordings.length / itemsPerPage,
                     ) || 1}
                 </span>
                 <div class="flex gap-2">
                     <button
-                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-white hover:bg-primary/5 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-text-main hover:bg-primary/5 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
                         onclick={() =>
                             (currentPage = Math.max(1, currentPage - 1))}
                         disabled={currentPage === 1}
@@ -465,7 +419,7 @@
                         >
                     </button>
                     <button
-                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-white hover:bg-primary/5 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-text-main hover:bg-primary/5 transition-all disabled:opacity-20 disabled:cursor-not-allowed"
                         onclick={() =>
                             (currentPage = Math.min(
                                 Math.ceil(
@@ -501,7 +455,7 @@
                 class="p-6 border-b border-border-dark flex items-center justify-between bg-surface-dark sticky top-0 z-10"
             >
                 <div>
-                    <h2 class="text-xl font-bold text-white tracking-tight">
+                    <h2 class="text-xl font-bold text-text-main tracking-tight">
                         Recording Details
                     </h2>
                     <p
@@ -511,7 +465,7 @@
                     </p>
                 </div>
                 <button
-                    class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-white transition-colors"
+                    class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-text-main transition-colors"
                     onclick={closeDetails}
                 >
                     <span class="material-symbols-outlined">close</span>
@@ -544,7 +498,7 @@
                     </div>
                     <div class="mt-6 text-center">
                         <h3
-                            class="text-2xl font-bold text-white tracking-tight leading-relaxed"
+                            class="text-2xl font-bold text-text-main tracking-tight leading-relaxed"
                         >
                             {selectedRecording.title}
                         </h3>
@@ -565,7 +519,7 @@
                                 ISRC
                             </p>
                             <p
-                                class="text-sm font-mono text-white tracking-tighter"
+                                class="text-sm font-mono text-text-main tracking-tighter"
                             >
                                 {selectedRecording.isrc}
                             </p>
@@ -577,7 +531,7 @@
                                 Version
                             </p>
                             <p
-                                class="text-sm font-semibold text-white tracking-tight uppercase"
+                                class="text-sm font-semibold text-text-main tracking-tight uppercase"
                             >
                                 {selectedRecording.version}
                             </p>
@@ -589,7 +543,7 @@
                                 Base Work
                             </p>
                             <p
-                                class="text-sm font-bold text-white hover:text-primary transition-colors cursor-pointer"
+                                class="text-sm font-bold text-text-main hover:text-primary transition-colors cursor-pointer"
                             >
                                 {selectedRecording.workTitle}
                             </p>
@@ -601,7 +555,7 @@
                                 Duration
                             </p>
                             <p
-                                class="text-sm font-mono text-white tracking-tighter"
+                                class="text-sm font-mono text-text-main tracking-tighter"
                             >
                                 {selectedRecording.duration}
                             </p>
@@ -622,7 +576,7 @@
                                     >Label</span
                                 >
                                 <span
-                                    class="text-xs font-bold text-white uppercase tracking-wider"
+                                    class="text-xs font-bold text-text-main uppercase tracking-wider"
                                     >{selectedRecording.label}</span
                                 >
                             </div>
@@ -630,7 +584,7 @@
                                 <span class="text-xs text-text-muted"
                                     >Release Date</span
                                 >
-                                <span class="text-xs font-bold text-white"
+                                <span class="text-xs font-bold text-text-main"
                                     >{selectedRecording.releaseDate}</span
                                 >
                             </div>
@@ -684,7 +638,7 @@
                 class="p-6 border-b border-border-dark flex items-center justify-between bg-surface-dark sticky top-0 z-10"
             >
                 <div>
-                    <h2 class="text-xl font-bold text-white tracking-tight">
+                    <h2 class="text-xl font-bold text-text-main tracking-tight">
                         Register New Recording
                     </h2>
                     <p class="text-xs text-text-secondary mt-1">
@@ -692,7 +646,7 @@
                     </p>
                 </div>
                 <button
-                    class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-white transition-colors"
+                    class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-text-main transition-colors"
                     onclick={() => (isCreateOffcanvasOpen = false)}
                 >
                     <span class="material-symbols-outlined">close</span>
@@ -800,25 +754,25 @@
         background: rgba(16, 185, 129, 0.05) !important;
     }
     .input {
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding: 0.75rem 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         transition: all 0.2s;
     }
     .input:focus {
         outline: none;
-        border-color: rgba(16, 185, 129, 0.5);
+        border-color: #10b981;
         box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
     }
     .select {
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding: 0.75rem 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         appearance: none;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");

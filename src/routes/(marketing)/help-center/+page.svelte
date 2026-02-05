@@ -43,7 +43,7 @@
             class="layout-content-container flex flex-col max-w-[960px] flex-1 text-center"
         >
             <h1
-                class="text-4xl md:text-6xl font-black leading-tight tracking-tight text-white mb-6"
+                class="text-4xl md:text-6xl font-black leading-tight tracking-tight text-text-main mb-6"
             >
                 How can we help you?
             </h1>
@@ -61,7 +61,7 @@
                         <span class="material-symbols-outlined">search</span>
                     </div>
                     <input
-                        class="flex-1 bg-transparent border-none text-white focus:ring-0 px-4 text-base placeholder:text-text-secondary"
+                        class="flex-1 bg-transparent border-none text-text-main focus:ring-0 px-4 text-base placeholder:text-text-secondary"
                         placeholder="Search for 'splits', 'ISRC', 'payouts'..."
                     />
                     <div class="flex items-center px-2">
@@ -116,7 +116,7 @@
 
         <!-- Categories Grid -->
         <div class="mb-16">
-            <h2 class="text-2xl font-bold text-white mb-8 px-2">
+            <h2 class="text-2xl font-bold text-text-main mb-8 px-2">
                 Browse Categories
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -131,7 +131,7 @@
                                 >{cat.icon}</span
                             >
                         </div>
-                        <h3 class="font-bold text-lg text-white mb-2">
+                        <h3 class="font-bold text-lg text-text-main mb-2">
                             {cat.title}
                         </h3>
                         <p class="text-sm text-text-secondary leading-relaxed">
@@ -145,7 +145,7 @@
         <!-- Articles & Sidebar -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div class="lg:col-span-2">
-                <h2 class="text-2xl font-bold text-white mb-6">
+                <h2 class="text-2xl font-bold text-text-main mb-6">
                     Popular Articles
                 </h2>
                 <div class="space-y-4">
@@ -158,7 +158,7 @@
                                     class="material-symbols-outlined text-text-secondary group-hover:text-primary transition-colors"
                                     >description</span
                                 >
-                                <span class="font-medium text-white"
+                                <span class="font-medium text-text-main"
                                     >{article}</span
                                 >
                             </div>
@@ -175,7 +175,7 @@
                 <div
                     class="bg-surface-dark p-6 rounded-xl border border-white/10 shadow-sm"
                 >
-                    <h3 class="text-xl font-bold text-white mb-2">
+                    <h3 class="text-xl font-bold text-text-main mb-2">
                         Can't find an answer?
                     </h3>
                     <p class="text-sm text-text-secondary mb-6">
@@ -189,7 +189,7 @@
                         >
                         <div class="flex gap-2">
                             <button
-                                class="flex-1 flex items-center justify-center gap-2 py-2 border border-white/10 rounded-lg text-white text-sm hover:bg-white/5 transition-colors"
+                                class="flex-1 flex items-center justify-center gap-2 py-2 border border-white/10 rounded-lg text-text-main text-sm hover:bg-white/5 transition-colors"
                             >
                                 <span
                                     class="material-symbols-outlined text-[18px]"
@@ -198,7 +198,7 @@
                                 Chat
                             </button>
                             <button
-                                class="flex-1 flex items-center justify-center gap-2 py-2 border border-white/10 rounded-lg text-white text-sm hover:bg-white/5 transition-colors"
+                                class="flex-1 flex items-center justify-center gap-2 py-2 border border-white/10 rounded-lg text-text-main text-sm hover:bg-white/5 transition-colors"
                             >
                                 <span
                                     class="material-symbols-outlined text-[18px]"

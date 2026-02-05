@@ -85,7 +85,7 @@
             >
         </nav>
         <div class="flex items-center justify-between">
-            <h1 class="text-xl font-bold text-white tracking-tight">
+            <h1 class="text-xl font-bold text-text-main tracking-tight">
                 Immutable Activity Audit
             </h1>
             <div class="flex items-center gap-3">
@@ -94,7 +94,7 @@
                     >Read Only</span
                 >
                 <button
-                    class="h-8 px-3 rounded-lg border border-border-dark bg-surface-darker text-[10px] font-bold text-white uppercase tracking-widest flex items-center gap-2 hover:bg-surface-dark transition-all"
+                    class="h-8 px-3 rounded-lg border border-border-dark bg-surface-darker text-[10px] font-bold text-text-main uppercase tracking-widest flex items-center gap-2 hover:bg-surface-dark transition-all"
                 >
                     <span class="material-symbols-outlined text-base"
                         >download</span
@@ -144,7 +144,7 @@
                             </div>
                         </td>
                         <td
-                            class="py-5 px-4 font-bold text-white text-xs tracking-tight"
+                            class="py-5 px-4 font-bold text-text-main text-xs tracking-tight"
                             >{log.user}</td
                         >
                         <td class="py-5 px-4">

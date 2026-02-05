@@ -1,5 +1,5 @@
 import { createServerClient } from '@supabase/ssr'
-import type { Handle } from '@sveltejs/kit'
+import { type Handle, redirect } from '@sveltejs/kit'
 import { env } from '$env/dynamic/public'
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -35,6 +35,29 @@ export const handle: Handle = async ({ event, resolve }) => {
         } catch {
             return null;
         }
+    }
+
+    const user = await event.locals.getUser();
+
+    // Route Protection
+    const isAppRoute = event.url.pathname.startsWith('/dashboard') ||
+        event.url.pathname.startsWith('/catalogue') ||
+        event.url.pathname.startsWith('/sources') ||
+        event.url.pathname.startsWith('/play-logs') ||
+        event.url.pathname.startsWith('/royalties') ||
+        event.url.pathname.startsWith('/reports') ||
+        event.url.pathname.startsWith('/analytics') ||
+        event.url.pathname.startsWith('/settings');
+
+    const isAuthRoute = event.url.pathname.startsWith('/login') ||
+        event.url.pathname.startsWith('/register');
+
+    if (isAppRoute && !user) {
+        throw redirect(303, '/login');
+    }
+
+    if (isAuthRoute && user) {
+        throw redirect(303, '/dashboard');
     }
 
     return resolve(event, {

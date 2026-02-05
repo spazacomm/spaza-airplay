@@ -35,7 +35,7 @@
     <!-- Page Header -->
     <div class="mb-12">
         <h1
-            class="text-4xl md:text-5xl font-black tracking-tight mb-4 text-white"
+            class="text-4xl md:text-5xl font-black tracking-tight mb-4 text-text-main"
         >
             Industry Insights & Education Hub
         </h1>
@@ -63,7 +63,7 @@
                 Featured Analysis
             </div>
             <h3
-                class="text-white text-3xl md:text-5xl font-black leading-tight mb-4"
+                class="text-text-main text-3xl md:text-5xl font-black leading-tight mb-4"
             >
                 The State of Royalties in Nigeria: A 2024 Deep Dive
             </h3>
@@ -101,13 +101,13 @@
                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     <div
-                        class="absolute top-4 left-4 bg-surface-dark/80 backdrop-blur-md px-3 py-1 rounded text-[10px] font-bold uppercase tracking-widest text-white border border-white/10"
+                        class="absolute top-4 left-4 bg-surface-dark/80 backdrop-blur-md px-3 py-1 rounded text-[10px] font-bold uppercase tracking-widest text-text-main border border-white/10"
                     >
                         {item.category}
                     </div>
                 </div>
                 <h4
-                    class="text-2xl font-extrabold text-white leading-tight group-hover:text-primary transition-colors mb-3"
+                    class="text-2xl font-extrabold text-text-main leading-tight group-hover:text-primary transition-colors mb-3"
                 >
                     {item.title}
                 </h4>
@@ -137,7 +137,7 @@
             <div class="p-4 bg-primary/20 rounded-2xl text-primary mb-6">
                 <span class="material-symbols-outlined text-4xl">mail</span>
             </div>
-            <h2 class="text-3xl md:text-5xl font-black text-white mb-4">
+            <h2 class="text-3xl md:text-5xl font-black text-text-main mb-4">
                 Join 5,000+ industry professionals
             </h2>
             <p class="text-text-secondary mb-10 text-lg leading-relaxed">
@@ -146,7 +146,7 @@
             </p>
             <div class="w-full flex flex-col sm:flex-row gap-4">
                 <input
-                    class="flex-1 h-14 bg-surface-darker border-white/10 rounded-xl px-6 focus:ring-primary focus:border-primary text-white outline-none"
+                    class="flex-1 h-14 bg-surface-darker border-white/10 rounded-xl px-6 focus:ring-primary focus:border-primary text-text-main outline-none"
                     placeholder="Professional email"
                     type="email"
                 />

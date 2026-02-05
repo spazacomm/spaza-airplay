@@ -2,96 +2,18 @@
     import { fly, fade } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
 
-    // Mock Data based on typical airplay detection patterns
-    let logs = $state([
-        {
-            id: "log-001",
-            timestamp: "Today, 10:42 AM",
-            song: "Sitya Loss",
-            artist: "Eddy Kenzo",
-            broadcaster: "Classic 105",
-            country: "KE",
-            duration: "3:45",
-            confidence: 0.98,
-            status: "verified",
-            audio_url: "https://example.com/audio1.mp3",
-            fingerprint_id: "9A2F3D",
-            multiplier: 1.5,
-            royalty: 12.45,
-        },
-        {
-            id: "log-002",
-            timestamp: "Today, 10:38 AM",
-            song: "Melanin",
-            artist: "Sauti Sol",
-            broadcaster: "Radio Citizen",
-            country: "KE",
-            duration: "4:12",
-            confidence: 0.85,
-            status: "pending",
-            audio_url: "https://example.com/audio2.mp3",
-            fingerprint_id: "B8C7D6",
-            multiplier: 1.2,
-            royalty: 8.5,
-        },
-        {
-            id: "log-003",
-            timestamp: "Today, 10:15 AM",
-            song: "Extravaganza",
-            artist: "Sauti Sol",
-            broadcaster: "NRG Radio",
-            country: "KE",
-            duration: "3:30",
-            confidence: 0.65,
-            status: "flagged",
-            audio_url: "https://example.com/audio3.mp3",
-            fingerprint_id: "F2E1D0",
-            multiplier: 1.0,
-            royalty: 5.2,
-        },
-        {
-            id: "log-004",
-            timestamp: "Today, 09:55 AM",
-            song: "Suzanna",
-            artist: "Sauti Sol",
-            broadcaster: "Kiss FM",
-            country: "KE",
-            duration: "3:58",
-            confidence: 0.94,
-            status: "verified",
-            audio_url: "https://example.com/audio4.mp3",
-            fingerprint_id: "E4D3C2",
-            multiplier: 1.4,
-            royalty: 11.2,
-        },
-    ]);
+    import type { PageData } from "./$types";
 
-    // Generate more mock data
-    for (let i = 0; i < 150; i++) {
-        const status =
-            i % 10 === 0 ? "flagged" : i % 3 === 0 ? "pending" : "verified";
-        logs.push({
-            id: `log-gen-${i}`,
-            timestamp: `Today, ${Math.floor(Math.random() * 12 + 1)}:${Math.floor(
-                Math.random() * 60,
-            )
-                .toString()
-                .padStart(2, "0")} AM`,
-            song: i % 2 === 0 ? `Track Alpha ${i}` : `Melody ${i}`,
-            artist: i % 2 === 0 ? "Burna Boy" : "Wizkid",
-            broadcaster: i % 5 === 0 ? "Capital FM" : "Radio Maisha",
-            country: "KE",
-            duration: `3:${Math.floor(Math.random() * 60)
-                .toString()
-                .padStart(2, "0")}`,
-            confidence: 0.5 + Math.random() * 0.49,
-            status: status,
-            audio_url: "#",
-            fingerprint_id: `FP-${Math.random().toString(36).substring(7).toUpperCase()}`,
-            multiplier: 1.1,
-            royalty: Math.random() * 15,
-        });
-    }
+    let { data }: { data: PageData } = $props();
+
+    // logs from Supabase
+    let logs = $state(data.logs || []);
+
+    $effect(() => {
+        if (data.logs) {
+            logs = data.logs;
+        }
+    });
 
     // Filter State
     let searchQuery = $state("");
@@ -204,7 +126,7 @@
 >
     <!-- Header -->
     <header
-        class="h-20 shrink-0 border-b border-border-dark bg-surface-dark/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
+        class="h-20 shrink-0 border-b border-border-dark bg-white/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
     >
         <!-- Breadcrumb -->
         <nav class="flex items-center gap-2 mb-1">
@@ -225,7 +147,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div
-                    class="size-10 rounded-xl bg-surface-darker border border-border-dark flex items-center justify-center text-primary shadow-sm"
+                    class="size-10 rounded-xl bg-background-dark border border-border-dark flex items-center justify-center text-primary shadow-saas-sm"
                 >
                     <span class="material-symbols-outlined text-2xl"
                         >history</span
@@ -233,7 +155,7 @@
                 </div>
                 <div>
                     <h1
-                        class="text-xl font-bold text-white tracking-tight leading-none"
+                        class="text-xl font-bold text-text-primary tracking-tight leading-none"
                     >
                         Detection History
                     </h1>
@@ -260,7 +182,7 @@
 
     <!-- Filters Toolbar -->
     <div
-        class="h-14 shrink-0 border-b border-border-dark bg-surface-dark/50 px-8 flex items-center gap-4 z-20 overflow-x-auto scrollbar-none"
+        class="h-14 shrink-0 border-b border-border-dark bg-white/50 px-8 flex items-center gap-4 z-20 overflow-x-auto scrollbar-none"
     >
         <div class="relative group min-w-[200px]">
             <span
@@ -270,7 +192,7 @@
             <input
                 type="text"
                 placeholder="Search tracks or artists..."
-                class="h-8 w-full bg-surface-darker border border-border-dark rounded-md pl-9 pr-4 text-xs text-white placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary/50 transition-all font-medium"
+                class="h-8 w-full bg-background-dark border border-border-dark rounded-md pl-9 pr-4 text-xs text-text-primary placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary focus:border-primary transition-all font-medium"
                 bind:value={searchQuery}
             />
         </div>
@@ -280,7 +202,7 @@
         <div class="flex items-center gap-3">
             <div class="relative">
                 <select
-                    class="h-8 w-36 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-36 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterDate}
                 >
                     {#each dateRanges as d}
@@ -295,7 +217,7 @@
 
             <div class="relative">
                 <select
-                    class="h-8 w-36 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-36 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterSource}
                 >
                     {#each sources as s}
@@ -312,7 +234,7 @@
 
             <div class="relative">
                 <select
-                    class="h-8 w-32 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-32 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterStatus}
                 >
                     {#each statuses as s}
@@ -343,7 +265,7 @@
     <!-- Table Content -->
     <main class="flex-1 overflow-auto relative">
         <table class="w-full text-left border-collapse">
-            <thead class="sticky top-0 z-10 bg-surface-dark">
+            <thead class="sticky top-0 z-10 bg-background-dark shadow-sm">
                 <tr>
                     <th
                         class="py-3 px-8 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[20%]"
@@ -371,10 +293,10 @@
                     >
                 </tr>
             </thead>
-            <tbody class="divide-y divide-border-dark/30">
+            <tbody class="divide-y divide-border-dark/50 bg-white">
                 {#each paginatedLogs as log}
                     <tr
-                        class="group hover:bg-surface-darker transition-colors cursor-pointer"
+                        class="group hover:bg-background-dark transition-colors cursor-pointer"
                         onclick={() => openInspector(log.id)}
                     >
                         <td
@@ -385,7 +307,7 @@
                         <td class="py-4 px-6">
                             <div class="flex flex-col">
                                 <span
-                                    class="text-sm font-semibold text-white group-hover:text-primary transition-colors"
+                                    class="text-sm font-semibold text-text-primary group-hover:text-primary transition-colors"
                                     >{log.song}</span
                                 >
                                 <span
@@ -446,7 +368,8 @@
                             </span>
                         </td>
                         <td class="py-4 px-8 text-right">
-                            <span class="text-sm font-mono font-bold text-white"
+                            <span
+                                class="text-sm font-mono font-bold text-text-primary"
                                 >${log.royalty.toFixed(2)}</span
                             >
                         </td>
@@ -478,7 +401,7 @@
 
     <!-- Footer with Pagination -->
     <footer
-        class="shrink-0 border-t border-border-dark bg-surface-dark px-8 py-3 flex items-center justify-between z-20"
+        class="shrink-0 border-t border-border-dark bg-white px-8 py-3 flex items-center justify-between z-20"
     >
         <div
             class="text-[10px] font-mono text-text-muted uppercase tracking-widest"
@@ -491,7 +414,7 @@
 
         <div class="flex items-center gap-2">
             <button
-                class="size-8 flex items-center justify-center rounded border border-border-dark bg-surface-darker text-text-muted hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                class="size-8 flex items-center justify-center rounded border border-border-dark bg-background-dark text-text-muted hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-saas-sm"
                 onclick={() => changePage(currentPage - 1)}
                 disabled={currentPage === 1}
             >
@@ -511,7 +434,7 @@
                         class="size-8 flex items-center justify-center rounded text-[10px] font-bold border transition-all {currentPage ===
                         page
                             ? 'bg-primary border-primary text-background-dark shadow-lg shadow-primary/20'
-                            : 'bg-surface-darker border-border-dark text-text-muted hover:text-white'}"
+                            : 'bg-surface-darker border-border-dark text-text-muted hover:text-text-main'}"
                         onclick={() => changePage(page)}
                     >
                         {page}
@@ -520,7 +443,7 @@
             </div>
 
             <button
-                class="size-8 flex items-center justify-center rounded border border-border-dark bg-surface-darker text-text-muted hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                class="size-8 flex items-center justify-center rounded border border-border-dark bg-background-dark text-text-muted hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-saas-sm"
                 onclick={() => changePage(currentPage + 1)}
                 disabled={currentPage === totalPages}
             >
@@ -571,7 +494,7 @@
                             Detections ID: {selectedLog.id}
                         </span>
                         <h2
-                            class="text-2xl font-bold text-white tracking-tight mt-2"
+                            class="text-2xl font-bold text-text-main tracking-tight mt-2"
                         >
                             {selectedLog.song}
                         </h2>
@@ -582,7 +505,7 @@
                         </p>
                     </div>
                     <button
-                        class="size-9 flex items-center justify-center rounded-xl bg-surface-darker border border-border-dark text-text-muted hover:text-white transition-all shadow-sm"
+                        class="size-9 flex items-center justify-center rounded-xl bg-surface-darker border border-border-dark text-text-muted hover:text-text-main transition-all shadow-sm"
                         onclick={closeInspector}
                     >
                         <span class="material-symbols-outlined">close</span>
@@ -603,7 +526,7 @@
                                     selectedLog.confidence * 100
                                 ).toFixed(0) === '100'
                                     ? 'text-emerald-500'
-                                    : 'text-white'}"
+                                    : 'text-text-main'}"
                                 >{(selectedLog.confidence * 100).toFixed(
                                     0,
                                 )}%</span
@@ -627,7 +550,7 @@
                             class="text-[9px] font-bold uppercase tracking-widest text-text-muted block mb-1"
                             >Duration</span
                         >
-                        <span class="text-xl font-mono font-bold text-white"
+                        <span class="text-xl font-mono font-bold text-text-main"
                             >{selectedLog.duration}</span
                         >
                     </div>
@@ -652,7 +575,7 @@
                 <section class="space-y-4">
                     <div class="flex items-center justify-between">
                         <h3
-                            class="text-xs font-bold text-white uppercase tracking-widest"
+                            class="text-xs font-bold text-text-main uppercase tracking-widest"
                         >
                             Audio Verification
                         </h3>
@@ -720,7 +643,7 @@
                 <!-- Match Analysis -->
                 <section class="space-y-4">
                     <h3
-                        class="text-xs font-bold text-white uppercase tracking-widest"
+                        class="text-xs font-bold text-text-main uppercase tracking-widest"
                     >
                         Match Analysis
                     </h3>
@@ -737,7 +660,7 @@
                                 >
                                 <div class="flex flex-col">
                                     <span
-                                        class="text-xs font-bold text-white uppercase tracking-wider"
+                                        class="text-xs font-bold text-text-main uppercase tracking-wider"
                                         >Acoustic ID</span
                                     >
                                     <span
@@ -761,7 +684,7 @@
                                 >
                                 <div class="flex flex-col">
                                     <span
-                                        class="text-xs font-bold text-white uppercase tracking-wider"
+                                        class="text-xs font-bold text-text-main uppercase tracking-wider"
                                         >Ingestion Method</span
                                     >
                                     <span
@@ -785,7 +708,7 @@
                                 >
                                 <div class="flex flex-col">
                                     <span
-                                        class="text-xs font-bold text-white uppercase tracking-wider"
+                                        class="text-xs font-bold text-text-main uppercase tracking-wider"
                                         >Detection Window</span
                                     >
                                     <span
@@ -805,7 +728,7 @@
                 <!-- Calculation Flow -->
                 <section class="space-y-4">
                     <h3
-                        class="text-xs font-bold text-white uppercase tracking-widest"
+                        class="text-xs font-bold text-text-main uppercase tracking-widest"
                     >
                         Calculation Engine
                     </h3>
@@ -817,14 +740,14 @@
                                 class="text-text-secondary font-medium uppercase tracking-wider"
                                 >Base Rate (per play)</span
                             >
-                            <span class="text-white font-mono">$8.00</span>
+                            <span class="text-text-main font-mono">$8.00</span>
                         </div>
                         <div class="flex justify-between items-center text-xs">
                             <span
                                 class="text-text-secondary font-medium uppercase tracking-wider"
                                 >Station Multiplier</span
                             >
-                            <span class="text-white font-mono"
+                            <span class="text-text-main font-mono"
                                 >x {selectedLog.multiplier.toFixed(2)}</span
                             >
                         </div>
@@ -832,7 +755,7 @@
                             class="pt-4 border-t border-border-dark flex justify-between items-center"
                         >
                             <span
-                                class="text-xs font-bold text-white uppercase tracking-widest"
+                                class="text-xs font-bold text-text-main uppercase tracking-widest"
                                 >Calculated Royalty</span
                             >
                             <span
@@ -849,7 +772,7 @@
                 class="p-6 border-t border-border-dark bg-surface-darker/50 flex gap-3"
             >
                 <button
-                    class="flex-1 h-12 rounded-xl border border-border-dark bg-surface-dark text-white text-xs font-bold uppercase tracking-widest hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/30 transition-all flex items-center justify-center gap-2"
+                    class="flex-1 h-12 rounded-xl border border-border-dark bg-surface-dark text-text-main text-xs font-bold uppercase tracking-widest hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/30 transition-all flex items-center justify-center gap-2"
                 >
                     <span class="material-symbols-outlined text-lg">flag</span>
                     Flag Incident

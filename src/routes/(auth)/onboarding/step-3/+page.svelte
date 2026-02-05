@@ -14,7 +14,7 @@
     <title>Catalog Import | Spaza Airplay Onboarding</title>
 </svelte:head>
 
-<div class="p-10 max-w-5xl mx-auto w-full text-white">
+<div class="p-10 max-w-5xl mx-auto w-full text-text-main">
     <!-- PageHeading -->
     <div class="mb-10 flex flex-wrap justify-between items-end gap-6">
         <div class="max-w-2xl">
@@ -174,7 +174,7 @@
         <!-- Sidebar: Requirements -->
         <div class="space-y-6">
             <div
-                class="bg-surface-dark text-white p-6 rounded-xl border border-white/10 shadow-xl overflow-hidden relative"
+                class="bg-surface-dark text-text-main p-6 rounded-xl border border-white/10 shadow-xl overflow-hidden relative"
             >
                 <div
                     class="absolute -top-12 -right-12 size-32 bg-primary/20 blur-3xl rounded-full"
@@ -185,7 +185,7 @@
                     Metadata Intelligence
                 </h4>
                 <p class="text-sm text-slate-300 mb-6 leading-relaxed">
-                    Our platform uses <span class="text-white font-bold"
+                    Our platform uses <span class="text-text-main font-bold"
                         >Music Intelligence AI</span
                     > to extract attributes from your audio.
                 </p>
@@ -196,7 +196,7 @@
                             >payments</span
                         >
                         <span class="text-xs text-slate-300"
-                            ><strong class="text-white block"
+                            ><strong class="text-text-main block"
                                 >Accurate Royalties</strong
                             > Matches ISRC codes to global reports.</span
                         >
@@ -207,7 +207,7 @@
                             >search</span
                         >
                         <span class="text-xs text-slate-300"
-                            ><strong class="text-white block"
+                            ><strong class="text-text-main block"
                                 >Search Discovery</strong
                             > Auto-populates genres for curators.</span
                         >
@@ -223,7 +223,7 @@
     >
         <button
             onclick={handleBack}
-            class="flex items-center gap-2 text-text-secondary font-bold hover:text-white transition-colors"
+            class="flex items-center gap-2 text-text-secondary font-bold hover:text-text-main transition-colors"
         >
             <span class="material-symbols-outlined">arrow_back</span>
             Back to Rights

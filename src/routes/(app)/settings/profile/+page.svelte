@@ -17,7 +17,7 @@
         class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10"
     >
         <div>
-            <h1 class="text-4xl font-black tracking-tight text-white">
+            <h1 class="text-4xl font-black tracking-tight text-text-main">
                 Account Settings
             </h1>
             <p class="text-text-secondary mt-2">
@@ -87,7 +87,7 @@
                     >Legal Name</label
                 >
                 <input
-                    class="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-4 outline-none transition-all text-white"
+                    class="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-4 outline-none transition-all text-text-main"
                     placeholder="Full legal name"
                     type="text"
                     value={profile.legal_name || ""}
@@ -98,7 +98,7 @@
                     >Stage Name</label
                 >
                 <input
-                    class="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-4 outline-none transition-all text-white"
+                    class="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-4 outline-none transition-all text-text-main"
                     placeholder="Professional moniker"
                     type="text"
                     value={profile.stage_name || ""}
@@ -109,7 +109,7 @@
                     >Email Address (Managed in Identity)</label
                 >
                 <input
-                    class="w-full bg-white/5 border border-white/10 opacity-50 cursor-not-allowed rounded-lg p-4 outline-none text-white"
+                    class="w-full bg-white/5 border border-white/10 opacity-50 cursor-not-allowed rounded-lg p-4 outline-none text-text-main"
                     disabled
                     type="email"
                     value={profile.email || "user@example.com"}
@@ -133,7 +133,7 @@
                     >IPI Number</label
                 >
                 <input
-                    class="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-4 outline-none transition-all text-white"
+                    class="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-4 outline-none transition-all text-text-main"
                     placeholder="Interested Party Info"
                     type="text"
                     value={profile.ipi_number || ""}
@@ -144,7 +144,7 @@
                     >IPN Number</label
                 >
                 <input
-                    class="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-4 outline-none transition-all text-white"
+                    class="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-4 outline-none transition-all text-text-main"
                     placeholder="International Performer Number"
                     type="text"
                     value={profile.ipn_number || ""}
@@ -155,7 +155,7 @@
                     >Primary Territory</label
                 >
                 <select
-                    class="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-4 outline-none transition-all text-white appearance-none"
+                    class="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg p-4 outline-none transition-all text-text-main appearance-none"
                     value={profile.primary_territory || "ZA"}
                 >
                     <option value="ZA">South Africa (SAMRO)</option>

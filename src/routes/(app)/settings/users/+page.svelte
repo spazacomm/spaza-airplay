@@ -93,7 +93,7 @@
             >
         </nav>
         <div class="flex items-center justify-between">
-            <h1 class="text-xl font-bold text-white tracking-tight">
+            <h1 class="text-xl font-bold text-text-main tracking-tight">
                 System Access & Users
             </h1>
             <button
@@ -115,7 +115,7 @@
                 >
                     <div class="flex justify-between items-start mb-6">
                         <div
-                            class="size-12 rounded-full border-2 border-primary/20 bg-surface-dark flex items-center justify-center text-xl font-black text-white"
+                            class="size-12 rounded-full border-2 border-primary/20 bg-surface-dark flex items-center justify-center text-xl font-black text-text-main"
                         >
                             {user.name.charAt(0)}
                         </div>
@@ -132,7 +132,7 @@
                         </button>
                     </div>
                     <div>
-                        <h3 class="font-bold text-white text-lg">
+                        <h3 class="font-bold text-text-main text-lg">
                             {user.name}
                         </h3>
                         <p class="text-xs text-text-muted mb-4">{user.email}</p>
@@ -162,7 +162,9 @@
             class="fixed top-2 bottom-2 right-2 w-[400px] bg-surface-dark border border-border-dark rounded-2xl z-50 p-8 space-y-6"
             transition:fly={{ x: 50, duration: 300, easing: cubicOut }}
         >
-            <h2 class="text-xl font-bold text-white uppercase tracking-tighter">
+            <h2
+                class="text-xl font-bold text-text-main uppercase tracking-tighter"
+            >
                 Invite Collaborator
             </h2>
             <div class="space-y-4">
@@ -195,20 +197,20 @@
 <style>
     .input {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding: 0 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
     }
     .select {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding: 0 1rem;
-        color: white;
+        color: #0f172a;
         appearance: none;
     }
 </style>

@@ -32,7 +32,7 @@
                         >
                             Step 2 of 5
                         </p>
-                        <h1 class="text-2xl font-bold mt-1 text-white">
+                        <h1 class="text-2xl font-bold mt-1 text-text-main">
                             Rights Profile Setup
                         </h1>
                     </div>
@@ -57,7 +57,7 @@
         <div
             class="bg-surface-dark p-8 rounded-xl border border-white/10 shadow-xl"
         >
-            <div class="flex flex-col gap-8 text-white">
+            <div class="flex flex-col gap-8 text-text-main">
                 <!-- Section 1: Territory -->
                 <section>
                     <div class="flex items-center gap-2 mb-4">
@@ -72,7 +72,7 @@
                     </p>
                     <div class="relative max-w-md">
                         <select
-                            class="w-full bg-surface-darker border border-white/10 rounded-lg px-4 py-3 appearance-none focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-white"
+                            class="w-full bg-surface-darker border border-white/10 rounded-lg px-4 py-3 appearance-none focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-text-main"
                         >
                             <option value="ZA">South Africa (SAMRO)</option>
                             <option value="NG">Nigeria (COSON/MCSN)</option>
@@ -174,7 +174,7 @@
                             />
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-sm font-semibold text-white"
+                            <span class="text-sm font-semibold text-text-main"
                                 >Verify these details later</span
                             >
                             <span class="text-xs text-text-secondary"
@@ -192,7 +192,7 @@
         <div class="flex items-center justify-between pb-20">
             <button
                 onclick={handleBack}
-                class="flex items-center gap-2 px-6 py-3 font-semibold text-text-secondary hover:text-white transition-colors"
+                class="flex items-center gap-2 px-6 py-3 font-semibold text-text-secondary hover:text-text-main transition-colors"
             >
                 <span class="material-symbols-outlined">arrow_back</span>
                 Back

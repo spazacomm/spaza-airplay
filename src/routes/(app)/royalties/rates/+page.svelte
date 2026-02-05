@@ -188,7 +188,7 @@
 >
     <!-- Header -->
     <header
-        class="h-20 shrink-0 border-b border-border-dark bg-surface-dark/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
+        class="h-20 shrink-0 border-b border-border-dark bg-white/95 backdrop-blur-sm z-30 px-8 flex flex-col justify-center"
     >
         <!-- Breadcrumbs -->
         <nav class="flex items-center gap-2 mb-1">
@@ -216,7 +216,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div
-                    class="size-10 rounded-xl bg-surface-darker border border-border-dark flex items-center justify-center text-primary shadow-sm"
+                    class="size-10 rounded-xl bg-background-dark border border-border-dark flex items-center justify-center text-primary shadow-saas-sm"
                 >
                     <span class="material-symbols-outlined text-2xl"
                         >account_balance_wallet</span
@@ -224,7 +224,7 @@
                 </div>
                 <div>
                     <h1
-                        class="text-xl font-bold text-white tracking-tight leading-none"
+                        class="text-xl font-bold text-text-primary tracking-tight leading-none"
                     >
                         Royalty Rates Engine
                     </h1>
@@ -235,7 +235,7 @@
             </div>
 
             <button
-                class="h-9 px-4 btn-primary rounded-lg flex items-center gap-2 shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all font-bold uppercase tracking-widest text-[10px]"
+                class="h-9 px-4 btn-primary rounded-md flex items-center gap-2 shadow-saas-sm transition-all font-bold uppercase tracking-widest text-[10px]"
                 onclick={() => (isCreateOpen = true)}
             >
                 <span class="material-symbols-outlined text-lg">add_circle</span
@@ -247,7 +247,7 @@
 
     <!-- Filters Bar -->
     <div
-        class="h-14 shrink-0 border-b border-border-dark bg-surface-dark/50 px-8 flex items-center gap-4 z-20 overflow-x-auto scrollbar-none"
+        class="h-14 shrink-0 border-b border-border-dark bg-white/50 px-8 flex items-center gap-4 z-20 overflow-x-auto scrollbar-none"
     >
         <!-- Search -->
         <div class="relative group min-w-[240px]">
@@ -258,7 +258,7 @@
             <input
                 type="text"
                 placeholder="Search rule or society..."
-                class="h-8 w-full bg-surface-darker border border-border-dark rounded-md pl-9 pr-4 text-xs text-white placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary/50 transition-all font-medium"
+                class="h-8 w-full bg-background-dark border border-border-dark rounded-md pl-9 pr-4 text-xs text-text-primary placeholder:text-text-muted/60 focus:ring-1 focus:ring-primary focus:border-primary transition-all font-medium"
                 bind:value={searchQuery}
             />
         </div>
@@ -269,7 +269,7 @@
             <!-- Society Filter -->
             <div class="relative group">
                 <select
-                    class="h-8 w-36 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-36 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterSociety}
                 >
                     {#each societies as s}
@@ -287,7 +287,7 @@
             <!-- Method Filter -->
             <div class="relative group">
                 <select
-                    class="h-8 w-40 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-40 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterMethod}
                 >
                     <option value="All">All Methods</option>
@@ -304,7 +304,7 @@
             <!-- Source Type Filter -->
             <div class="relative group">
                 <select
-                    class="h-8 w-40 appearance-none bg-surface-darker border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/30"
+                    class="h-8 w-40 appearance-none bg-background-dark border border-border-dark rounded-md pl-2.5 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-secondary cursor-pointer hover:border-primary/30 transition-colors focus:ring-1 focus:ring-primary/20"
                     bind:value={filterSourceType}
                 >
                     <option value="All">All Source Types</option>
@@ -332,7 +332,7 @@
     <!-- Data Table -->
     <main class="flex-1 overflow-auto relative">
         <table class="w-full text-left border-collapse">
-            <thead class="sticky top-0 z-10 bg-surface-dark shadow-sm">
+            <thead class="sticky top-0 z-10 bg-background-dark shadow-sm">
                 <tr>
                     <th
                         class="py-3 px-8 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[12%]"
@@ -360,22 +360,22 @@
                     >
                 </tr>
             </thead>
-            <tbody class="divide-y divide-border-dark/30">
+            <tbody class="divide-y divide-border-dark/50 bg-white">
                 {#each filteredRates as rate}
                     <tr
-                        class="group hover:bg-surface-darker/50 transition-colors cursor-pointer"
+                        class="group hover:bg-background-dark transition-colors cursor-pointer"
                         onclick={() => openDetail(rate.id)}
                     >
                         <td class="py-4 px-8">
                             <span
-                                class="px-2 py-0.5 rounded border border-border-dark bg-surface-darker text-[10px] font-bold text-text-secondary"
+                                class="px-2 py-0.5 rounded border border-border-dark bg-background-dark text-[10px] font-bold text-text-secondary"
                             >
                                 {rate.society_name}
                             </span>
                         </td>
                         <td class="py-4 px-4">
                             <div
-                                class="text-sm font-semibold text-white group-hover:text-primary transition-colors"
+                                class="text-sm font-semibold text-text-primary group-hover:text-primary transition-colors"
                             >
                                 {rate.name}
                             </div>
@@ -456,7 +456,7 @@
 
     <!-- Footer Stats -->
     <footer
-        class="h-10 shrink-0 border-t border-border-dark bg-surface-dark px-8 flex items-center justify-between text-[10px] font-mono text-text-muted uppercase tracking-widest"
+        class="h-10 shrink-0 border-t border-border-dark bg-white px-8 flex items-center justify-between text-[10px] font-mono text-text-muted uppercase tracking-widest"
     >
         <div>Total Active Rules: {filteredRates.length}</div>
         <div class="flex gap-4">
@@ -491,11 +491,11 @@
                 class="p-6 border-b border-border-dark bg-surface-dark relative"
             >
                 <div class="flex justify-between items-start mb-1">
-                    <h2 class="text-xl font-bold text-white tracking-tight">
+                    <h2 class="text-xl font-bold text-text-main tracking-tight">
                         New Calculation Rule
                     </h2>
                     <button
-                        class="size-8 flex items-center justify-center rounded-lg hover:bg-surface-darker text-text-muted hover:text-white transition-colors"
+                        class="size-8 flex items-center justify-center rounded-lg hover:bg-surface-darker text-text-muted hover:text-text-main transition-colors"
                         onclick={() => (isCreateOpen = false)}
                     >
                         <span class="material-symbols-outlined">close</span>
@@ -563,7 +563,7 @@
                 <!-- Logic Setup -->
                 <div class="pt-6 border-t border-border-dark space-y-4">
                     <h3
-                        class="text-xs font-bold text-white uppercase tracking-widest"
+                        class="text-xs font-bold text-text-main uppercase tracking-widest"
                     >
                         Calculation Logic
                     </h3>
@@ -696,7 +696,7 @@
                             {selectedRate.society_name} Authority
                         </span>
                         <h2
-                            class="text-2xl font-bold text-white tracking-tight mt-3"
+                            class="text-2xl font-bold text-text-main tracking-tight mt-3"
                         >
                             {selectedRate.name}
                         </h2>
@@ -707,7 +707,7 @@
                         </p>
                     </div>
                     <button
-                        class="size-9 flex items-center justify-center rounded-xl bg-surface-darker border border-border-dark text-text-muted hover:text-white transition-all shadow-sm"
+                        class="size-9 flex items-center justify-center rounded-xl bg-surface-darker border border-border-dark text-text-muted hover:text-text-main transition-all shadow-sm"
                         onclick={closeDetail}
                     >
                         <span class="material-symbols-outlined">close</span>
@@ -726,7 +726,8 @@
                             <span
                                 class="size-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"
                             ></span>
-                            <span class="text-xs font-bold text-white uppercase"
+                            <span
+                                class="text-xs font-bold text-text-main uppercase"
                                 >Active</span
                             >
                         </div>
@@ -739,7 +740,7 @@
                             >Method</span
                         >
                         <span
-                            class="text-xs font-bold text-white uppercase truncate block"
+                            class="text-xs font-bold text-text-main uppercase truncate block"
                             >{formatEnum(selectedRate.calculation_method)}</span
                         >
                     </div>
@@ -750,7 +751,7 @@
                             class="text-[9px] font-bold uppercase tracking-widest text-text-muted block mb-1"
                             >Effective</span
                         >
-                        <span class="text-xs font-mono font-bold text-white"
+                        <span class="text-xs font-mono font-bold text-text-main"
                             >{selectedRate.effective_date}</span
                         >
                     </div>
@@ -762,7 +763,7 @@
                 <!-- Rate Logic -->
                 <section class="space-y-4">
                     <h3
-                        class="text-xs font-bold text-white uppercase tracking-widest flex items-center gap-2"
+                        class="text-xs font-bold text-text-main uppercase tracking-widest flex items-center gap-2"
                     >
                         <span class="material-symbols-outlined text-base"
                             >analytics</span
@@ -797,7 +798,7 @@
                                 >Source Applicability</span
                             >
                             <span
-                                class="text-xs font-bold text-white uppercase tracking-widest"
+                                class="text-xs font-bold text-text-main uppercase tracking-widest"
                                 >{formatEnum(selectedRate.source_type)}</span
                             >
                         </div>
@@ -808,7 +809,7 @@
                 <section class="space-y-4">
                     <div class="flex items-center justify-between">
                         <h3
-                            class="text-xs font-bold text-white uppercase tracking-widest flex items-center gap-2"
+                            class="text-xs font-bold text-text-main uppercase tracking-widest flex items-center gap-2"
                         >
                             <span class="material-symbols-outlined text-base"
                                 >rule</span
@@ -848,7 +849,7 @@
                 <!-- Audit History -->
                 <section class="space-y-4">
                     <h3
-                        class="text-xs font-bold text-white uppercase tracking-widest flex items-center gap-2"
+                        class="text-xs font-bold text-text-main uppercase tracking-widest flex items-center gap-2"
                     >
                         <span class="material-symbols-outlined text-base"
                             >history</span
@@ -865,7 +866,7 @@
                                 <div
                                     class="size-1.5 rounded-full bg-emerald-500"
                                 ></div>
-                                <span class="text-white font-medium"
+                                <span class="text-text-main font-medium"
                                     >Initial Deploy</span
                                 >
                             </div>
@@ -887,7 +888,7 @@
                 class="p-6 border-t border-border-dark bg-surface-darker/50 flex gap-3"
             >
                 <button
-                    class="flex-1 h-12 rounded-xl border border-border-dark bg-surface-dark text-white text-[10px] font-bold uppercase tracking-widest hover:bg-surface-darker transition-all flex items-center justify-center gap-2"
+                    class="flex-1 h-12 rounded-xl border border-border-dark bg-surface-dark text-text-main text-[10px] font-bold uppercase tracking-widest hover:bg-surface-darker transition-all flex items-center justify-center gap-2"
                 >
                     <span class="material-symbols-outlined text-lg"
                         >archive</span
@@ -910,33 +911,33 @@
 <style>
     .input {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         transition: all 0.2s;
     }
     .input:focus {
         outline: none;
-        border-color: rgba(16, 185, 129, 0.5);
+        border-color: #10b981;
         box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
     }
     .select {
         height: 2.75rem;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
         padding-left: 1rem;
         padding-right: 2.5rem;
-        color: white;
+        color: #0f172a;
         font-size: 0.875rem;
         font-weight: 500;
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(148, 163, 184, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(71, 85, 105, 1)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 0.75rem center;
         background-size: 1.25rem;
