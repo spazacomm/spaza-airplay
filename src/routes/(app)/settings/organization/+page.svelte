@@ -137,18 +137,15 @@
 <style>
     .input {
         height: 3rem;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 1rem;
-        padding: 0 1.25rem;
-        color: #0f172a;
+        @apply bg-slate-50 border border-slate-200 rounded-xl px-5 text-slate-900 text-sm font-medium transition-all;
+    }
+    .input:focus {
+        @apply outline-none border-primary/50 ring-2 ring-primary/10;
     }
     .textarea {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 1rem;
-        padding: 1rem;
-        color: #0f172a;
-        resize: none;
+        @apply bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-900 text-sm font-medium transition-all resize-none;
+    }
+    .textarea:focus {
+        @apply outline-none border-primary/50 ring-2 ring-primary/10;
     }
 </style>

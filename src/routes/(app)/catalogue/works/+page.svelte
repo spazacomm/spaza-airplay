@@ -396,34 +396,19 @@
         </div>
 
         <!-- Table Area -->
-        <div class="flex-1">
-            <div class="overflow-x-auto bg-surface-dark">
-                <table class="w-full text-left border-collapse">
-                    <thead
-                        class="bg-background-dark border-b border-border-dark shadow-sm sticky top-0 z-10"
-                    >
+        <div class="flex-1 pb-6">
+            <div
+                class="overflow-auto max-h-[calc(100vh-280px)] bg-white border-t border-slate-200"
+            >
+                <table class="table-enterprise">
+                    <thead>
                         <tr>
-                            <th
-                                class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary"
-                                >Work Title</th
-                            >
-                            <th
-                                class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary"
-                                >ISWC</th
-                            >
-                            <th
-                                class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary"
-                                >Contributors</th
-                            >
-                            <th
-                                class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary text-right"
-                                >Total Plays</th
-                            >
-                            <th
-                                class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary text-right"
-                                >Earnings</th
-                            >
-                            <th class="py-4 px-6 w-10"></th>
+                            <th>Work Title</th>
+                            <th>ISWC</th>
+                            <th>Contributors</th>
+                            <th class="th-numeric">Total Plays</th>
+                            <th class="th-numeric">Earnings</th>
+                            <th class="w-10"></th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-border-dark/50">
@@ -439,56 +424,38 @@
                                         class="absolute left-0 top-0 bottom-0 w-1 bg-primary"
                                     ></td>
                                 {/if}
-                                <td class="py-5 px-8">
-                                    <div class="flex items-center gap-4">
-                                        <div
-                                            class="size-12 rounded-xl overflow-hidden bg-surface-dark flex items-center justify-center text-text-secondary shrink-0 shadow-lg border border-border-dark"
+                                <td class="py-3 px-4">
+                                    <div class="flex flex-col gap-0.5">
+                                        <p
+                                            class="font-semibold text-sm text-text-primary tracking-tight group-hover:text-primary transition-colors"
                                         >
-                                            {#if work.recordings?.[0]?.cover}
-                                                <img
-                                                    src={work.recordings[0]
-                                                        .cover}
-                                                    alt={work.title}
-                                                    class="w-full h-full object-cover"
-                                                />
-                                            {:else}
+                                            {work.title}
+                                        </p>
+                                        <div
+                                            class="flex flex-wrap gap-x-1 max-w-[250px]"
+                                        >
+                                            {#each work.contributors.slice(0, 2) as c, i}
                                                 <span
-                                                    class="material-symbols-outlined text-2xl"
-                                                    >sketch</span
+                                                    class="text-[11px] text-text-muted"
                                                 >
+                                                    {c.name}{i <
+                                                    Math.min(
+                                                        1,
+                                                        work.contributors
+                                                            .length - 1,
+                                                    )
+                                                        ? ","
+                                                        : ""}
+                                                </span>
+                                            {/each}
+                                            {#if work.contributors.length > 2}
+                                                <span
+                                                    class="text-[11px] text-primary/70"
+                                                >
+                                                    +{work.contributors.length -
+                                                        2}
+                                                </span>
                                             {/if}
-                                        </div>
-                                        <div class="flex flex-col gap-0.5">
-                                            <p
-                                                class="font-bold text-base text-text-primary tracking-tight group-hover:text-primary transition-colors"
-                                            >
-                                                {work.title}
-                                            </p>
-                                            <div
-                                                class="flex flex-wrap gap-x-1 gap-y-0.5 max-w-[200px]"
-                                            >
-                                                {#each work.contributors.slice(0, 3) as c, i}
-                                                    <span
-                                                        class="text-[11px] font-medium text-text-secondary"
-                                                    >
-                                                        {c.name}{i <
-                                                        Math.min(
-                                                            2,
-                                                            work.contributors
-                                                                .length - 1,
-                                                        )
-                                                            ? ","
-                                                            : ""}
-                                                    </span>
-                                                {/each}
-                                                {#if work.contributors.length > 3}
-                                                    <span
-                                                        class="text-[11px] font-bold text-primary/80"
-                                                        >+{work.contributors
-                                                            .length - 3} more</span
-                                                    >
-                                                {/if}
-                                            </div>
                                         </div>
                                     </div>
                                 </td>

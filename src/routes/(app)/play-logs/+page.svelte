@@ -263,42 +263,23 @@
     </div>
 
     <!-- Table Content -->
-    <main class="flex-1 overflow-auto relative">
-        <table class="w-full text-left border-collapse">
-            <thead class="sticky top-0 z-10 bg-background-dark shadow-sm">
+    <main
+        class="flex-1 overflow-auto relative bg-white border-t border-slate-200"
+    >
+        <table class="table-enterprise">
+            <thead>
                 <tr>
-                    <th
-                        class="py-3 px-8 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[20%]"
-                        >Timestamp</th
-                    >
-                    <th
-                        class="py-3 px-6 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[30%]"
-                        >Track & Artist</th
-                    >
-                    <th
-                        class="py-3 px-6 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[15%]"
-                        >Broadcaster</th
-                    >
-                    <th
-                        class="py-3 px-6 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[15%]"
-                        >Confidence</th
-                    >
-                    <th
-                        class="py-3 px-6 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[10%]"
-                        >Status</th
-                    >
-                    <th
-                        class="py-3 px-8 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark text-right w-[10%]"
-                        >Royalty</th
-                    >
+                    <th class="px-8 whitespace-nowrap">Timestamp</th>
+                    <th class="px-6 min-w-[300px]">Track & Artist</th>
+                    <th class="px-6 whitespace-nowrap">Broadcaster</th>
+                    <th class="px-6 whitespace-nowrap">Confidence</th>
+                    <th class="px-6 whitespace-nowrap">Status</th>
+                    <th class="px-8 text-right whitespace-nowrap">Royalty</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-border-dark/50 bg-white">
+            <tbody class="divide-y divide-slate-100">
                 {#each paginatedLogs as log}
-                    <tr
-                        class="group hover:bg-background-dark transition-colors cursor-pointer"
-                        onclick={() => openInspector(log.id)}
-                    >
+                    <tr onclick={() => openInspector(log.id)}>
                         <td
                             class="py-4 px-8 text-xs font-mono text-text-secondary"
                         >

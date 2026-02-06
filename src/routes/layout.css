@@ -1,52 +1,66 @@
 @import 'tailwindcss';
 
 @theme {
-  /* SaaS Data Table (Slate/Blue) Palette */
-  --color-primary: #10b981; /* Brand Green */
-  --color-primary-hover: #059669;
-  --color-secondary: #64748b; /* Slate Gray */
-  --color-secondary-hover: #475569;
+  /* ========================================
+     Spaza Airplay Design System
+     Brand: Teal/Emerald (#26A77D)
+     ======================================== */
   
-  /* Gradation Accents */
-  --color-accent: #0ea5e9; /* Sky Blue */
-  --color-complement: #6366f1; /* Indigo */
+  /* Primary Brand Colors */
+  --color-primary: #26A77D;
+  --color-primary-hover: #1E8D69;
+  --color-primary-light: #D1FAE5;
+  --color-primary-muted: rgba(38, 167, 125, 0.12);
+  
+  /* Secondary & Accent */
+  --color-secondary: #64748B;
+  --color-secondary-hover: #475569;
+  --color-accent: #3B82F6;
+  --color-complement: #6366F1;
 
-  /* Backgrounds (Clean Slate) */
-  --color-background-light: #ffffff;
-  --color-background-dark: #f8fafc;
-  --color-background-darker: #f1f5f9;
+  /* Background Colors (Teal-Tinted Grays) */
+  --color-background-light: #FFFFFF;
+  --color-background-dark: #F8FAFB;
+  --color-background-darker: #F1F5F9;
 
-  /* Elevated Surfaces (White) */
-  --color-surface-light: #ffffff;
-  --color-surface-dark: #fbfcfd;
-  --color-surface-darker: #f8fafc;
+  /* Surface Colors */
+  --color-surface-light: #FFFFFF;
+  --color-surface-dark: #FAFCFC;
+  --color-surface-darker: #F8FAFB;
 
-  /* Structural Borders */
-  --color-border-light: #f1f5f9;
-  --color-border-dark: #e2e8f0;
-  --color-border-hover: #cbd5e1;
+  /* Borders */
+  --color-border-light: #F1F5F9;
+  --color-border-dark: #E2E8F0;
+  --color-border-hover: #CBD5E1;
 
-  /* Semantic Text */
-  --color-text-primary: #0f172a;
+  /* Text Colors */
+  --color-text-primary: #0F172A;
   --color-text-secondary: #475569;
-  --color-text-muted: #94a3b8;
+  --color-text-muted: #94A3B8;
+  --color-text-main: #334155;
   --color-text-dark: #020617;
 
-  /* High-Performance Typography */
-  --font-display: "Inter", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  /* Semantic Colors */
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --color-info: #3B82F6;
 
-  /* Precision Radii */
+  /* Typography - Plus Jakarta Sans */
+  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* Radii */
   --radius-default: 0.375rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-2xl: 1rem;
   --radius-full: 9999px;
 
-  /* Clean Shadows */
-  --shadow-primary-glow: 0 0 15px rgba(16, 185, 129, 0.1);
+  /* Shadows */
+  --shadow-primary-glow: 0 0 15px rgba(38, 167, 125, 0.15);
   --shadow-saas-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-saas-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-saas-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
 }
 
 /* ==========================================
@@ -200,6 +214,230 @@
 	/* Section header */
 	.section-header {
 		@apply text-xs font-bold uppercase tracking-wider text-text-secondary mb-4;
+	}
+
+	/* ==========================================
+	   Enterprise Table Components
+	   ========================================== */
+
+	/* Enterprise Table Container */
+	.table-enterprise {
+		@apply w-full text-left border-collapse;
+	}
+
+	.table-enterprise thead {
+		@apply bg-slate-100 sticky top-0 z-20;
+	}
+
+	.table-enterprise th {
+		@apply px-6 py-3 text-[11px] font-bold uppercase tracking-wider text-slate-700
+		       border-b-2 border-slate-200 whitespace-nowrap bg-slate-100;
+	}
+
+	.table-enterprise th:first-child {
+		@apply pl-8;
+	}
+
+	.table-enterprise th:last-child {
+		@apply pr-8;
+	}
+
+	.table-enterprise tbody {
+		@apply divide-y divide-slate-100;
+	}
+
+	.table-enterprise tbody tr {
+		@apply bg-white hover:bg-slate-50 transition-colors cursor-pointer
+		       border-l-4 border-l-transparent;
+	}
+
+	.table-enterprise tbody tr:hover {
+		@apply border-l-primary;
+	}
+
+	.table-enterprise tbody tr.active {
+		@apply bg-primary/5 border-l-primary;
+	}
+
+	.table-enterprise td {
+		@apply px-6 py-3 text-[14px] text-slate-900 align-middle;
+	}
+
+	.table-enterprise td:first-child {
+		@apply pl-8 font-semibold text-slate-950;
+	}
+
+	.table-enterprise td:last-child {
+		@apply pr-8;
+	}
+
+	/* Sortable Header */
+	.th-sortable {
+		@apply cursor-pointer select-none hover:text-slate-700 transition-colors;
+	}
+
+	.th-sortable:hover {
+		@apply bg-slate-100/50;
+	}
+
+	/* Numeric columns - right aligned */
+	.td-numeric {
+		@apply text-right font-mono tabular-nums;
+	}
+
+	.th-numeric {
+		@apply text-right;
+	}
+
+	/* Status badges for tables */
+	.status-dot {
+		@apply inline-block w-2 h-2 rounded-full mr-2;
+	}
+
+	.status-dot-active {
+		@apply bg-emerald-500;
+	}
+
+	.status-dot-pending {
+		@apply bg-amber-500;
+	}
+
+	.status-dot-inactive {
+		@apply bg-slate-300;
+	}
+
+	.status-dot-error {
+		@apply bg-red-500;
+	}
+
+	/* ==========================================
+	   Enterprise Offcanvas Components
+	   ========================================== */
+
+	/* Offcanvas Backdrop */
+	.offcanvas-backdrop {
+		@apply fixed inset-0 bg-black/40 backdrop-blur-sm z-40;
+	}
+
+	/* Offcanvas Panel */
+	.offcanvas-panel {
+		@apply fixed right-0 top-0 bottom-0 w-full max-w-[480px] bg-white
+		       border-l border-slate-200 shadow-2xl z-50 flex flex-col;
+	}
+
+	.offcanvas-panel-wide {
+		@apply max-w-[560px];
+	}
+
+	/* Offcanvas Header */
+	.offcanvas-header {
+		@apply px-6 py-5 border-b border-slate-200 bg-white sticky top-0 z-10
+		       flex items-start justify-between gap-4;
+	}
+
+	.offcanvas-header-icon {
+		@apply size-10 rounded-xl bg-slate-100 border border-slate-200
+		       flex items-center justify-center text-primary shrink-0;
+	}
+
+	.offcanvas-title {
+		@apply text-lg font-bold text-slate-900 leading-tight;
+	}
+
+	.offcanvas-subtitle {
+		@apply text-xs text-slate-500 mt-0.5;
+	}
+
+	.offcanvas-close {
+		@apply size-8 rounded-lg flex items-center justify-center
+		       text-slate-400 hover:text-slate-600 hover:bg-slate-100
+		       transition-colors shrink-0;
+	}
+
+	/* Offcanvas Body */
+	.offcanvas-body {
+		@apply flex-1 overflow-y-auto p-6;
+	}
+
+	/* Offcanvas Footer */
+	.offcanvas-footer {
+		@apply px-6 py-4 border-t border-slate-200 bg-slate-50/80
+		       flex items-center gap-3;
+	}
+
+	/* Offcanvas Tabs */
+	.offcanvas-tabs {
+		@apply flex border-b border-slate-200 bg-slate-50/50 px-6;
+	}
+
+	.offcanvas-tab {
+		@apply px-4 py-3 text-xs font-semibold uppercase tracking-wider
+		       text-slate-500 hover:text-slate-700 transition-colors
+		       border-b-2 border-transparent -mb-px;
+	}
+
+	.offcanvas-tab.active {
+		@apply text-primary border-primary;
+	}
+
+	/* ==========================================
+	   Enterprise Form Components
+	   ========================================== */
+
+	.form-label {
+		@apply block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 ml-0.5;
+	}
+
+	.form-input {
+		@apply w-full bg-white border border-slate-200 rounded-lg px-3.5 py-2.5
+		       text-sm text-slate-900 placeholder:text-slate-400
+		       focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10
+		       transition-all;
+	}
+
+	.form-select {
+		@apply w-full appearance-none bg-white border border-slate-200 rounded-lg
+		       px-3.5 py-2.5 pr-10 text-sm text-slate-900
+		       focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10
+		       transition-all cursor-pointer;
+	}
+
+	.form-group {
+		@apply space-y-1.5;
+	}
+
+	/* ==========================================
+	   Enterprise Data Display
+	   ========================================== */
+
+	.data-label {
+		@apply text-[10px] font-bold uppercase tracking-wider text-slate-400;
+	}
+
+	.data-value {
+		@apply text-sm font-medium text-slate-900 mt-0.5;
+	}
+
+	.data-row {
+		@apply flex items-center justify-between py-3 border-b border-slate-100 last:border-0;
+	}
+
+	/* Empty State */
+	.empty-state {
+		@apply flex flex-col items-center justify-center py-16 text-center;
+	}
+
+	.empty-state-icon {
+		@apply size-16 rounded-2xl bg-slate-100 flex items-center justify-center
+		       text-slate-400 mb-4;
+	}
+
+	.empty-state-title {
+		@apply text-lg font-semibold text-slate-900 mb-1;
+	}
+
+	.empty-state-description {
+		@apply text-sm text-slate-500 max-w-sm;
 	}
 }
 

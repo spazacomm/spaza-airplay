@@ -242,38 +242,20 @@
         </div>
 
         <!-- Table Area -->
-        <div class="flex-1">
-            <div class="overflow-x-auto bg-surface-dark">
-                <table class="w-full text-left border-collapse">
-                    <thead
-                        class="bg-surface-dark border-b border-border-dark shadow-sm sticky top-0 z-10"
-                    >
+        <div class="flex-1 pb-6">
+            <div
+                class="overflow-auto max-h-[calc(100vh-280px)] bg-white border-t border-slate-200"
+            >
+                <table class="table-enterprise">
+                    <thead>
                         <tr>
-                            <th
-                                class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary"
-                                >Recording Title</th
-                            >
-                            <th
-                                class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary"
-                                >ISRC</th
-                            >
-                            <th
-                                class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary"
-                                >Version</th
-                            >
-                            <th
-                                class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary"
-                                >Label</th
-                            >
-                            <th
-                                class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary text-right"
-                                >Duration</th
-                            >
-                            <th
-                                class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary text-center"
-                                >Status</th
-                            >
-                            <th class="py-4 px-6 w-10"></th>
+                            <th>Recording Title</th>
+                            <th>ISRC</th>
+                            <th>Version</th>
+                            <th>Label</th>
+                            <th class="th-numeric">Duration</th>
+                            <th class="text-center">Status</th>
+                            <th class="w-10"></th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-border-dark/50">
@@ -289,36 +271,16 @@
                                         class="absolute left-0 top-0 bottom-0 w-1 bg-primary"
                                     ></td>
                                 {/if}
-                                <td class="py-4 px-6">
-                                    <div class="flex items-center gap-4">
-                                        <div
-                                            class="size-10 rounded-lg overflow-hidden bg-surface-dark flex items-center justify-center text-text-secondary shrink-0 shadow-md border border-border-dark"
+                                <td class="py-3 px-4">
+                                    <div class="flex flex-col gap-0.5">
+                                        <p
+                                            class="font-semibold text-sm text-text-primary tracking-tight group-hover:text-primary transition-colors"
                                         >
-                                            {#if rec.cover}
-                                                <img
-                                                    src={rec.cover}
-                                                    alt={rec.title}
-                                                    class="w-full h-full object-cover"
-                                                />
-                                            {:else}
-                                                <span
-                                                    class="material-symbols-outlined text-xl"
-                                                    >mic_external_on</span
-                                                >
-                                            {/if}
-                                        </div>
-                                        <div class="flex flex-col gap-0.5">
-                                            <p
-                                                class="font-bold text-sm text-text-main tracking-tight group-hover:text-primary transition-colors"
-                                            >
-                                                {rec.title}
-                                            </p>
-                                            <p
-                                                class="text-[10px] text-text-muted"
-                                            >
-                                                Work: {rec.workTitle}
-                                            </p>
-                                        </div>
+                                            {rec.title}
+                                        </p>
+                                        <p class="text-[11px] text-text-muted">
+                                            {rec.workTitle}
+                                        </p>
                                     </div>
                                 </td>
                                 <td
@@ -444,30 +406,30 @@
     <!-- Detail View Offcanvas -->
     {#if selectedRecording}
         <div
-            class="fixed inset-0 bg-black/40 z-40 backdrop-blur-[2px]"
+            class="offcanvas-backdrop"
+            role="button"
+            tabindex="0"
+            aria-label="Close panel"
             onclick={closeDetails}
+            onkeydown={(e) => e.key === "Escape" && closeDetails()}
         ></div>
         <aside
-            class="fixed right-0 top-0 bottom-0 w-full max-w-[450px] border-l border-border-dark bg-surface-dark flex flex-col shadow-2xl z-50 overflow-hidden"
-            transition:fly={{ x: 450, duration: 300, opacity: 1 }}
+            class="offcanvas-panel"
+            transition:fly={{ x: 480, duration: 300, opacity: 1 }}
         >
-            <div
-                class="p-6 border-b border-border-dark flex items-center justify-between bg-surface-dark sticky top-0 z-10"
-            >
-                <div>
-                    <h2 class="text-xl font-bold text-text-main tracking-tight">
-                        Recording Details
-                    </h2>
-                    <p
-                        class="text-[10px] text-text-muted uppercase tracking-widest mt-1 font-bold"
-                    >
-                        Metadata & Fingerprint
-                    </p>
+            <div class="offcanvas-header">
+                <div class="flex items-center gap-3">
+                    <div class="offcanvas-header-icon">
+                        <span class="material-symbols-outlined"
+                            >mic_external_on</span
+                        >
+                    </div>
+                    <div>
+                        <h2 class="offcanvas-title">Recording Details</h2>
+                        <p class="offcanvas-subtitle">Metadata & Fingerprint</p>
+                    </div>
                 </div>
-                <button
-                    class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-text-main transition-colors"
-                    onclick={closeDetails}
-                >
+                <button class="offcanvas-close" onclick={closeDetails}>
                     <span class="material-symbols-outlined">close</span>
                 </button>
             </div>

@@ -293,68 +293,29 @@
     </div>
 
     <!-- Data Table -->
-    <main class="flex-1 overflow-auto relative">
-        <table class="w-full text-left border-collapse">
-            <thead class="sticky top-0 z-10 bg-background-dark shadow-sm">
+    <main
+        class="flex-1 overflow-auto relative bg-white border-t border-slate-200"
+    >
+        <table class="table-enterprise">
+            <thead>
                 <tr>
-                    <th
-                        class="py-3 px-8 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[25%]"
-                        >Source Name</th
-                    >
-                    <th
-                        class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[15%]"
-                        >Type</th
-                    >
-                    <th
-                        class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[15%]"
-                        >Location</th
-                    >
-                    <th
-                        class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[15%]"
-                        >Hardware ID</th
-                    >
-                    <th
-                        class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[10%]"
-                        >Ingest</th
-                    >
-                    <th
-                        class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[10%]"
-                        >Status</th
-                    >
-                    <th
-                        class="py-3 px-8 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark text-right w-[10%]"
-                        >Last Beat</th
-                    >
+                    <th class="px-8 whitespace-nowrap">Source Name</th>
+                    <th class="px-6 whitespace-nowrap">Type</th>
+                    <th class="px-6 whitespace-nowrap">Location</th>
+                    <th class="px-6 whitespace-nowrap">Hardware ID</th>
+                    <th class="px-6 whitespace-nowrap">Ingest</th>
+                    <th class="px-6 whitespace-nowrap">Status</th>
+                    <th class="px-8 text-right whitespace-nowrap">Last Beat</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-border-dark/50 bg-white">
+            <tbody class="divide-y divide-slate-100">
                 {#each filteredSources as source}
-                    <tr
-                        class="group hover:bg-background-dark transition-colors cursor-pointer"
-                        onclick={() => openDetail(source.id)}
-                    >
-                        <td class="py-3 px-8">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="size-8 rounded bg-surface-darker border border-border-dark flex items-center justify-center text-text-secondary group-hover:border-primary/30 group-hover:text-primary transition-colors"
-                                >
-                                    <span
-                                        class="material-symbols-outlined text-lg"
-                                    >
-                                        {source.type.includes("radio")
-                                            ? "radio"
-                                            : source.type === "web_stream"
-                                              ? "podcasts"
-                                              : "router"}
-                                    </span>
-                                </div>
-                                <div>
-                                    <div
-                                        class="text-sm font-semibold text-text-primary group-hover:text-primary transition-colors"
-                                    >
-                                        {source.name}
-                                    </div>
-                                </div>
+                    <tr onclick={() => openDetail(source.id)}>
+                        <td class="px-8 py-3">
+                            <div
+                                class="text-sm font-semibold text-slate-950 group-hover:text-primary transition-colors"
+                            >
+                                {source.name}
                             </div>
                         </td>
                         <td class="py-3 px-4">
@@ -449,43 +410,45 @@
     <!-- Create Source Offcanvas -->
     {#if isCreateOpen}
         <div
-            class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+            class="offcanvas-backdrop"
+            role="button"
+            tabindex="0"
+            aria-label="Close panel"
             onclick={() => (isCreateOpen = false)}
+            onkeydown={(e) => e.key === "Escape" && (isCreateOpen = false)}
             transition:fade={{ duration: 200 }}
         ></div>
         <aside
-            class="fixed top-2 bottom-2 right-2 w-[450px] bg-white border border-border-dark shadow-2xl rounded-xl z-50 flex flex-col overflow-hidden"
+            class="offcanvas-panel"
             transition:fly={{
-                x: 50,
+                x: 480,
                 duration: 300,
                 opacity: 0,
                 easing: cubicOut,
             }}
         >
-            <div
-                class="p-5 border-b border-border-dark flex items-center justify-between bg-surface-dark relative"
-            >
-                <div>
-                    <h2
-                        class="text-lg font-bold text-text-primary tracking-tight"
-                    >
-                        New Source
-                    </h2>
-                    <p
-                        class="text-[10px] text-text-secondary font-medium mt-0.5"
-                    >
-                        Register a new ingestion point
-                    </p>
+            <div class="offcanvas-header">
+                <div class="flex items-center gap-3">
+                    <div class="offcanvas-header-icon">
+                        <span class="material-symbols-outlined">add_circle</span
+                        >
+                    </div>
+                    <div>
+                        <h2 class="offcanvas-title">New Source</h2>
+                        <p class="offcanvas-subtitle">
+                            Register a new ingestion point
+                        </p>
+                    </div>
                 </div>
                 <button
-                    class="size-7 flex items-center justify-center rounded-lg hover:bg-surface-darker text-text-muted hover:text-text-main transition-colors"
+                    class="offcanvas-close"
                     onclick={() => (isCreateOpen = false)}
                 >
                     <span class="material-symbols-outlined text-lg">close</span>
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-6 space-y-6">
+            <div class="offcanvas-body">
                 <!-- Form Fields -->
                 <div class="space-y-4">
                     <div class="space-y-1.5">
@@ -596,11 +559,9 @@
                 </div>
             </div>
 
-            <div
-                class="p-5 border-t border-border-dark bg-surface-dark/50 backdrop-blur-sm"
-            >
+            <div class="offcanvas-footer justify-end">
                 <button
-                    class="w-full btn-primary py-3 rounded-xl font-bold uppercase tracking-widest shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all flex items-center justify-center gap-2"
+                    class="flex-1 btn-primary py-3 rounded-lg font-bold uppercase tracking-widest shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all flex items-center justify-center gap-2"
                     onclick={createSource}
                     disabled={!newSource.name}
                 >

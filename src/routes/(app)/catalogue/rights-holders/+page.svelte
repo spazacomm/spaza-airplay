@@ -1,8 +1,12 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import { fade, slide, fly } from "svelte/transition";
+    import { createClient } from "$lib/supabase";
+    import { onMount } from "svelte";
+    import Modal from "$lib/components/ui/Modal.svelte";
 
     let { data }: { data: PageData } = $props();
+    const supabase = createClient();
 
     // Mock Rights Holders Data
     const baseHolders = [
@@ -56,22 +60,8 @@
         },
     ];
 
-    // Generate 200 holders deterministically
-    let holders = $state(
-        Array.from({ length: 200 }, (_, i) => {
-            const base = baseHolders[i % baseHolders.length];
-            return {
-                ...base,
-                id: `rh-${i}`,
-                name:
-                    i < baseHolders.length
-                        ? base.name
-                        : `${base.name} Studio ${i}`,
-                ipi: (parseInt(base.ipi) + i).toString().padStart(11, "0"),
-                worksCount: (10 + i * 3) % 500,
-            };
-        }),
-    );
+    // Generate holders from DB
+    let holders = $state([] as any[]);
 
     // Filter & Search State
     let searchQuery = $state("");
@@ -111,6 +101,53 @@
     ];
     let statuses = ["All", "Active", "Inactive", "Pending"];
 
+    const countries = [
+        "Kenya",
+        "Uganda",
+        "Tanzania",
+        "Rwanda",
+        "South Africa",
+        "Nigeria",
+        "Ghana",
+        "Ethiopia",
+        "United Kingdom",
+        "United States",
+    ];
+
+    async function fetchHolders() {
+        const { data: dbHolders, error } = await supabase
+            .from("rights_holders")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            console.error("Error fetching holders:", error);
+            return;
+        }
+
+        if (dbHolders) {
+            holders = dbHolders.map((h) => ({
+                id: h.id,
+                name: h.name,
+                ipi: h.ipi_number,
+                type: h.type.charAt(0).toUpperCase() + h.type.slice(1),
+                status: h.payment_info?.status || "Active",
+                avatar:
+                    h.type === "label" || h.type === "publisher"
+                        ? "business"
+                        : "person",
+                email: h.payment_info?.email || "",
+                phone: h.payment_info?.phone || "",
+                country: h.payment_info?.country || "Kenya",
+                worksCount: 0, // In a real app, we'd join or fetch this
+            }));
+        }
+    }
+
+    onMount(() => {
+        fetchHolders();
+    });
+
     function resetFilters() {
         searchQuery = "";
         filterType = "All";
@@ -127,6 +164,12 @@
     // Interaction State
     let selectedHolderId = $state("");
     let isCreateOffcanvasOpen = $state(false);
+    let isDeleteModalOpen = $state(false);
+
+    // Tab & Edit State
+    let activeTab = $state("details"); // 'details', 'works', 'recordings'
+    let isEditing = $state(false);
+    let editingHolder = $state({} as any);
 
     const selectedHolder = $derived(
         holders.find((h) => h.id === selectedHolderId),
@@ -134,11 +177,100 @@
 
     function openDetails(id: string) {
         selectedHolderId = id;
+        activeTab = "details";
+        isEditing = false;
+        if (selectedHolder) {
+            editingHolder = { ...selectedHolder };
+        }
     }
 
     function closeDetails() {
         selectedHolderId = "";
+        isEditing = false;
     }
+
+    function toggleEdit() {
+        if (isEditing) {
+            // Cancel edit
+            if (selectedHolder) editingHolder = { ...selectedHolder };
+            isEditing = false;
+        } else {
+            if (selectedHolder) editingHolder = { ...selectedHolder };
+            isEditing = true;
+        }
+    }
+
+    async function saveEdit() {
+        const { error } = await supabase
+            .from("rights_holders")
+            .update({
+                name: editingHolder.name,
+                ipi_number: editingHolder.ipi,
+                type: editingHolder.type.toLowerCase(),
+                payment_info: {
+                    ...editingHolder.payment_info,
+                    email: editingHolder.email,
+                    phone: editingHolder.phone,
+                    country: editingHolder.country,
+                    status: editingHolder.status,
+                },
+            })
+            .eq("id", selectedHolderId);
+
+        if (error) {
+            console.error("Error updating holder:", error);
+            return;
+        }
+
+        holders = holders.map((h) =>
+            h.id === selectedHolderId ? { ...editingHolder } : h,
+        );
+        isEditing = false;
+    }
+
+    function handleDelete() {
+        isDeleteModalOpen = true;
+    }
+
+    async function confirmDelete() {
+        const { error } = await supabase
+            .from("rights_holders")
+            .delete()
+            .eq("id", selectedHolderId);
+
+        if (error) {
+            console.error("Error deleting holder:", error);
+            // In a real app we'd show a toast here
+            return;
+        }
+
+        holders = holders.filter((h) => h.id !== selectedHolderId);
+        closeDetails();
+    }
+
+    // Mock Works & Recordings for Tabs
+    const mockWorks = [
+        { id: "w-1", title: "Mazishi", role: "composer", share: 100 },
+        { id: "w-2", title: "Sura Yako", role: "composer", share: 25 },
+        { id: "w-3", title: "Melanin", role: "composer", share: 25 },
+    ];
+
+    const mockRecordings = [
+        {
+            id: "r-1",
+            title: "Mazishi (Original Mix)",
+            isrc: "KE-A12-20-00001",
+            role: "performer",
+            share: 80,
+        },
+        {
+            id: "r-2",
+            title: "Sura Yako",
+            isrc: "KE-A12-14-12345",
+            role: "performer",
+            share: 25,
+        },
+    ];
 
     // Create Logic
     let newHolder = $state({
@@ -150,26 +282,50 @@
         country: "Kenya",
     });
 
-    function handleAddHolder() {
-        const id = `rh-${Date.now()}`;
-        holders = [
-            {
-                ...newHolder,
-                id,
-                status: "Pending",
-                worksCount: 0,
+    async function handleAddHolder() {
+        const { data: insertedData, error } = await supabase
+            .from("rights_holders")
+            .insert({
+                name: newHolder.name,
+                ipi_number: newHolder.ipi,
+                type: newHolder.type.toLowerCase(),
+                payment_info: {
+                    email: newHolder.email,
+                    phone: newHolder.phone,
+                    country: newHolder.country,
+                    status: "Active",
+                },
+            })
+            .select()
+            .single();
+
+        if (error) {
+            console.error("Error adding holder:", error);
+            return;
+        }
+
+        if (insertedData) {
+            const added = {
+                id: insertedData.id,
+                name: insertedData.name,
+                ipi: insertedData.ipi_number,
+                type:
+                    insertedData.type.charAt(0).toUpperCase() +
+                    insertedData.type.slice(1),
+                status: "Active",
                 avatar:
-                    newHolder.type === "Label" || newHolder.type === "Publisher"
+                    insertedData.type === "label" ||
+                    insertedData.type === "publisher"
                         ? "business"
                         : "person",
-            } as any,
-            ...holders,
-        ];
+                email: insertedData.payment_info?.email || "",
+                phone: insertedData.payment_info?.phone || "",
+                country: insertedData.payment_info?.country || "Kenya",
+                worksCount: 0,
+            };
+            holders = [added, ...holders];
+        }
 
-        isCreateOffcanvasOpen = false;
-        selectedHolderId = id;
-
-        // Reset form
         newHolder = {
             name: "",
             ipi: "",
@@ -178,6 +334,7 @@
             phone: "",
             country: "Kenya",
         };
+        isCreateOffcanvasOpen = false;
     }
 </script>
 
@@ -305,175 +462,151 @@
         </div>
 
         <!-- Table Area -->
-        <div class="flex-1 overflow-x-auto bg-surface-dark">
-            <table class="w-full text-left border-collapse">
-                <thead
-                    class="bg-surface-dark border-b border-border-dark shadow-sm sticky top-0 z-10"
-                >
-                    <tr>
-                        <th
-                            class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary"
-                            >Holder Name</th
-                        >
-                        <th
-                            class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary"
-                            >IPI Number</th
-                        >
-                        <th
-                            class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary"
-                            >Primary Type</th
-                        >
-                        <th
-                            class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary text-right"
-                            >Linked Works</th
-                        >
-                        <th
-                            class="py-4 px-6 text-[10px] font-bold uppercase tracking-widest text-text-secondary text-center"
-                            >Status</th
-                        >
-                        <th class="py-4 px-6 w-10"></th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-border-dark/50">
-                    {#each paginatedHolders as holder (holder.id)}
-                        <tr
-                            class="table-row group relative cursor-pointer"
-                            class:table-row-active={selectedHolderId ===
-                                holder.id}
-                            onclick={() => openDetails(holder.id)}
-                        >
-                            {#if selectedHolderId === holder.id}
-                                <td
-                                    class="absolute left-0 top-0 bottom-0 w-1 bg-primary"
-                                ></td>
-                            {/if}
-                            <td class="py-4 px-6">
-                                <div class="flex items-center gap-4">
-                                    <div
-                                        class="size-9 rounded-full bg-surface-dark flex items-center justify-center text-text-secondary shrink-0 shadow-sm border border-border-dark"
-                                    >
-                                        <span
-                                            class="material-symbols-outlined text-lg"
-                                            >{holder.avatar}</span
-                                        >
-                                    </div>
+        <div class="flex-1 pb-6">
+            <div
+                class="overflow-auto max-h-[calc(100vh-280px)] bg-white border-t border-slate-200"
+            >
+                <table class="table-enterprise">
+                    <thead>
+                        <tr>
+                            <th>Holder Name</th>
+                            <th>IPI Number</th>
+                            <th>Primary Type</th>
+                            <th class="text-center">Status</th>
+                            <th class="w-10"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-border-dark/50">
+                        {#each paginatedHolders as holder (holder.id)}
+                            <tr
+                                class="table-row group relative cursor-pointer"
+                                class:table-row-active={selectedHolderId ===
+                                    holder.id}
+                                onclick={() => openDetails(holder.id)}
+                            >
+                                {#if selectedHolderId === holder.id}
+                                    <td
+                                        class="absolute left-0 top-0 bottom-0 w-1 bg-primary"
+                                    ></td>
+                                {/if}
+                                <td class="py-3 px-4">
                                     <p
-                                        class="font-bold text-sm text-text-main tracking-tight group-hover:text-primary transition-colors"
+                                        class="font-semibold text-sm text-text-primary tracking-tight group-hover:text-primary transition-colors"
                                     >
                                         {holder.name}
                                     </p>
-                                </div>
-                            </td>
-                            <td
-                                class="py-4 px-6 text-xs font-mono text-text-secondary tracking-tighter"
-                                >{holder.ipi}</td
-                            >
-                            <td class="py-4 px-6">
-                                <span
-                                    class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-surface-darker border border-border-dark text-text-secondary"
+                                </td>
+                                <td
+                                    class="py-4 px-6 text-xs font-mono text-text-secondary tracking-tighter"
+                                    >{holder.ipi}</td
                                 >
-                                    {holder.type}
-                                </span>
-                            </td>
-                            <td
-                                class="py-4 px-6 text-right text-xs text-text-main font-medium"
-                                >{holder.worksCount}</td
-                            >
-                            <td class="py-4 px-6 text-center">
-                                <span
-                                    class="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest {holder.status ===
-                                    'Active'
-                                        ? 'bg-emerald-500/10 text-emerald-400'
-                                        : 'bg-amber-500/10 text-amber-400'}"
-                                >
-                                    {holder.status}
-                                </span>
-                            </td>
-                            <td class="py-4 px-6 text-right">
-                                <button
-                                    class="size-8 flex items-center justify-center rounded-lg text-text-muted hover:text-text-main hover:bg-surface-dark transition-all"
-                                >
+                                <td class="py-4 px-6">
                                     <span
-                                        class="material-symbols-outlined text-lg"
-                                        >edit_note</span
+                                        class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-surface-darker border border-border-dark text-text-secondary"
                                     >
-                                </button>
-                            </td>
-                        </tr>
-                    {:else}
-                        <tr>
-                            <td colspan="6" class="py-20 text-center">
-                                <div
-                                    class="flex flex-col items-center gap-3 text-text-muted"
-                                >
-                                    <span
-                                        class="material-symbols-outlined text-5xl opacity-20"
-                                        >person_off</span
-                                    >
-                                    <p class="text-sm font-medium">
-                                        No rights holders found
-                                    </p>
-                                    <button
-                                        class="text-xs text-primary hover:underline font-bold uppercase tracking-widest"
-                                        onclick={resetFilters}
-                                        >Clear all filters</button
-                                    >
-                                </div>
-                            </td>
-                        </tr>
-                    {/each}
-                </tbody>
-            </table>
-        </div>
+                                        {holder.type}
+                                    </span>
+                                </td>
 
-        <!-- Pagination Bar -->
-        <div
-            class="sticky bottom-0 bg-surface-darker/95 backdrop-blur-md border-t border-border-dark px-6 py-4 flex items-center justify-between z-20 shadow-[0_-10px_30px_rgba(0,0,0,0.3)]"
-        >
-            <p
-                class="text-[11px] font-bold uppercase tracking-widest text-text-muted"
+                                <td class="py-4 px-6 text-center">
+                                    <span
+                                        class="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest {holder.status ===
+                                        'Active'
+                                            ? 'bg-emerald-500/10 text-emerald-400'
+                                            : 'bg-amber-500/10 text-amber-400'}"
+                                    >
+                                        {holder.status}
+                                    </span>
+                                </td>
+                                <td class="py-4 px-6 text-right">
+                                    <button
+                                        class="size-8 flex items-center justify-center rounded-lg text-text-muted hover:text-text-main hover:bg-surface-dark transition-all"
+                                    >
+                                        <span
+                                            class="material-symbols-outlined text-lg"
+                                            >edit_note</span
+                                        >
+                                    </button>
+                                </td>
+                            </tr>
+                        {:else}
+                            <tr>
+                                <td colspan="6" class="py-20 text-center">
+                                    <div
+                                        class="flex flex-col items-center gap-3 text-text-muted"
+                                    >
+                                        <span
+                                            class="material-symbols-outlined text-5xl opacity-20"
+                                            >person_off</span
+                                        >
+                                        <p class="text-sm font-medium">
+                                            No rights holders found
+                                        </p>
+                                        <button
+                                            class="text-xs text-primary hover:underline font-bold uppercase tracking-widest"
+                                            onclick={resetFilters}
+                                            >Clear all filters</button
+                                        >
+                                    </div>
+                                </td>
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination Bar -->
+            <div
+                class="sticky bottom-0 bg-surface-darker/95 backdrop-blur-md border-t border-border-dark px-6 py-4 flex items-center justify-between z-20 shadow-[0_-10px_30px_rgba(0,0,0,0.3)]"
             >
-                Showing <span class="text-text-main"
-                    >{paginatedHolders.length}</span
-                >
-                of <span class="text-text-main">{filteredHolders.length}</span> holders
-            </p>
-            <div class="flex items-center gap-6">
-                <span
+                <p
                     class="text-[11px] font-bold uppercase tracking-widest text-text-muted"
                 >
-                    Page <span class="text-text-main">{currentPage}</span> / {Math.ceil(
-                        filteredHolders.length / itemsPerPage,
-                    ) || 1}
-                </span>
-                <div class="flex gap-2">
-                    <button
-                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-text-main hover:bg-primary/5 transition-all disabled:opacity-20"
-                        onclick={() =>
-                            (currentPage = Math.max(1, currentPage - 1))}
-                        disabled={currentPage === 1}
+                    Showing <span class="text-text-main"
+                        >{paginatedHolders.length}</span
                     >
-                        <span class="material-symbols-outlined text-xl"
-                            >chevron_left</span
+                    of
+                    <span class="text-text-main">{filteredHolders.length}</span>
+                    holders
+                </p>
+                <div class="flex items-center gap-6">
+                    <span
+                        class="text-[11px] font-bold uppercase tracking-widest text-text-muted"
+                    >
+                        Page <span class="text-text-main">{currentPage}</span> / {Math.ceil(
+                            filteredHolders.length / itemsPerPage,
+                        ) || 1}
+                    </span>
+                    <div class="flex gap-2">
+                        <button
+                            class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-text-main hover:bg-primary/5 transition-all disabled:opacity-20"
+                            onclick={() =>
+                                (currentPage = Math.max(1, currentPage - 1))}
+                            disabled={currentPage === 1}
                         >
-                    </button>
-                    <button
-                        class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-text-main hover:bg-primary/5 transition-all disabled:opacity-20"
-                        onclick={() =>
-                            (currentPage = Math.min(
+                            <span class="material-symbols-outlined text-xl"
+                                >chevron_left</span
+                            >
+                        </button>
+                        <button
+                            class="size-9 flex items-center justify-center rounded-lg border border-border-dark text-text-muted hover:text-text-main hover:bg-primary/5 transition-all disabled:opacity-20"
+                            onclick={() =>
+                                (currentPage = Math.min(
+                                    Math.ceil(
+                                        filteredHolders.length / itemsPerPage,
+                                    ),
+                                    currentPage + 1,
+                                ))}
+                            disabled={currentPage ===
                                 Math.ceil(
                                     filteredHolders.length / itemsPerPage,
-                                ),
-                                currentPage + 1,
-                            ))}
-                        disabled={currentPage ===
-                            Math.ceil(filteredHolders.length / itemsPerPage) ||
-                            filteredHolders.length === 0}
-                    >
-                        <span class="material-symbols-outlined text-xl"
-                            >chevron_right</span
+                                ) || filteredHolders.length === 0}
                         >
-                    </button>
+                            <span class="material-symbols-outlined text-xl"
+                                >chevron_right</span
+                            >
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -482,165 +615,396 @@
     <!-- Detail View Offcanvas -->
     {#if selectedHolder}
         <div
-            class="fixed inset-0 bg-black/40 z-40 backdrop-blur-[2px]"
+            class="offcanvas-backdrop"
+            role="button"
+            tabindex="0"
+            aria-label="Close panel"
             onclick={closeDetails}
+            onkeydown={(e) => e.key === "Escape" && closeDetails()}
         ></div>
         <aside
-            class="fixed right-0 top-0 bottom-0 w-full max-w-[450px] border-l border-border-dark bg-surface-dark flex flex-col shadow-2xl z-50 overflow-hidden"
-            transition:fly={{ x: 450, duration: 300, opacity: 1 }}
+            class="offcanvas-panel"
+            transition:fly={{ x: 480, duration: 300, opacity: 1 }}
         >
-            <div
-                class="p-6 border-b border-border-dark flex items-center justify-between bg-surface-dark sticky top-0 z-10"
-            >
-                <div>
-                    <h2 class="text-xl font-bold text-text-main tracking-tight">
-                        Holder Profile
-                    </h2>
-                    <p
-                        class="text-[10px] text-text-muted uppercase tracking-widest mt-1 font-bold"
-                    >
-                        Registry Info
-                    </p>
+            <div class="offcanvas-header pb-0 border-b-0">
+                <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center gap-3">
+                        <div class="offcanvas-header-icon">
+                            <span class="material-symbols-outlined">person</span
+                            >
+                        </div>
+                        <div>
+                            <h2 class="offcanvas-title">Holder Profile</h2>
+                            <p class="offcanvas-subtitle">Registry Info</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        {#if !isEditing}
+                            <button
+                                class="btn-primary py-1 px-3 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5"
+                                onclick={toggleEdit}
+                            >
+                                <span class="material-symbols-outlined text-sm"
+                                    >edit</span
+                                >
+                                Edit
+                            </button>
+                            <button
+                                class="px-3 py-1 rounded border border-red-500/20 bg-red-500/5 text-red-500 text-[10px] font-bold uppercase tracking-widest hover:bg-red-500/10 transition-colors flex items-center gap-1.5"
+                                onclick={handleDelete}
+                            >
+                                <span class="material-symbols-outlined text-sm"
+                                    >delete</span
+                                >
+                                Delete
+                            </button>
+                        {:else}
+                            <button
+                                class="px-3 py-1 rounded border border-border-dark text-[10px] font-bold uppercase tracking-widest text-text-muted hover:text-text-main transition-colors"
+                                onclick={toggleEdit}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                class="btn-primary py-1 px-3 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 shadow-lg shadow-primary/20"
+                                onclick={saveEdit}
+                            >
+                                <span class="material-symbols-outlined text-sm"
+                                    >save</span
+                                >
+                                Save
+                            </button>
+                        {/if}
+                        <button class="offcanvas-close" onclick={closeDetails}>
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div
+                class="px-6 border-b border-border-dark/50 bg-surface-dark flex items-center gap-6"
+            >
                 <button
-                    class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-text-main transition-colors"
-                    onclick={closeDetails}
+                    class="py-3 text-[10px] font-bold uppercase tracking-[0.2em] border-b-2 transition-all {activeTab ===
+                    'details'
+                        ? 'text-primary border-primary'
+                        : 'text-text-muted border-transparent hover:text-text-secondary'}"
+                    onclick={() => (activeTab = "details")}
                 >
-                    <span class="material-symbols-outlined">close</span>
+                    Details
+                </button>
+                <button
+                    class="py-3 text-[10px] font-bold uppercase tracking-[0.2em] border-b-2 transition-all {activeTab ===
+                    'works'
+                        ? 'text-primary border-primary'
+                        : 'text-text-muted border-transparent hover:text-text-secondary'}"
+                    onclick={() => (activeTab = "works")}
+                >
+                    Works
+                </button>
+                <button
+                    class="py-3 text-[10px] font-bold uppercase tracking-[0.2em] border-b-2 transition-all {activeTab ===
+                    'recordings'
+                        ? 'text-primary border-primary'
+                        : 'text-text-muted border-transparent hover:text-text-secondary'}"
+                    onclick={() => (activeTab = "recordings")}
+                >
+                    Recordings
                 </button>
             </div>
 
             <div class="flex-1 overflow-y-auto">
-                <div
-                    class="p-8 flex flex-col items-center border-b border-border-dark/50 bg-gradient-to-b from-surface-darker to-surface-dark"
-                >
+                {#if activeTab === "details"}
                     <div
-                        class="size-24 rounded-full bg-surface-dark flex items-center justify-center text-text-muted shadow-2xl border-2 border-border-dark"
+                        class="p-8 flex flex-col items-center border-b border-border-dark/50 bg-gradient-to-b from-surface-darker to-surface-dark"
                     >
-                        <span class="material-symbols-outlined text-4xl"
-                            >{selectedHolder.avatar}</span
+                        <div
+                            class="size-20 rounded-full bg-surface-dark flex items-center justify-center text-text-muted shadow-xl border border-border-dark"
                         >
-                    </div>
-                    <div class="mt-4 text-center">
-                        <h3
-                            class="text-2xl font-bold text-text-main tracking-tight leading-relaxed"
-                        >
-                            {selectedHolder.name}
-                        </h3>
-                        <p
-                            class="text-primary font-bold text-sm tracking-wide uppercase mt-1"
-                        >
-                            {selectedHolder.type}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="p-8 space-y-8">
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="space-y-1">
-                            <p
-                                class="text-[10px] font-bold uppercase tracking-widest text-text-muted"
+                            <span class="material-symbols-outlined text-3xl"
+                                >{selectedHolder.avatar}</span
                             >
-                                IPI Number
-                            </p>
-                            <p
-                                class="text-sm font-mono text-text-main tracking-tighter"
-                            >
-                                {selectedHolder.ipi}
-                            </p>
                         </div>
-                        <div class="space-y-1">
-                            <p
-                                class="text-[10px] font-bold uppercase tracking-widest text-text-muted"
-                            >
-                                Status
-                            </p>
-                            <span
-                                class="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest {selectedHolder.status ===
-                                'Active'
-                                    ? 'bg-emerald-500/10 text-emerald-400'
-                                    : 'bg-amber-500/10 text-amber-400'}"
-                            >
-                                {selectedHolder.status}
-                            </span>
+                        <div class="mt-4 text-center">
+                            {#if isEditing}
+                                <input
+                                    id="edit-name"
+                                    type="text"
+                                    class="bg-surface-dark border border-border-dark rounded px-3 py-1 text-lg font-bold text-text-main text-center focus:border-primary/50 outline-none w-full max-w-xs"
+                                    bind:value={editingHolder.name}
+                                />
+                                <div class="mt-2 flex justify-center">
+                                    <select
+                                        class="bg-surface-dark border border-border-dark rounded px-2 py-0.5 text-[10px] font-bold text-primary uppercase appearance-none text-center cursor-pointer"
+                                        bind:value={editingHolder.type}
+                                    >
+                                        {#each types.filter((t) => t !== "All") as t}
+                                            <option value={t}>{t}</option>
+                                        {/each}
+                                    </select>
+                                </div>
+                            {:else}
+                                <h3
+                                    class="text-xl font-bold text-text-main tracking-tight"
+                                >
+                                    {selectedHolder.name}
+                                </h3>
+                                <p
+                                    class="text-primary font-bold text-[10px] tracking-widest uppercase mt-1"
+                                >
+                                    {selectedHolder.type}
+                                </p>
+                            {/if}
                         </div>
                     </div>
 
-                    <div class="space-y-4 pt-8 border-t border-border-dark/50">
-                        <h4
-                            class="text-xs font-bold uppercase tracking-widest text-text-secondary"
-                        >
-                            Contact Details
-                        </h4>
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-3">
-                                <span
-                                    class="material-symbols-outlined text-text-muted text-sm"
-                                    >mail</span
+                    <div class="p-8 space-y-8">
+                        <div class="grid grid-cols-2 gap-8">
+                            <div class="space-y-1.5">
+                                <p
+                                    class="text-[10px] font-bold uppercase tracking-widest text-text-muted"
                                 >
-                                <span class="text-sm text-text-main"
-                                    >{selectedHolder.email || "N/A"}</span
-                                >
+                                    IPI Number
+                                </p>
+                                {#if isEditing}
+                                    <input
+                                        id="edit-ipi"
+                                        type="text"
+                                        class="w-full bg-surface-darker border border-border-dark rounded px-3 py-1.5 text-xs text-text-main font-mono focus:border-primary/50 outline-none"
+                                        bind:value={editingHolder.ipi}
+                                    />
+                                {:else}
+                                    <p
+                                        class="text-sm font-mono text-text-main font-bold tracking-tighter"
+                                    >
+                                        {selectedHolder.ipi}
+                                    </p>
+                                {/if}
                             </div>
-                            <div class="flex items-center gap-3">
-                                <span
-                                    class="material-symbols-outlined text-text-muted text-sm"
-                                    >call</span
+                            <div class="space-y-1.5">
+                                <p
+                                    class="text-[10px] font-bold uppercase tracking-widest text-text-muted"
                                 >
-                                <span class="text-sm text-text-main"
-                                    >{selectedHolder.phone || "N/A"}</span
-                                >
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <span
-                                    class="material-symbols-outlined text-text-muted text-sm"
-                                    >public</span
-                                >
-                                <span class="text-sm text-text-main"
-                                    >{selectedHolder.country || "N/A"}</span
-                                >
+                                    Status
+                                </p>
+                                {#if isEditing}
+                                    <select
+                                        id="edit-status"
+                                        class="w-full bg-surface-darker border border-border-dark rounded px-3 py-1.5 text-xs text-text-main focus:border-primary/50 outline-none cursor-pointer"
+                                        bind:value={editingHolder.status}
+                                    >
+                                        {#each statuses.filter((s) => s !== "All") as s}
+                                            <option value={s}>{s}</option>
+                                        {/each}
+                                    </select>
+                                {:else}
+                                    <span
+                                        class="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest {selectedHolder.status ===
+                                        'Active'
+                                            ? 'bg-emerald-500/10 text-emerald-400'
+                                            : 'bg-amber-500/10 text-amber-400'}"
+                                    >
+                                        {selectedHolder.status}
+                                    </span>
+                                {/if}
                             </div>
                         </div>
-                    </div>
 
-                    <div class="space-y-4 pt-8 border-t border-border-dark/50">
-                        <h4
-                            class="text-xs font-bold uppercase tracking-widest text-text-secondary"
+                        <div
+                            class="space-y-4 pt-8 border-t border-border-dark/50"
                         >
-                            Summary Stats
-                        </h4>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div
-                                class="p-4 bg-surface-darker rounded-xl border border-border-dark"
+                            <h4
+                                class="text-[10px] font-bold uppercase tracking-widest text-text-secondary"
                             >
-                                <p
-                                    class="text-[10px] font-bold text-text-muted uppercase tracking-widest"
-                                >
-                                    Linked Works
-                                </p>
-                                <p
-                                    class="text-xl font-bold text-text-main mt-1"
-                                >
-                                    {selectedHolder.worksCount}
-                                </p>
-                            </div>
-                            <div
-                                class="p-4 bg-surface-darker rounded-xl border border-border-dark"
-                            >
-                                <p
-                                    class="text-[10px] font-bold text-text-muted uppercase tracking-widest"
-                                >
-                                    Share Avg.
-                                </p>
-                                <p
-                                    class="text-xl font-bold text-text-main mt-1"
-                                >
-                                    12.5%
-                                </p>
+                                Contact Registry
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="space-y-1.5">
+                                    <label
+                                        for="edit-email"
+                                        class="text-[9px] font-bold text-text-muted uppercase tracking-widest ml-1"
+                                        >Professional Email</label
+                                    >
+                                    {#if isEditing}
+                                        <input
+                                            id="edit-email"
+                                            type="email"
+                                            class="w-full bg-surface-darker border border-border-dark rounded px-3 py-1.5 text-xs text-text-main focus:border-primary/50 outline-none"
+                                            bind:value={editingHolder.email}
+                                        />
+                                    {:else}
+                                        <div class="flex items-center gap-3">
+                                            <span
+                                                class="material-symbols-outlined text-text-muted text-sm"
+                                                >mail</span
+                                            >
+                                            <span
+                                                class="text-sm text-text-main font-medium"
+                                                >{selectedHolder.email ||
+                                                    "N/A"}</span
+                                            >
+                                        </div>
+                                    {/if}
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div class="space-y-1.5">
+                                        <label
+                                            for="edit-phone"
+                                            class="text-[9px] font-bold text-text-muted uppercase tracking-widest ml-1"
+                                            >Phone Number</label
+                                        >
+                                        {#if isEditing}
+                                            <input
+                                                id="edit-phone"
+                                                type="text"
+                                                class="w-full bg-surface-darker border border-border-dark rounded px-3 py-1.5 text-xs text-text-main focus:border-primary/50 outline-none"
+                                                bind:value={editingHolder.phone}
+                                            />
+                                        {:else}
+                                            <div
+                                                class="flex items-center gap-3"
+                                            >
+                                                <span
+                                                    class="material-symbols-outlined text-text-muted text-sm"
+                                                    >call</span
+                                                >
+                                                <span
+                                                    class="text-sm text-text-main font-medium"
+                                                    >{selectedHolder.phone ||
+                                                        "N/A"}</span
+                                                >
+                                            </div>
+                                        {/if}
+                                    </div>
+                                    <div class="space-y-1.5">
+                                        <label
+                                            for="edit-country"
+                                            class="text-[9px] font-bold text-text-muted uppercase tracking-widest ml-1"
+                                            >Territory / Country</label
+                                        >
+                                        {#if isEditing}
+                                            <select
+                                                id="edit-country"
+                                                class="w-full bg-surface-darker border border-border-dark rounded px-3 py-1.5 text-xs text-text-main focus:border-primary/50 outline-none cursor-pointer"
+                                                bind:value={
+                                                    editingHolder.country
+                                                }
+                                            >
+                                                {#each countries as c}
+                                                    <option value={c}
+                                                        >{c}</option
+                                                    >
+                                                {/each}
+                                            </select>
+                                        {:else}
+                                            <div
+                                                class="flex items-center gap-3"
+                                            >
+                                                <span
+                                                    class="material-symbols-outlined text-text-muted text-sm"
+                                                    >public</span
+                                                >
+                                                <span
+                                                    class="text-sm text-text-main font-medium"
+                                                    >{selectedHolder.country ||
+                                                        "N/A"}</span
+                                                >
+                                            </div>
+                                        {/if}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {:else if activeTab === "works"}
+                    <div class="p-6">
+                        <table class="table-enterprise w-full">
+                            <thead>
+                                <tr class="bg-surface-darker/50">
+                                    <th class="py-2 px-4 text-[9px]">Title</th>
+                                    <th class="py-2 px-4 text-[9px]">Role</th>
+                                    <th
+                                        class="py-2 px-4 text-[9px] text-right w-20"
+                                        >Share %</th
+                                    >
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-border-dark/30">
+                                {#each mockWorks as work}
+                                    <tr
+                                        class="hover:bg-primary/5 transition-colors"
+                                    >
+                                        <td
+                                            class="py-3 px-4 text-xs font-bold text-text-main"
+                                        >
+                                            {work.title}
+                                        </td>
+                                        <td
+                                            class="py-3 px-4 text-[10px] font-bold uppercase text-text-secondary tracking-widest"
+                                        >
+                                            {work.role}
+                                        </td>
+                                        <td
+                                            class="py-3 px-4 text-xs font-mono text-primary text-right font-bold"
+                                        >
+                                            {work.share}%
+                                        </td>
+                                    </tr>
+                                {/each}
+                            </tbody>
+                        </table>
+                    </div>
+                {:else if activeTab === "recordings"}
+                    <div class="p-6">
+                        <table class="table-enterprise w-full">
+                            <thead>
+                                <tr class="bg-surface-darker/50">
+                                    <th class="py-2 px-4 text-[9px]"
+                                        >Title / ISRC</th
+                                    >
+                                    <th class="py-2 px-4 text-[9px]">Role</th>
+                                    <th
+                                        class="py-2 px-4 text-[9px] text-right w-20"
+                                        >Share %</th
+                                    >
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-border-dark/30">
+                                {#each mockRecordings as rec}
+                                    <tr
+                                        class="hover:bg-primary/5 transition-colors"
+                                    >
+                                        <td class="py-3 px-4">
+                                            <div
+                                                class="text-xs font-bold text-text-main"
+                                            >
+                                                {rec.title}
+                                            </div>
+                                            <div
+                                                class="text-[9px] font-mono text-text-muted mt-0.5 tracking-tighter"
+                                            >
+                                                {rec.isrc}
+                                            </div>
+                                        </td>
+                                        <td
+                                            class="py-3 px-4 text-[10px] font-bold uppercase text-text-secondary tracking-widest leading-none"
+                                        >
+                                            {rec.role}
+                                        </td>
+                                        <td
+                                            class="py-3 px-4 text-xs font-mono text-primary text-right font-bold"
+                                        >
+                                            {rec.share}%
+                                        </td>
+                                    </tr>
+                                {/each}
+                            </tbody>
+                        </table>
+                    </div>
+                {/if}
             </div>
         </aside>
     {/if}
@@ -648,26 +1012,33 @@
     <!-- Add Holder Offcanvas -->
     {#if isCreateOffcanvasOpen}
         <div
-            class="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
+            class="offcanvas-backdrop"
+            role="button"
+            tabindex="0"
+            aria-label="Close panel"
             onclick={() => (isCreateOffcanvasOpen = false)}
+            onkeydown={(e) =>
+                e.key === "Escape" && (isCreateOffcanvasOpen = false)}
         ></div>
         <aside
-            class="fixed right-0 top-0 bottom-0 w-full max-w-[500px] border-l border-border-dark bg-surface-dark flex flex-col shadow-2xl z-50 transform"
-            transition:fly={{ x: 500, duration: 400, opacity: 1 }}
+            class="offcanvas-panel offcanvas-panel-wide"
+            transition:fly={{ x: 560, duration: 400, opacity: 1 }}
         >
-            <div
-                class="p-6 border-b border-border-dark flex items-center justify-between bg-surface-dark sticky top-0 z-10"
-            >
-                <div>
-                    <h2 class="text-xl font-bold text-text-main tracking-tight">
-                        Add Rights Holder
-                    </h2>
-                    <p class="text-xs text-text-secondary mt-1">
-                        Register a new entity in the system.
-                    </p>
+            <div class="offcanvas-header">
+                <div class="flex items-center gap-3">
+                    <div class="offcanvas-header-icon">
+                        <span class="material-symbols-outlined">person_add</span
+                        >
+                    </div>
+                    <div>
+                        <h2 class="offcanvas-title">Add Rights Holder</h2>
+                        <p class="offcanvas-subtitle">
+                            Register a new entity in the system.
+                        </p>
+                    </div>
                 </div>
                 <button
-                    class="size-8 flex items-center justify-center rounded-full hover:bg-surface-darker text-text-secondary hover:text-text-main transition-colors"
+                    class="offcanvas-close"
                     onclick={() => (isCreateOffcanvasOpen = false)}
                 >
                     <span class="material-symbols-outlined">close</span>
@@ -729,10 +1100,12 @@
                         <div class="space-y-3">
                             <div class="space-y-2">
                                 <label
+                                    for="new-email"
                                     class="text-[10px] font-bold uppercase tracking-widest text-text-secondary ml-1"
                                     >Email Address</label
                                 >
                                 <input
+                                    id="new-email"
                                     type="email"
                                     placeholder="email@example.com"
                                     class="input w-full"
@@ -742,10 +1115,12 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="space-y-2">
                                     <label
+                                        for="new-phone"
                                         class="text-[10px] font-bold uppercase tracking-widest text-text-secondary ml-1"
                                         >Phone</label
                                     >
                                     <input
+                                        id="new-phone"
                                         type="text"
                                         placeholder="+254"
                                         class="input w-full"
@@ -754,15 +1129,19 @@
                                 </div>
                                 <div class="space-y-2">
                                     <label
+                                        for="new-country"
                                         class="text-[10px] font-bold uppercase tracking-widest text-text-secondary ml-1"
                                         >Country</label
                                     >
-                                    <input
-                                        type="text"
-                                        placeholder="Kenya"
-                                        class="input w-full"
+                                    <select
+                                        id="new-country"
+                                        class="select w-full"
                                         bind:value={newHolder.country}
-                                    />
+                                    >
+                                        {#each countries as c}
+                                            <option value={c}>{c}</option>
+                                        {/each}
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -784,6 +1163,16 @@
             </div>
         </aside>
     {/if}
+
+    <!-- Delete Confirmation Modal -->
+    <Modal
+        bind:isOpen={isDeleteModalOpen}
+        title="Delete Rights Holder"
+        message="Are you sure you want to delete {selectedHolder?.name}? This action will permanently remove their profile and association records. This cannot be undone."
+        confirmText="Delete Holder"
+        type="danger"
+        onConfirm={confirmDelete}
+    />
 </div>
 
 <style>

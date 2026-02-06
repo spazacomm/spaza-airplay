@@ -293,38 +293,27 @@
                     >View Catalogue</a
                 >
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead
-                        class="bg-background-darker text-[10px] uppercase text-text-secondary font-bold tracking-widest border-b border-border-dark"
-                    >
+            <div class="overflow-x-auto -mx-6 -mb-6 border-t border-slate-200">
+                <table class="table-enterprise">
+                    <thead>
                         <tr>
-                            <th class="px-4 py-3 rounded-l-md">Song Title</th>
-                            <th class="px-4 py-3 text-right">Plays</th>
-                            <th class="px-4 py-3 text-right">Est. Revenue</th>
-                            <th class="px-4 py-3 text-right rounded-r-md"
-                                >Trend</th
-                            >
+                            <th>Song Title</th>
+                            <th class="th-numeric">Plays</th>
+                            <th class="th-numeric">Est. Revenue</th>
+                            <th class="th-numeric">Trend</th>
                         </tr>
                     </thead>
-                    <tbody class="text-sm divide-y divide-border-dark/50">
+                    <tbody>
                         {#each topAssets as asset}
-                            <tr
-                                class="hover:bg-background-dark/80 transition-colors group"
-                            >
-                                <td class="px-4 py-3 font-medium text-text-main"
-                                    >{asset.title}</td
-                                >
-                                <td
-                                    class="px-4 py-3 text-right text-text-secondary"
-                                    >{asset.plays}</td
-                                >
-                                <td class="px-4 py-3 text-right text-text-main"
+                            <tr>
+                                <td>{asset.title}</td>
+                                <td class="td-numeric">{asset.plays}</td>
+                                <td class="td-numeric font-semibold"
                                     >{asset.revenue}</td
                                 >
                                 <td
-                                    class="px-4 py-3 text-right font-bold"
-                                    class:text-emerald-500={asset.trend.startsWith(
+                                    class="td-numeric font-bold"
+                                    class:text-emerald-600={asset.trend.startsWith(
                                         "+",
                                     )}
                                     class:text-red-500={asset.trend.startsWith(

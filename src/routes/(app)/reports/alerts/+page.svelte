@@ -160,91 +160,70 @@
     </header>
 
     <!-- Main Table -->
-    <main class="flex-1 overflow-auto relative">
-        <table class="w-full text-left border-collapse">
-            <thead class="sticky top-0 z-10 bg-background-dark shadow-sm">
+    <main class="flex-1 overflow-auto bg-white border-t border-slate-200">
+        <table class="table-enterprise">
+            <thead>
                 <tr>
-                    <th
-                        class="py-3 px-8 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[20%]"
-                        >Rule Identity</th
-                    >
-                    <th
-                        class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[15%]"
-                        >Trigger Event</th
-                    >
-                    <th
-                        class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[25%]"
-                        >Logic Condition</th
-                    >
-                    <th
-                        class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[20%]"
-                        >Notification Target</th
-                    >
-                    <th
-                        class="py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark w-[10%]"
-                        >Last Fire</th
-                    >
-                    <th
-                        class="py-3 px-8 text-[10px] font-bold uppercase tracking-widest text-text-muted border-b border-border-dark text-right w-[10%]"
+                    <th class="px-8 whitespace-nowrap">Rule Identity</th>
+                    <th class="px-6 whitespace-nowrap">Trigger Event</th>
+                    <th class="px-6 min-w-[300px]">Logic Condition</th>
+                    <th class="px-6 whitespace-nowrap">Notification Target</th>
+                    <th class="px-6 whitespace-nowrap">Last Fire</th>
+                    <th class="px-8 text-right whitespace-nowrap w-24"
                         >Manage</th
                     >
                 </tr>
             </thead>
-            <tbody class="divide-y divide-border-dark/50 bg-white">
+            <tbody>
                 {#each alertRules as rule}
-                    <tr
-                        class="group hover:bg-background-dark transition-colors"
-                    >
-                        <td class="py-5 px-8">
+                    <tr class="group">
+                        <td class="px-8 py-3">
                             <div class="flex items-center gap-3">
-                                <button
-                                    class="size-5 rounded-full border border-border-dark flex items-center justify-center transition-colors {rule.status ===
+                                <div
+                                    class="w-2 h-2 rounded-full {rule.status ===
                                     'active'
-                                        ? 'bg-emerald-500/10 border-emerald-500/30'
-                                        : 'bg-background-dark border-border-dark'}"
-                                    onclick={() => toggleStatus(rule.id)}
-                                >
-                                    <span
-                                        class="size-2 rounded-full {rule.status ===
-                                        'active'
-                                            ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]'
-                                            : 'bg-text-muted/30'}"
-                                    ></span>
-                                </button>
+                                        ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]'
+                                        : 'bg-slate-300'}"
+                                ></div>
                                 <div>
-                                    <h4
-                                        class="text-sm font-bold text-text-primary tracking-tight"
+                                    <div
+                                        class="text-sm font-bold text-slate-950 group-hover:text-primary transition-colors"
                                     >
                                         {rule.name}
-                                    </h4>
-                                    <span
-                                        class="text-[9px] font-mono text-text-muted opacity-50 uppercase"
-                                        >#{rule.id}</span
+                                    </div>
+                                    <div
+                                        class="text-[10px] font-mono text-slate-500 uppercase tracking-tighter"
                                     >
+                                        #{rule.id}
+                                    </div>
                                 </div>
                             </div>
                         </td>
-                        <td class="py-5 px-4">
+                        <td class="px-6 py-3">
                             <span
-                                class="px-2 py-0.5 rounded border border-border-dark bg-background-dark text-[9px] font-black text-text-secondary uppercase tracking-wider"
+                                class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-50 text-slate-700 border border-slate-200"
                             >
                                 {formatTrigger(rule.trigger)}
                             </span>
                         </td>
                         <td
-                            class="py-5 px-4 text-xs text-text-secondary font-medium"
-                            >"{rule.condition}"</td
+                            class="px-6 py-3 text-xs font-semibold text-slate-700 italic"
                         >
-                        <td class="py-5 px-4 text-xs font-mono text-primary"
-                            >{rule.recipient}</td
-                        >
+                            {rule.condition}
+                        </td>
                         <td
-                            class="py-5 px-4 text-[10px] font-bold text-text-muted uppercase italic"
-                            >{rule.last_triggered}</td
+                            class="px-6 py-3 text-xs font-mono text-primary font-semibold"
                         >
-                        <td class="py-5 px-8 text-right">
+                            {rule.recipient}
+                        </td>
+                        <td
+                            class="px-6 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-tight italic"
+                        >
+                            {rule.last_triggered}
+                        </td>
+                        <td class="px-8 py-3 text-right">
                             <button
-                                class="size-8 rounded-lg text-text-muted hover:text-red-500 transition-colors"
+                                class="size-8 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all"
                                 onclick={() => deleteRule(rule.id)}
                             >
                                 <span class="material-symbols-outlined text-lg"

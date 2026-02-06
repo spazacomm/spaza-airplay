@@ -19,6 +19,11 @@
 			icon: "library_music",
 			children: [
 				{
+					label: "Rights Holders",
+					href: "/catalogue/rights-holders",
+					icon: "groups",
+				},
+				{
 					label: "Works",
 					href: "/catalogue/works",
 					icon: "music_note",
@@ -27,11 +32,6 @@
 					label: "Recordings",
 					href: "/catalogue/recordings",
 					icon: "album",
-				},
-				{
-					label: "Rights Holders",
-					href: "/catalogue/rights-holders",
-					icon: "groups",
 				},
 			],
 		},
